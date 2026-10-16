@@ -1261,256 +1261,53 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   10. SECCIÓN 5: PAGO (ESTILO IMPERIO BARBER: OPCIÓN + DESPLEGABLE)
+   10. ACCESOS DIRECTOS DE PAGO (DENTRO DEL FORMULARIO DE INSCRIPCIÓN)
    -------------------------------------------------------------------------- */
-.payment-options-container {
-  margin-bottom: 22px;
-}
-
-.payment-option-card {
-  display: block;
-  background-color: #FFFFFF;
-  border: 2px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 18px 20px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  user-select: none;
-  box-shadow: var(--shadow-card);
-}
-
-.payment-option-card:hover {
-  border-color: var(--color-green-nature);
-  transform: translateY(-2px);
-}
-
-.payment-option-card.selected {
-  border-color: var(--color-green-nature);
-  background: linear-gradient(135deg, #FFFFFF 0%, #F4FAF6 100%);
-  box-shadow: 0 6px 20px rgba(39, 103, 73, 0.14);
-}
-
-.poc-radio-hidden {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.poc-box {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.poc-radio-circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid var(--border-strong);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
-  background-color: #FFFFFF;
-}
-
-.payment-option-card.selected .poc-radio-circle {
-  border-color: var(--color-green-nature);
-  background-color: var(--color-green-nature);
-}
-
-.poc-radio-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #FFFFFF;
-  transform: scale(0);
-  transition: transform 0.2s ease;
-}
-
-.payment-option-card.selected .poc-radio-dot {
-  transform: scale(1);
-}
-
-.poc-info {
-  flex: 1;
-}
-
-.poc-headline {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.poc-icon {
-  font-size: 1.35rem;
-}
-
-.poc-name {
-  font-family: var(--font-heading);
-  font-size: 1.12rem;
-  font-weight: 800;
-  color: var(--color-green-dark);
-}
-
-.poc-badge {
-  font-family: var(--font-heading);
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-green-nature);
-  background-color: var(--color-green-light);
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-}
-
-.poc-sub {
-  font-size: 0.86rem;
-  color: var(--text-muted);
-  font-weight: 600;
-  margin-top: 4px;
-  margin-bottom: 0;
-}
-
-/* Panel desplegable de transferencia */
-.transfer-unfold-panel {
-  display: block;
-  animation: unfoldTransfer 0.35s ease forwards;
-}
-
-@keyframes unfoldTransfer {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.payment-cards-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.form-group-accesos {
+  margin-top: 22px;
   margin-bottom: 24px;
-}
-
-.payment-method-card {
-  background-color: #FFFFFF;
+  padding: 18px 16px;
+  background: linear-gradient(180deg, #F8FAF9 0%, #F1F6F3 100%);
   border-radius: var(--radius-md);
-  padding: 22px 20px;
-  border: 2px solid var(--border-subtle);
-  box-shadow: var(--shadow-card);
-  transition: var(--transition);
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+  border: 1.5px solid var(--border-subtle);
+  transition: all 0.3s ease;
 }
 
-.payment-method-card:hover {
-  border-color: var(--color-orange-energy);
-  transform: translateY(-2px);
-}
-
-.payment-method-card.is-active-method {
-  border-color: var(--color-green-nature);
-  box-shadow: 0 6px 20px rgba(39, 103, 73, 0.16);
-  background: linear-gradient(180deg, #FFFFFF 0%, #FAFCFB 100%);
-}
-
-.pm-tap-tip {
-  display: inline-block;
-  font-size: 0.74rem;
-  color: var(--color-orange-energy);
-  font-weight: 700;
-  margin-top: 5px;
-}
-
-.btn-copy-action {
-  width: 100%;
-  display: inline-flex;
+.form-group-accesos .form-label {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background-color: var(--bg-alt);
-  color: var(--color-green-dark);
-  font-family: var(--font-heading);
-  font-size: 0.98rem;
-  font-weight: 800;
-  padding: 14px 18px;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border-strong);
-  transition: var(--transition);
-  min-height: 52px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.btn-copy-action:hover {
-  background-color: var(--color-green-light);
-  border-color: var(--color-green-nature);
-  color: var(--color-green-nature);
-}
-
-.btn-copy-action:active {
-  transform: scale(0.98);
-}
-
-/* Bloque de Accesos Directos (Imperio Barber) */
-.direct-app-launch-block {
-  background-color: #FFFFFF;
-  border: 2px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 24px 20px;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-card);
-}
-
-.dal-header {
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.dal-badge {
-  display: inline-block;
-  font-family: var(--font-heading);
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--color-orange-energy);
-  background-color: var(--color-orange-light);
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  margin-bottom: 8px;
-}
-
-.dal-title {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--color-green-dark);
+  justify-content: space-between;
   margin-bottom: 4px;
 }
 
-.dal-desc {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  margin-bottom: 0;
+.section-highlight-pulse {
+  animation: pulseGlow 1.4s ease;
+  border-radius: var(--radius-md);
 }
 
-.direct-apps-grid {
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(39, 103, 73, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(39, 103, 73, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(39, 103, 73, 0);
+  }
+}
+
+.direct-apps-grid,
+.in-form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
-@media (max-width: 520px) {
-  .direct-apps-grid {
+@media (max-width: 560px) {
+  .direct-apps-grid,
+  .in-form-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -1528,14 +1325,17 @@ button {
   border: 1.5px solid transparent;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .btn-direct-app:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-.btn-direct-app:active {
-  transform: scale(0.98);
+.btn-direct-app:active,
+.btn-direct-app.bda-clicked {
+  transform: scale(0.97);
 }
 
 .bda-icon {
@@ -1570,11 +1370,11 @@ button {
   height: 18px;
 }
 
-/* Estilos de marca botones directos */
+/* Colores de marca botones directos */
 .btn-direct-nequi {
   background: #200020;
   color: #FFFFFF;
-  border-color: rgba(255, 0, 122, 0.4);
+  border-color: rgba(255, 0, 122, 0.45);
 }
 
 .btn-direct-nequi .bda-name {
@@ -1637,108 +1437,28 @@ button {
   box-shadow: 0 6px 18px rgba(11, 37, 69, 0.4);
 }
 
-.icon-launch {
-  width: 17px;
-  height: 17px;
-}
-
-.pm-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 10px;
-}
-
-.pm-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.pm-pill {
-  font-family: var(--font-heading);
-  font-size: 0.88rem;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  display: inline-block;
-}
-
-.nequi-badge {
-  background-color: var(--brand-nequi);
-  color: var(--brand-nequi-pink);
-}
-
-.bancolombia-badge {
-  background-color: var(--brand-bancolombia);
-  color: #000000;
-}
-
-.breb-badge {
-  background-color: var(--brand-breb);
-  color: #FFFFFF;
-}
-
-.pm-type {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-.pm-amount {
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--color-green-nature);
-}
-
-.pm-number-box {
-  margin-bottom: 16px;
-}
-
-.pm-label {
-  display: block;
-  font-size: 0.76rem;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-bottom: 2px;
-}
-
-.pm-number {
-  font-family: var(--font-heading);
-  font-size: 1.65rem;
-  font-weight: 900;
-  color: var(--color-green-dark);
-  letter-spacing: 1.5px;
-  display: block;
-  line-height: 1.15;
-}
-
-.pm-subnote {
-  display: block;
-  font-size: 0.76rem;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
-
-/* Toast de notificación de copiado */
+/* Toast flotante de notificación de copiado */
 .toast-feedback {
   display: none;
-  background-color: var(--color-green-nature);
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  background-color: var(--color-green-dark);
   color: #FFFFFF;
   font-family: var(--font-heading);
   font-size: 0.92rem;
   font-weight: 700;
-  padding: 12px 18px;
-  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
   text-align: center;
-  margin-bottom: 22px;
-  box-shadow: 0 4px 14px rgba(39, 103, 73, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
   animation: slideToast 0.25s ease;
+  pointer-events: none;
+  max-width: 90%;
+  width: max-content;
 }
 
 .toast-feedback.active {
@@ -1748,11 +1468,11 @@ button {
 @keyframes slideToast {
   from {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translate(-50%, 12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
 

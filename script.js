@@ -311,115 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Selector de opción "Pagar por transferencia" (Estilo Imperio Barber)
-  const optTransferCard = document.getElementById('optTransferCard');
-  const transferPanel = document.getElementById('transferPanel');
-
-  if (optTransferCard && transferPanel) {
-    optTransferCard.addEventListener('click', () => {
-      const radio = optTransferCard.querySelector('input[type="radio"]');
-      if (radio) radio.checked = true;
-      optTransferCard.classList.add('selected');
-      if (transferPanel.style.display === 'none') {
-        transferPanel.style.display = 'block';
-      }
-    });
-
-    optTransferCard.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        optTransferCard.click();
-      }
-    });
-  }
-
-  // 2. Botones de copiado directo (.copy-trigger)
-  document.querySelectorAll('.copy-trigger').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const dataToCopy = btn.getAttribute('data-copy');
-      if (!dataToCopy) return;
-
-      copyText(dataToCopy, () => {
-        const spanText = btn.querySelector('span');
-        const originalText = spanText ? spanText.textContent : 'Copiar';
-
-        if (spanText) spanText.textContent = '✓ ¡Copiado con éxito!';
-        btn.style.backgroundColor = '#EBF5F0';
-        btn.style.borderColor = '#276749';
-        btn.style.color = '#276749';
-
-        showToast(`✓ ¡Dato ${dataToCopy} copiado! Ya puedes pegarlo en tu app.`);
-
-        // Resaltar tarjeta contenedora
-        const parentCard = btn.closest('.payment-method-card');
-        if (parentCard) {
-          document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('is-active-method'));
-          parentCard.classList.add('is-active-method');
-        }
-
-        setTimeout(() => {
-          if (spanText) spanText.textContent = originalText;
-          btn.style.backgroundColor = '';
-          btn.style.borderColor = '';
-          btn.style.color = '';
-        }, 2200);
-      });
-    });
-  });
-
-  // 3. Botones para abrir app / entidad (.open-app-trigger)
+  // 2. Botones de accesos directos de pago en el formulario (.open-app-trigger)
   document.querySelectorAll('.open-app-trigger').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const entity = btn.getAttribute('data-entity');
       if (entity) {
-        const parentCard = btn.closest('.payment-method-card');
-        if (parentCard) {
-          document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('is-active-method'));
-          parentCard.classList.add('is-active-method');
-        }
+        btn.classList.add('bda-clicked');
+        setTimeout(() => btn.classList.remove('bda-clicked'), 800);
         openBankingApp(entity);
-      }
-    });
-  });
-
-  // 4. Al tocar la tarjeta de medio de pago (Nequi, Bancolombia, Bre-B)
-  document.querySelectorAll('.payment-method-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      const dataToCopy = card.getAttribute('data-copy');
-      const method = card.getAttribute('data-method');
-      if (!dataToCopy) return;
-
-      // Resaltar tarjeta seleccionada
-      document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('is-active-method'));
-      card.classList.add('is-active-method');
-
-      // Copiar dato al portapapeles
-      copyText(dataToCopy, () => {
-        const copyBtnSpan = card.querySelector('.btn-copy-action span, .copy-trigger span');
-        if (copyBtnSpan) {
-          const original = copyBtnSpan.textContent;
-          copyBtnSpan.textContent = '✓ ¡Copiado con éxito!';
-          setTimeout(() => { copyBtnSpan.textContent = original; }, 2200);
-        }
-
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        if (isMobile && method) {
-          showToast(`✓ ¡Dato ${dataToCopy} copiado! Abriendo app...`);
-          setTimeout(() => {
-            openBankingApp(method);
-          }, 450);
-        } else {
-          showToast(`✓ ¡Dato ${dataToCopy} copiado! Ya puedes pegarlo en tu app.`);
-        }
-      });
-    });
-
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        card.click();
       }
     });
   });

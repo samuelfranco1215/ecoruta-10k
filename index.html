@@ -511,7 +511,74 @@
                 </div>
               </div>
 
-              <!-- 7. Subir Comprobante de Pago -->
+              <!-- 2. Accesos Directos (Nequi, Daviplata, Bancolombia, Bre-B) -->
+              <div class="form-group form-group-accesos" id="pago">
+                <label class="form-label">
+                  Accesos Directos
+                  <span class="badge-optional">Toca para abrir tu app</span>
+                </label>
+                <p class="form-hint">Toca tu entidad para copiar los datos de pago e intentar abrir tu app al instante:</p>
+
+                <div class="direct-apps-grid in-form-grid" id="accesosDirectosGrid">
+                  <!-- 1. Abrir Nequi -->
+                  <button type="button" class="btn btn-direct-app btn-direct-nequi open-app-trigger" data-entity="nequi" data-copy="3183000831" aria-label="Abrir aplicación Nequi">
+                    <span class="bda-icon">🟣</span>
+                    <div class="bda-content">
+                      <strong class="bda-name">Abrir Nequi</strong>
+                      <small class="bda-sub">Copia 3183000831 y abre app</small>
+                    </div>
+                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </button>
+
+                  <!-- 2. Abrir Daviplata -->
+                  <button type="button" class="btn btn-direct-app btn-direct-daviplata open-app-trigger" data-entity="daviplata" data-copy="0089610981" aria-label="Abrir aplicación Daviplata">
+                    <span class="bda-icon">🔴</span>
+                    <div class="bda-content">
+                      <strong class="bda-name">Abrir Daviplata</strong>
+                      <small class="bda-sub">Copia Llave 0089610981 y abre app</small>
+                    </div>
+                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </button>
+
+                  <!-- 3. Abrir Bancolombia -->
+                  <button type="button" class="btn btn-direct-app btn-direct-bancolombia open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Abrir aplicación Bancolombia">
+                    <span class="bda-icon">🟡</span>
+                    <div class="bda-content">
+                      <strong class="bda-name">Abrir Bancolombia</strong>
+                      <small class="bda-sub">Copia Ahorros 18547223388 y abre app</small>
+                    </div>
+                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </button>
+
+                  <!-- 4. Bre-B -->
+                  <button type="button" class="btn btn-direct-app btn-direct-breb open-app-trigger" data-entity="breb" data-copy="0089610981" aria-label="Pagar con Llave Bre-B">
+                    <span class="bda-icon">🔵</span>
+                    <div class="bda-content">
+                      <strong class="bda-name">Bre-B</strong>
+                      <small class="bda-sub">Copia Llave 0089610981 interbancaria</small>
+                    </div>
+                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. Subir Comprobante de Pago -->
               <div class="form-group">
                 <label class="form-label">
                   Comprobante de Pago (Transferencia)
@@ -562,221 +629,9 @@
       </section>
 
       <!-- ====================================================================
-           5. PAGO (ESTILO IMPERIO BARBER: OPCIÓN TRANSFERENCIA + DESPLEGABLE)
-           ==================================================================== -->
-      <section class="section-clean" id="pago">
-        <div class="container-narrow">
-          
-          <div class="section-heading text-center">
-            <span class="sub-badge">Paso 2</span>
-            <h2 class="title-clean">Método de Pago</h2>
-            <p class="desc-clean">
-              Elige cómo deseas pagar tu inscripción de $140.000 COP o abono.
-            </p>
-          </div>
-
-          <!-- 1. OPCIONES DE MÉTODO DE PAGO (ESTILO IMPERIO BARBER) -->
-          <div class="payment-options-container">
-            <label class="payment-option-card selected" id="optTransferCard" role="button" tabindex="0" aria-label="Opción seleccionada: Pagar por transferencia">
-              <input type="radio" name="paymentOption" value="transferencia" checked class="poc-radio-hidden">
-              <div class="poc-box">
-                <div class="poc-radio-circle">
-                  <span class="poc-radio-dot"></span>
-                </div>
-                <div class="poc-info">
-                  <div class="poc-headline">
-                    <span class="poc-icon">📲</span>
-                    <strong class="poc-name">Pagar por transferencia</strong>
-                    <span class="poc-badge">Recomendado</span>
-                  </div>
-                  <p class="poc-sub">Nequi • Daviplata • Bancolombia • Bre-B</p>
-                </div>
-              </div>
-            </label>
-          </div>
-
-          <!-- 2. CONTENIDO DESPLEGADO AL SELECCIONAR TRANSFERENCIA -->
-          <div class="transfer-unfold-panel" id="transferPanel">
-
-            <!-- DATOS DE CUENTA CLAROS (NEQUI, BANCOLOMBIA, BRE-B) -->
-            <div class="payment-cards-list">
-
-              <!-- 1. NEQUI -->
-              <div class="payment-method-card nequi-theme" data-method="nequi" data-copy="3183000831" role="button" tabindex="0" aria-label="Nequi número 3183000831. Toca para copiar.">
-                <div class="pm-top">
-                  <div class="pm-brand">
-                    <span class="pm-pill nequi-badge">NEQUI</span>
-                    <span class="pm-type">Cuenta Celular</span>
-                  </div>
-                  <span class="pm-amount">$140.000 COP</span>
-                </div>
-                
-                <div class="pm-number-box">
-                  <span class="pm-label">Número Nequi:</span>
-                  <strong class="pm-number" id="nequiNum">3183000831</strong>
-                  <span class="pm-tap-tip">👆 Toca para copiar el número</span>
-                </div>
-
-                <button type="button" class="btn btn-copy-action copy-trigger" data-copy="3183000831" aria-label="Copiar número Nequi">
-                  <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span>Copiar Número Nequi</span>
-                </button>
-              </div>
-
-              <!-- 2. BANCOLOMBIA -->
-              <div class="payment-method-card bancolombia-theme" data-method="bancolombia" data-copy="18547223388" role="button" tabindex="0" aria-label="Bancolombia Ahorros 18547223388. Toca para copiar.">
-                <div class="pm-top">
-                  <div class="pm-brand">
-                    <span class="pm-pill bancolombia-badge">BANCOLOMBIA</span>
-                    <span class="pm-type">Cuenta de Ahorros</span>
-                  </div>
-                  <span class="pm-amount">$140.000 COP</span>
-                </div>
-
-                <div class="pm-number-box">
-                  <span class="pm-label">Número de Ahorros:</span>
-                  <strong class="pm-number" id="bancolombiaNum">18547223388</strong>
-                  <span class="pm-tap-tip">👆 Toca para copiar la cuenta</span>
-                </div>
-
-                <button type="button" class="btn btn-copy-action copy-trigger" data-copy="18547223388" aria-label="Copiar cuenta Bancolombia">
-                  <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span>Copiar Cuenta Bancolombia</span>
-                </button>
-              </div>
-
-              <!-- 3. LLAVE BRE-B -->
-              <div class="payment-method-card breb-theme" data-method="breb" data-copy="0089610981" role="button" tabindex="0" aria-label="Llave Bre-B 0089610981. Toca para copiar.">
-                <div class="pm-top">
-                  <div class="pm-brand">
-                    <span class="pm-pill breb-badge">BRE-B</span>
-                    <span class="pm-type">Llave Interbancaria Nacional</span>
-                  </div>
-                  <span class="pm-amount">$140.000 COP</span>
-                </div>
-
-                <div class="pm-number-box">
-                  <span class="pm-label">Llave Bre-B:</span>
-                  <strong class="pm-number" id="brebNum">0089610981</strong>
-                  <small class="pm-subnote">Sistema de pagos inmediatos del Banco de la República. Transfiere sin costo desde Nequi, Daviplata, Bancolombia o cualquier entidad usando esta llave.</small>
-                  <span class="pm-tap-tip">👆 Toca para copiar la llave</span>
-                </div>
-
-                <button type="button" class="btn btn-copy-action copy-trigger" data-copy="0089610981" aria-label="Copiar Llave Bre-B">
-                  <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span>Copiar Llave Bre-B</span>
-                </button>
-              </div>
-
-            </div>
-
-            <!-- BOTONES DE ACCESO DIRECTO (GRANDES, FÁCILES DE TOCAR EN CELULAR) -->
-            <div class="direct-app-launch-block">
-              <div class="dal-header">
-                <span class="dal-badge">⚡ Accesos Directos</span>
-                <h3 class="dal-title">Abre directamente tu aplicación bancaria</h3>
-                <p class="dal-desc">Toca tu entidad para copiar los datos de pago e intentar abrir tu app al instante:</p>
-              </div>
-
-              <div class="direct-apps-grid">
-                <!-- 1. Abrir Nequi -->
-                <button type="button" class="btn btn-direct-app btn-direct-nequi open-app-trigger" data-entity="nequi" data-copy="3183000831" aria-label="Abrir aplicación Nequi">
-                  <span class="bda-icon">🟣</span>
-                  <div class="bda-content">
-                    <strong class="bda-name">Abrir Nequi</strong>
-                    <small class="bda-sub">Copia 3183000831 y abre app</small>
-                  </div>
-                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </button>
-
-                <!-- 2. Abrir Daviplata -->
-                <button type="button" class="btn btn-direct-app btn-direct-daviplata open-app-trigger" data-entity="daviplata" data-copy="0089610981" aria-label="Abrir aplicación Daviplata">
-                  <span class="bda-icon">🔴</span>
-                  <div class="bda-content">
-                    <strong class="bda-name">Abrir Daviplata</strong>
-                    <small class="bda-sub">Copia Llave 0089610981 y abre app</small>
-                  </div>
-                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </button>
-
-                <!-- 3. Abrir Bancolombia -->
-                <button type="button" class="btn btn-direct-app btn-direct-bancolombia open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Abrir aplicación Bancolombia">
-                  <span class="bda-icon">🟡</span>
-                  <div class="bda-content">
-                    <strong class="bda-name">Abrir Bancolombia</strong>
-                    <small class="bda-sub">Copia Ahorros 18547223388 y abre app</small>
-                  </div>
-                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </button>
-
-                <!-- 4. Bre-B -->
-                <button type="button" class="btn btn-direct-app btn-direct-breb open-app-trigger" data-entity="breb" data-copy="0089610981" aria-label="Pagar con Llave Bre-B">
-                  <span class="bda-icon">🔵</span>
-                  <div class="bda-content">
-                    <strong class="bda-name">Bre-B</strong>
-                    <small class="bda-sub">Copia Llave 0089610981 interbancaria</small>
-                  </div>
-                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- NOTIFICACIÓN DE COPIADO TOAST -->
-          <div class="toast-feedback" id="toastFeedback" role="alert" aria-live="polite">
-            ✓ ¡Dato copiado al portapapeles!
-          </div>
-
-          <!-- INSTRUCCIÓN SIMPLE Y BOTÓN WHATSAPP CON ESPACIO DE CÉDULA -->
-          <div class="whatsapp-confirmation-block">
-            <div class="wpp-icon-bubble">💬</div>
-            <h3 class="wpp-title">Realiza la transferencia, sube el comprobante y confirma tu cupo</h3>
-            <p class="wpp-text">
-              Recuerda: <strong>En el comprobante o en el mensaje incluye tu número de cédula</strong> para identificar tu pago.
-            </p>
-            
-            <a href="https://wa.me/573183800831?text=Hola%2C%20quiero%20confirmar%20mi%20inscripci%C3%B3n%20a%20Ecoruta%20Huellas%20del%20Alma%2010K.%20Mi%20n%C3%BAmero%20de%20c%C3%A9dula%20es%3A%20_____%20y%20adjunto%20mi%20comprobante." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-touch-hero" id="btnMainWhatsapp">
-              <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 2C6.5 2 2.012 6.488 2.012 12.019c0 1.764.462 3.486 1.339 5.006L2 22l5.122-1.343a9.98 9.98 0 0 0 4.909 1.282h.004c5.529 0 10.017-4.488 10.017-10.02 0-2.677-1.042-5.195-2.934-7.086A9.95 9.95 0 0 0 12.031 2zm0 18.286h-.003a8.27 8.27 0 0 1-4.218-1.154l-.303-.18-3.136.822.837-3.056-.197-.314a8.267 8.267 0 0 1-1.266-4.385c0-4.57 3.719-8.288 8.29-8.288 2.214 0 4.296.863 5.861 2.43 1.566 1.567 2.428 3.65 2.428 5.864 0 4.57-3.718 8.29-8.291 8.29z"/>
-                <path d="M16.852 14.195c-.264-.132-1.562-.77-1.804-.858-.242-.088-.418-.132-.594.132-.176.264-.682.858-.836 1.034-.154.176-.308.198-.572.066-.264-.132-1.115-.411-2.124-1.311-.785-.699-1.315-1.563-1.469-1.827-.154-.264-.016-.407.116-.539.119-.118.264-.308.396-.462.132-.154.176-.264.264-.44.088-.176.044-.33-.022-.462-.066-.132-.594-1.43-.814-1.958-.214-.515-.432-.445-.594-.453-.154-.008-.33-.01-.506-.01-.176 0-.462.066-.704.33-.242.264-.924.902-.924 2.2 0 1.298.946 2.552 1.078 2.728.132.176 1.862 2.843 4.512 3.987.63.272 1.123.435 1.507.557.633.201 1.209.173 1.665.105.508-.076 1.562-.638 1.782-1.254.22-.616.22-1.144.154-1.254-.066-.11-.242-.176-.506-.308z"/>
-              </svg>
-              <span>Confirmar por WhatsApp (318 380 0831)</span>
-            </a>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ====================================================================
            6. INFORMACIÓN DEL EVENTO (FECHA, LUGAR, CHIVA, RECOMENDACIONES)
            ==================================================================== -->
-      <section class="section-clean bg-alt" id="info">
+      <section class="section-clean" id="info">
         <div class="container-narrow">
           
           <div class="section-heading text-center">
@@ -1069,6 +924,11 @@
         Cerrar
       </button>
     </div>
+  </div>
+
+  <!-- NOTIFICACIÓN DE COPIADO TOAST FLOTANTE -->
+  <div class="toast-feedback" id="toastFeedback" role="alert" aria-live="polite">
+    ✓ ¡Dato copiado al portapapeles!
   </div>
 
   <!-- SCRIPTS -->
