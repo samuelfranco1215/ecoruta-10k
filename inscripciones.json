@@ -1,0 +1,14 @@
+[
+  {
+    "id": "INS-1792115162235-623",
+    "nombre": "Samuel Calderon franco",
+    "cedula": "1114830468",
+    "telefono": "3158422894",
+    "tipoCamiseta": "Niño",
+    "tallaCamiseta": "XS",
+    "valorPagado": 140000,
+    "comprobante": null,
+    "fecha": "2026-10-16T01:46:00.976Z",
+    "estado": "Confirmado"
+  }
+]

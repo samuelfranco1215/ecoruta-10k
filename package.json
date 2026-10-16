@@ -1,0 +1,20 @@
+{
+  "name": "ecoruta-huellas-del-alma-10k",
+  "version": "1.0.0",
+  "description": "Landing page y sistema de inscripciones para el evento Ecoruta Huellas del Alma 10K",
+  "main": "dev-server.js",
+  "scripts": {
+    "start": "node dev-server.js",
+    "dev": "node dev-server.js",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "ecoruta",
+    "senderismo",
+    "landing",
+    "pwa",
+    "palmira"
+  ],
+  "author": "Ecoruta Huellas del Alma",
+  "license": "ISC"
+}

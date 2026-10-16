@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Ecoruta Huellas del Alma 10K | Solara Ecohotel - Palmira</title>
+  
+  <!-- SEO & Metadatos -->
+  <meta name="description" content="Ecoruta Huellas del Alma 10K. Domingo 22 de noviembre de 2026 en Solara Ecohotel, vía Tenerife, Palmira. Senderismo, kit oficial, chiva, piscina y almuerzo gourmet.">
+  <meta name="theme-color" content="#194830">
+  <meta property="og:title" content="Ecoruta Huellas del Alma 10K">
+  <meta property="og:description" content="Inscripciones abiertas. $140.000 COP con kit completo, transporte en chiva, piscina y almuerzo en Solara Ecohotel. Se permiten abonos.">
+  <meta property="og:image" content="assets/images/branding/banner-evento.jpg">
+
+  <!-- PWA Manifest & App Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Huellas 10K">
+
+  <!-- Tipografía moderna, limpia y legible -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR FIJA / ENCABEZADO SIMPLE -->
+  <header class="top-nav" id="topNav">
+    <div class="nav-container">
+      <a href="#hero" class="nav-brand" id="brandLink">
+        <span class="nav-logo-icon">🌿</span>
+        <span class="nav-brand-title">HUELLAS DEL ALMA <strong>10K</strong></span>
+      </a>
+      
+      <div class="nav-actions">
+        <!-- BOTÓN PWA EN HEADER -->
+        <button type="button" class="btn-install-header btn-pwa-trigger" id="btnInstallHeader" title="Instalar en tu celular">
+          <svg class="icon-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span class="pwa-text-label">Instalar app</span>
+        </button>
+
+        <a href="#inscripcion" class="btn btn-sm btn-nav-cta">Inscribirme</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- AVISO SUTIL DE PROGRESO RECUPERADO -->
+  <aside class="state-restored-pill" id="stateRestoredPill" role="status" aria-live="polite">
+    <span>✓ Continuamos donde lo dejaste</span>
+  </aside>
+
+  <!-- ====================================================================
+       VISTA PRINCIPAL: LANDING PAGE
+       ==================================================================== -->
+  <div id="landingView">
+    <main>
+      
+      <!-- ====================================================================
+           1. INICIO / HERO + RESEÑA CORTA Y ATRACTIVA
+           ==================================================================== -->
+      <section class="hero-clean" id="hero">
+        <div class="container-narrow">
+          
+          <!-- Badge de fecha y lugar -->
+          <div class="event-pill">
+            <span class="pill-dot"></span>
+            <span>22 de Noviembre, 2026 • Palmira</span>
+          </div>
+
+          <h1 class="hero-main-title">
+            Ecoruta <span class="text-gradient">Huellas del Alma</span> 10K
+          </h1>
+
+          <p class="hero-lead">
+            Una jornada de senderismo, aire puro y bienestar entre los paisajes montañosos de la vía a Tenerife.
+          </p>
+
+          <!-- RESEÑA CORTA DEL LUGAR -->
+          <div class="venue-card">
+            <div class="venue-badge">Destino Oficial</div>
+            <h2 class="venue-title">Solara Ecohotel • Vía Tenerife, Palmira</h2>
+            <p class="venue-desc">
+              Un refugio campestre rodeado de bosques andinos, clima fresco de montaña y vistas panorámicas. Al finalizar los 10K disfrutaremos de sus zonas verdes, deliciosa gastronomía y una refrescante piscina al aire libre.
+            </p>
+          </div>
+
+          <!-- ESPACIO DE IMAGEN HERO / BANNER -->
+          <div class="image-slot hero-image-slot">
+            <img src="assets/images/branding/banner-evento.jpg" alt="Ecoruta Huellas del Alma 10K - Solara Ecohotel" class="responsive-img" loading="eager">
+            <span class="image-caption-tag">📍 Solara Ecohotel • Valle del Cauca</span>
+          </div>
+
+          <!-- BOTÓN PRINCIPAL LLAMATIVO -->
+          <div class="hero-cta-wrap">
+            <a href="#inscripcion" class="btn btn-primary btn-touch-hero">
+              <span>Inscribirme Ahora</span>
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <span class="hero-helper-text">⚡ Cupos limitados • Asegura tu kit y transporte</span>
+          </div>
+
+          <!-- BOTÓN INSTALAR DESTACADO EN CELULAR -->
+          <div class="pwa-hero-banner" id="pwaHeroBanner">
+            <div class="pwa-hero-content">
+              <span class="pwa-icon">📱</span>
+              <div class="pwa-text">
+                <strong>¿Prefieres usar la App?</strong>
+                <p>Instálala en tu celular para tener tu cupo a la mano</p>
+              </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-pwa-action btn-pwa-trigger">
+              Instalar en el celular
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           2. QUÉ INCLUYE (LISTA CLARA, TARJETAS SIMPLES, PRIORIDAD CELULAR)
+           ==================================================================== -->
+      <section class="section-clean bg-alt" id="incluye">
+        <div class="container-narrow">
+          
+          <div class="section-heading text-center">
+            <span class="sub-badge">Todo incluido</span>
+            <h2 class="title-clean">¿Qué incluye tu inscripción?</h2>
+            <p class="desc-clean">
+              Todo listo para que vivas una experiencia segura, cómoda y divertida sin preocuparte por nada.
+            </p>
+          </div>
+
+          <!-- ESPACIO DE IMAGEN DEL KIT OFICIAL -->
+          <div class="kit-banner-card">
+            <div class="image-slot">
+              <img src="assets/images/branding/kit-completo-poster.jpg" alt="Kit Oficial Ecoruta Huellas del Alma 10K" class="responsive-img" loading="lazy">
+            </div>
+            <div class="kit-banner-content">
+              <span class="badge-accent">Segunda Edición</span>
+              <h3>Kit Oficial de Senderista</h3>
+              <p>Camiseta técnica, medalla conmemorativa, tula deportiva y manilla oficial.</p>
+            </div>
+          </div>
+
+          <!-- 14 BENEFICIOS EN TARJETAS LIMPIAS Y FÁCILES DE LEER -->
+          <div class="benefits-clean-grid">
+            
+            <div class="benefit-item">
+              <div class="b-icon">👕</div>
+              <div class="b-info">
+                <h4>Camiseta oficial</h4>
+                <p>Damas, caballeros y niños en tela transpirable.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🎒</div>
+              <div class="b-info">
+                <h4>Tula</h4>
+                <p>Mochila deportiva práctica para tus pertenencias.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🏅</div>
+              <div class="b-info">
+                <h4>Medalla conmemorativa</h4>
+                <p>Medalla metálica para todos los finalistas.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🎗️</div>
+              <div class="b-info">
+                <h4>Manilla de participación</h4>
+                <p>Acceso a todas las actividades e instalaciones.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item highlight">
+              <div class="b-icon">🚌</div>
+              <div class="b-info">
+                <h4>Transporte en chiva</h4>
+                <p>Ida y regreso desde Palmira en chiva tradicional.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item highlight">
+              <div class="b-icon">🏡</div>
+              <div class="b-info">
+                <h4>Ingreso a Ecohotel</h4>
+                <p>Acceso completo a las áreas de Solara Ecohotel.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🧭</div>
+              <div class="b-info">
+                <h4>Guía</h4>
+                <p>Acompañamiento y liderazgo en toda la ruta.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🚑</div>
+              <div class="b-info">
+                <h4>Seguro médico</h4>
+                <p>Póliza de asistencia médica y primeros auxilios.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">💧</div>
+              <div class="b-info">
+                <h4>Puntos de hidratación</h4>
+                <p>Estaciones de recarga de líquidos en el camino.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item highlight">
+              <div class="b-icon">🍽️</div>
+              <div class="b-info">
+                <h4>Almuerzos gourmet</h4>
+                <p>Almuerzo completo campestre para recargar energías.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">📸</div>
+              <div class="b-info">
+                <h4>Fotografía del evento</h4>
+                <p>Registro fotográfico profesional para tus recuerdos.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🏃</div>
+              <div class="b-info">
+                <h4>Aeróbicos</h4>
+                <p>Activación y calentamiento físico antes de salir.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item highlight">
+              <div class="b-icon">🏊</div>
+              <div class="b-info">
+                <h4>Piscina</h4>
+                <p>Tiempo de descanso en la piscina del ecohotel.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="b-icon">🎁</div>
+              <div class="b-info">
+                <h4>Rifas</h4>
+                <p>Sorteos y premios especiales entre participantes.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ESPACIO DE IMAGEN SECUNDARIO: MEDALLA Y DETALLES -->
+          <div class="image-two-col">
+            <div class="image-slot">
+              <img src="assets/images/branding/medalla-oficial.jpg" alt="Medalla oficial Huellas del Alma 10K Solara" class="responsive-img" loading="lazy">
+              <span class="image-caption-tag">🏅 Medalla Oficial Conmemorativa</span>
+            </div>
+            <div class="image-slot">
+              <img src="assets/images/branding/camiseta-tula.jpg" alt="Camiseta oficial y tula Ecoruta 10K" class="responsive-img" loading="lazy">
+              <span class="image-caption-tag">👕 Camiseta y Tula Oficial</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. PRECIO (BIEN VISIBLE + ACLARACIÓN DE ABONOS)
+           ==================================================================== -->
+      <section class="section-clean" id="precio">
+        <div class="container-narrow">
+          <div class="pricing-box" id="pricingBox">
+            <span class="pricing-tag">Inversión Total</span>
+            
+            <div class="price-amount-wrap" id="priceAmountWrap" role="button" tabindex="0" title="Toca aquí para ver los métodos de pago" aria-label="Precio: $140.000 COP. Toca para ver los métodos de pago">
+              <span class="price-currency">$</span>
+              <span class="price-val">140.000</span>
+              <span class="price-cop">COP</span>
+            </div>
+            
+            <div class="price-tap-hint" id="priceTapHint" role="button" tabindex="0">
+              <span class="tap-hint-icon">👇</span>
+              <span>Toca el precio para ver los métodos de pago</span>
+            </div>
+            <p class="price-sub">Por persona • Incluye los 14 beneficios</p>
+
+            <!-- ACLARACIÓN DESTACADA DE ABONOS -->
+            <div class="installment-notice">
+              <div class="in-badge">✨ Facilidad de Pago</div>
+              <p>
+                <strong>¡Puedes hacer abonos!</strong> Asegura tu cupo hoy mismo con un abono parcial y completa el valor restante antes del evento.
+              </p>
+            </div>
+
+            <div class="value-statement">
+              <p>
+                <strong>¿Qué ganas al ir?</strong> Desconéctate del estrés de la ciudad, respira aire puro de montaña, comparte con tu familia o amigos en un ambiente seguro y disfruta de un domingo inolvidable con todo resuelto: chiva, comida, piscina y senderismo guiado.
+              </p>
+            </div>
+
+            <a href="#inscripcion" class="btn btn-primary btn-touch-hero">
+              <span>Inscribirme Ahora</span>
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           4. FORMULARIO DE INSCRIPCIÓN (PRIORIDAD CELULAR, GUARDADO AUTOMÁTICO)
+           ==================================================================== -->
+      <section class="section-clean bg-alt" id="inscripcion">
+        <div class="container-narrow">
+          
+          <div class="section-heading text-center">
+            <span class="sub-badge">Paso 1</span>
+            <h2 class="title-clean">Formulario de Inscripción</h2>
+            <p class="desc-clean">
+              Diligencia tus datos para apartar tu kit y cupo. Si sales de la página, tus datos se guardan solos.
+            </p>
+          </div>
+
+          <div class="form-card">
+            
+            <!-- AVISO DE IDENTIFICACIÓN CON CÉDULA -->
+            <div class="alert-box-cedula">
+              <div class="alert-icon">📌</div>
+              <div class="alert-content">
+                <strong>Instrucción importante para tu pago:</strong>
+                <p>En el comprobante de transferencia o en el mensaje incluye tu <strong>número de cédula</strong> para identificar y validar tu pago rápidamente.</p>
+              </div>
+            </div>
+
+            <form id="registroForm" novalidate>
+              
+              <!-- 1. Nombre y Apellidos -->
+              <div class="form-group">
+                <label for="formNombre" class="form-label">
+                  Nombre y Apellidos completos <span class="req">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="formNombre" 
+                  name="nombre" 
+                  class="form-control" 
+                  placeholder="Ej: Carolina Gómez Restrepo" 
+                  required 
+                  autocomplete="name"
+                >
+                <span class="field-error" id="errNombre"></span>
+              </div>
+
+              <!-- 2. Número de Cédula -->
+              <div class="form-group">
+                <label for="formCedula" class="form-label">
+                  Número de Cédula o Documento <span class="req">*</span>
+                </label>
+                <input 
+                  type="tel" 
+                  id="formCedula" 
+                  name="cedula" 
+                  class="form-control" 
+                  placeholder="Ej: 1118234567" 
+                  required 
+                  inputmode="numeric"
+                >
+                <span class="form-hint">Tu cédula identifica tu kit y tu comprobante de pago.</span>
+                <span class="field-error" id="errCedula"></span>
+              </div>
+
+              <!-- 3. Teléfono de contacto (WhatsApp) -->
+              <div class="form-group">
+                <label for="formTelefono" class="form-label">
+                  Número de Teléfono / WhatsApp <span class="req">*</span>
+                </label>
+                <input 
+                  type="tel" 
+                  id="formTelefono" 
+                  name="telefono" 
+                  class="form-control" 
+                  placeholder="Ej: 3183800831" 
+                  required 
+                  autocomplete="tel"
+                  inputmode="tel"
+                >
+                <span class="form-hint">Aquí te confirmaremos los detalles de salida de la chiva.</span>
+                <span class="field-error" id="errTelefono"></span>
+              </div>
+
+              <!-- 4. Tipo de Camiseta (Dama, Caballero, Niño) -->
+              <div class="form-group">
+                <label class="form-label">Tipo de Camiseta <span class="req">*</span></label>
+                <div class="chips-group" id="tipoCamisetaGroup">
+                  <label class="chip-option">
+                    <input type="radio" name="tipoCamiseta" value="Dama" checked>
+                    <span class="chip-label">👩 Dama</span>
+                  </label>
+                  <label class="chip-option">
+                    <input type="radio" name="tipoCamiseta" value="Caballero">
+                    <span class="chip-label">👨 Caballero</span>
+                  </label>
+                  <label class="chip-option">
+                    <input type="radio" name="tipoCamiseta" value="Niño">
+                    <span class="chip-label">🧒 Niño</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- 5. Talla de Camiseta (Dinámica según tipo) -->
+              <div class="form-group">
+                <label class="form-label">Talla de Camiseta <span class="req">*</span></label>
+                
+                <!-- Selector para Adultos (Damas y Caballeros) -->
+                <div class="sizes-selector" id="adultSizesSelector">
+                  <label class="size-chip">
+                    <input type="radio" name="tallaCamiseta" value="S">
+                    <span>S</span>
+                  </label>
+                  <label class="size-chip">
+                    <input type="radio" name="tallaCamiseta" value="M" checked>
+                    <span>M</span>
+                  </label>
+                  <label class="size-chip">
+                    <input type="radio" name="tallaCamiseta" value="L">
+                    <span>L</span>
+                  </label>
+                  <label class="size-chip">
+                    <input type="radio" name="tallaCamiseta" value="XL">
+                    <span>XL</span>
+                  </label>
+                </div>
+
+                <!-- Aviso para Niños -->
+                <div class="kids-size-box" id="kidsSizeBox" style="display: none;">
+                  <span class="badge-kids">🧒 Talla única para niños: XS</span>
+                  <p class="kids-note">Para la categoría infantil se entrega camiseta técnica talla única XS.</p>
+                </div>
+              </div>
+
+              <!-- 6. Valor Pagado (Permite Abonos) -->
+              <div class="form-group">
+                <label class="form-label">Valor Pagado o Abono <span class="req">*</span></label>
+                <p class="form-hint">Puedes pagar el valor total o realizar un abono para apartar tu cupo:</p>
+                
+                <div class="payment-amount-chips" id="amountChipsGroup">
+                  <label class="amount-chip">
+                    <input type="radio" name="valorAbonoPreset" value="140000" checked>
+                    <span class="amount-label">
+                      <strong>$140.000 COP</strong>
+                      <small>Pago Total</small>
+                    </span>
+                  </label>
+                  <label class="amount-chip">
+                    <input type="radio" name="valorAbonoPreset" value="70000">
+                    <span class="amount-label">
+                      <strong>$70.000 COP</strong>
+                      <small>Abono 50%</small>
+                    </span>
+                  </label>
+                  <label class="amount-chip">
+                    <input type="radio" name="valorAbonoPreset" value="50000">
+                    <span class="amount-label">
+                      <strong>$50.000 COP</strong>
+                      <small>Abono Inicial</small>
+                    </span>
+                  </label>
+                  <label class="amount-chip">
+                    <input type="radio" name="valorAbonoPreset" value="otro">
+                    <span class="amount-label">
+                      <strong>Otro valor</strong>
+                      <small>Personalizado</small>
+                    </span>
+                  </label>
+                </div>
+
+                <!-- Input numérico visible cuando elige "Otro valor" -->
+                <div class="custom-amount-wrapper" id="customAmountWrap" style="display: none;">
+                  <span class="input-prefix">$</span>
+                  <input 
+                    type="number" 
+                    id="formValorCustom" 
+                    class="form-control with-prefix" 
+                    placeholder="Ej: 80000" 
+                    min="10000" 
+                    step="5000"
+                  >
+                  <span class="input-suffix">COP</span>
+                </div>
+              </div>
+
+              <!-- 7. Subir Comprobante de Pago -->
+              <div class="form-group">
+                <label class="form-label">
+                  Comprobante de Pago (Transferencia)
+                  <span class="badge-optional">Recomendado</span>
+                </label>
+                <p class="form-hint">Sube la foto o captura de tu transferencia Nequi, Bancolombia o Bre-B:</p>
+                
+                <div class="receipt-dropzone" id="receiptDropzone">
+                  <input type="file" id="formComprobante" accept="image/*,.pdf" class="file-input-hidden">
+                  
+                  <div class="dropzone-empty" id="dropzoneEmpty">
+                    <span class="dropzone-icon">📷</span>
+                    <strong>Toca aquí para subir la foto del comprobante</strong>
+                    <small>Captura de pantalla, JPG o PNG</small>
+                  </div>
+
+                  <div class="dropzone-preview" id="dropzonePreview" style="display: none;">
+                    <img id="receiptImgPreview" src="" alt="Comprobante de pago" class="receipt-thumbnail">
+                    <div class="receipt-preview-info">
+                      <span id="receiptFileName" class="receipt-filename">comprobante.jpg</span>
+                      <button type="button" class="btn-remove-receipt" id="btnRemoveReceipt" title="Cambiar comprobante">
+                        ✕ Quitar foto
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOTÓN DE ENVIAR / CONFIRMAR -->
+              <div class="form-submit-wrap">
+                <button type="submit" class="btn btn-primary btn-touch-hero" id="btnSubmitForm">
+                  <span>Confirmar mi Inscripción</span>
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
+                <div class="form-autosave-badge">
+                  <span class="save-dot"></span>
+                  <span>Tus datos se guardan automáticamente en este celular</span>
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           5. PAGO (BOTONES GRANDES, NEQUI, BANCOLOMBIA, BRE-B + WHATSAPP)
+           ==================================================================== -->
+      <section class="section-clean" id="pago">
+        <div class="container-narrow">
+          
+          <div class="section-heading text-center">
+            <span class="sub-badge">Paso 2</span>
+            <h2 class="title-clean">Métodos de Pago por Transferencia</h2>
+            <p class="desc-clean">
+              Realiza la transferencia, sube el comprobante y confirma tu cupo.
+            </p>
+          </div>
+
+          <!-- MÉTODOS DE PAGO: NEQUI, BANCOLOMBIA, BRE-B -->
+          <div class="payment-cards-list">
+
+            <!-- 1. NEQUI -->
+            <div class="payment-method-card nequi-theme" data-method="nequi" data-copy="3183000831" role="button" tabindex="0" aria-label="Pagar con Nequi número 3183000831. Toca para copiar y abrir app.">
+              <div class="pm-top">
+                <div class="pm-brand">
+                  <span class="pm-pill nequi-badge">NEQUI</span>
+                  <span class="pm-type">Cuenta Celular</span>
+                </div>
+                <span class="pm-amount">$140.000 COP</span>
+              </div>
+              
+              <div class="pm-number-box">
+                <span class="pm-label">Número Nequi:</span>
+                <strong class="pm-number" id="nequiNum">3183000831</strong>
+                <span class="pm-tap-tip">👆 Toca para copiar dato y abrir Nequi</span>
+              </div>
+
+              <div class="pm-actions-group">
+                <button type="button" class="btn btn-copy-action copy-trigger" data-copy="3183000831" aria-label="Copiar número Nequi">
+                  <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copiar Número</span>
+                </button>
+                <button type="button" class="btn btn-open-app-action btn-nequi-action open-app-trigger" data-entity="nequi" data-copy="3183000831" aria-label="Abrir aplicación Nequi">
+                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span>Abrir App Nequi</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. BANCOLOMBIA -->
+            <div class="payment-method-card bancolombia-theme" data-method="bancolombia" data-copy="18547223388" role="button" tabindex="0" aria-label="Pagar con Bancolombia Ahorros 18547223388. Toca para copiar y abrir app.">
+              <div class="pm-top">
+                <div class="pm-brand">
+                  <span class="pm-pill bancolombia-badge">BANCOLOMBIA</span>
+                  <span class="pm-type">Cuenta de Ahorros</span>
+                </div>
+                <span class="pm-amount">$140.000 COP</span>
+              </div>
+
+              <div class="pm-number-box">
+                <span class="pm-label">Número de Ahorros:</span>
+                <strong class="pm-number" id="bancolombiaNum">18547223388</strong>
+                <span class="pm-tap-tip">👆 Toca para copiar dato y abrir Bancolombia</span>
+              </div>
+
+              <div class="pm-actions-group">
+                <button type="button" class="btn btn-copy-action copy-trigger" data-copy="18547223388" aria-label="Copiar cuenta Bancolombia">
+                  <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copiar Cuenta</span>
+                </button>
+                <button type="button" class="btn btn-open-app-action btn-bancolombia-action open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Abrir aplicación Bancolombia">
+                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span>Abrir Bancolombia</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. LLAVE BRE-B -->
+            <div class="payment-method-card breb-theme" data-method="breb" data-copy="0089610981" role="button" tabindex="0" aria-label="Pagar con Llave Bre-B 0089610981. Toca para copiar la llave.">
+              <div class="pm-top">
+                <div class="pm-brand">
+                  <span class="pm-pill breb-badge">BRE-B</span>
+                  <span class="pm-type">Llave Interbancaria</span>
+                </div>
+                <span class="pm-amount">$140.000 COP</span>
+              </div>
+
+              <div class="pm-number-box">
+                <span class="pm-label">Llave Bre-B:</span>
+                <strong class="pm-number" id="brebNum">0089610981</strong>
+                <small class="pm-subnote">Sistema de pagos inmediatos. Transfiere sin costo desde Nequi, Bancolombia, Daviplata o cualquier entidad usando esta llave.</small>
+                <span class="pm-tap-tip">👆 Toca para copiar la llave</span>
+              </div>
+
+              <div class="pm-actions-group">
+                <button type="button" class="btn btn-copy-action copy-trigger" data-copy="0089610981" aria-label="Copiar Llave Bre-B">
+                  <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copiar Llave Bre-B</span>
+                </button>
+                <button type="button" class="btn btn-open-app-action btn-breb-action open-app-trigger" data-entity="breb" data-copy="0089610981" aria-label="Abrir app para transferir con Bre-B">
+                  <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span>Pagar con Bre-B</span>
+                </button>
+              </div>
+
+              <!-- Atajo a billeteras favoritas para usar la llave -->
+              <div class="breb-quick-apps">
+                <span class="bqa-title">O abre tu billetera con la llave copiada:</span>
+                <div class="bqa-chips">
+                  <button type="button" class="bqa-chip open-app-trigger" data-entity="nequi" data-copy="0089610981" title="Copiar llave y abrir Nequi">
+                    🟣 Nequi
+                  </button>
+                  <button type="button" class="bqa-chip open-app-trigger" data-entity="bancolombia" data-copy="0089610981" title="Copiar llave y abrir Bancolombia">
+                    🟡 Bancolombia
+                  </button>
+                  <button type="button" class="bqa-chip open-app-trigger" data-entity="daviplata" data-copy="0089610981" title="Copiar llave y abrir Daviplata">
+                    🔴 Daviplata
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- NOTIFICACIÓN DE COPIADO TOAST -->
+          <div class="toast-feedback" id="toastFeedback" role="alert" aria-live="polite">
+            ✓ ¡Dato copiado al portapapeles!
+          </div>
+
+          <!-- INSTRUCCIÓN SIMPLE Y BOTÓN WHATSAPP CON ESPACIO DE CÉDULA -->
+          <div class="whatsapp-confirmation-block">
+            <div class="wpp-icon-bubble">💬</div>
+            <h3 class="wpp-title">Realiza la transferencia, sube el comprobante y confirma tu cupo</h3>
+            <p class="wpp-text">
+              Recuerda: <strong>En el comprobante o en el mensaje incluye tu número de cédula</strong> para identificar tu pago.
+            </p>
+            
+            <a href="https://wa.me/573183800831?text=Hola%2C%20quiero%20confirmar%20mi%20inscripci%C3%B3n%20a%20Ecoruta%20Huellas%20del%20Alma%2010K.%20Mi%20n%C3%BAmero%20de%20c%C3%A9dula%20es%3A%20_____%20y%20adjunto%20mi%20comprobante." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-touch-hero" id="btnMainWhatsapp">
+              <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 2C6.5 2 2.012 6.488 2.012 12.019c0 1.764.462 3.486 1.339 5.006L2 22l5.122-1.343a9.98 9.98 0 0 0 4.909 1.282h.004c5.529 0 10.017-4.488 10.017-10.02 0-2.677-1.042-5.195-2.934-7.086A9.95 9.95 0 0 0 12.031 2zm0 18.286h-.003a8.27 8.27 0 0 1-4.218-1.154l-.303-.18-3.136.822.837-3.056-.197-.314a8.267 8.267 0 0 1-1.266-4.385c0-4.57 3.719-8.288 8.29-8.288 2.214 0 4.296.863 5.861 2.43 1.566 1.567 2.428 3.65 2.428 5.864 0 4.57-3.718 8.29-8.291 8.29z"/>
+                <path d="M16.852 14.195c-.264-.132-1.562-.77-1.804-.858-.242-.088-.418-.132-.594.132-.176.264-.682.858-.836 1.034-.154.176-.308.198-.572.066-.264-.132-1.115-.411-2.124-1.311-.785-.699-1.315-1.563-1.469-1.827-.154-.264-.016-.407.116-.539.119-.118.264-.308.396-.462.132-.154.176-.264.264-.44.088-.176.044-.33-.022-.462-.066-.132-.594-1.43-.814-1.958-.214-.515-.432-.445-.594-.453-.154-.008-.33-.01-.506-.01-.176 0-.462.066-.704.33-.242.264-.924.902-.924 2.2 0 1.298.946 2.552 1.078 2.728.132.176 1.862 2.843 4.512 3.987.63.272 1.123.435 1.507.557.633.201 1.209.173 1.665.105.508-.076 1.562-.638 1.782-1.254.22-.616.22-1.144.154-1.254-.066-.11-.242-.176-.506-.308z"/>
+              </svg>
+              <span>Confirmar por WhatsApp (318 380 0831)</span>
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           6. INFORMACIÓN DEL EVENTO (FECHA, LUGAR, CHIVA, RECOMENDACIONES)
+           ==================================================================== -->
+      <section class="section-clean bg-alt" id="info">
+        <div class="container-narrow">
+          
+          <div class="section-heading text-center">
+            <span class="sub-badge">Guía Rápida</span>
+            <h2 class="title-clean">Información del Evento</h2>
+          </div>
+
+          <div class="info-simple-grid">
+            
+            <div class="info-simple-card">
+              <div class="isc-icon">📅</div>
+              <h4>Fecha</h4>
+              <p><strong>Domingo, 22 de noviembre de 2026</strong></p>
+            </div>
+
+            <div class="info-simple-card">
+              <div class="isc-icon">📍</div>
+              <h4>Lugar</h4>
+              <p><strong>Solara Ecohotel</strong><br>Vía Tenerife, Palmira (Valle del Cauca)</p>
+            </div>
+
+            <div class="info-simple-card highlight">
+              <div class="isc-icon">🚌</div>
+              <h4>Transporte en Chiva</h4>
+              <p><strong>Desde Palmira:</strong> Salida y regreso en chiva tradicional. Se coordina punto exacto por WhatsApp.</p>
+            </div>
+
+          </div>
+
+          <!-- RECOMENDACIONES BÁSICAS -->
+          <div class="recommendations-box">
+            <div class="rec-title-header">
+              <span class="rec-icon">👟</span>
+              <h3>Recomendaciones Básicas</h3>
+            </div>
+            <ul class="clean-checklist">
+              <li>
+                <span class="check-dot">✓</span>
+                <span><strong>Ropa cómoda y deportiva:</strong> prendas transpirables y licra de secado rápido.</span>
+              </li>
+              <li>
+                <span class="check-dot">✓</span>
+                <span><strong>Calzado con buen agarre:</strong> tenis de trail o botas con tracción para senderos.</span>
+              </li>
+              <li>
+                <span class="check-dot">✓</span>
+                <span><strong>Hidratación personal:</strong> termo o botilito para complementar los puntos de líquido.</span>
+              </li>
+              <li>
+                <span class="check-dot">✓</span>
+                <span><strong>Protección solar:</strong> bloqueador, gorra o sombrero y repelente para insectos.</span>
+              </li>
+              <li>
+                <span class="check-dot">✓</span>
+                <span><strong>Piscina y descanso:</strong> traje de baño, toalla y una muda seca de cambio.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- GUÍA DE TALLAS DE CAMISETA -->
+          <div class="image-slot flyer-slot">
+            <img src="assets/images/branding/flyer-tallas.jpg" alt="Guía de tallas oficial camiseta Ecoruta Huellas del Alma" class="responsive-img" loading="lazy">
+            <span class="image-caption-tag">📏 Guía de Tallas (S, M, L, XL) para tu Camiseta</span>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ====================================================================
+         7. FOOTER (NOMBRE, WHATSAPP, BOTÓN FINAL)
+         ==================================================================== -->
+    <footer class="footer-clean">
+      <div class="container-narrow footer-inner">
+        
+        <div class="footer-brand-box">
+          <h3 class="footer-title">Ecoruta Huellas del Alma 10K</h3>
+          <p class="footer-subtitle">Solara Ecohotel • Vía Tenerife, Palmira</p>
+        </div>
+
+        <div class="footer-contact-box">
+          <span class="f-label">WhatsApp de contacto:</span>
+          <a href="https://wa.me/573183800831?text=Hola%2C%20quiero%20inscribirme%20a%20Ecoruta%20Huellas%20del%20Alma%2010K" target="_blank" rel="noopener noreferrer" class="f-phone">
+            318 380 0831
+          </a>
+        </div>
+
+        <div class="footer-cta-box">
+          <a href="#inscripcion" class="btn btn-primary btn-touch-hero">
+            <span>Inscribirme Ahora</span>
+          </a>
+        </div>
+
+        <div class="footer-bottom-links">
+          <button type="button" class="btn-footer-link btn-pwa-trigger">📲 Instalar como App</button>
+        </div>
+
+        <p class="footer-copy">
+          &copy; 2026 Ecoruta Huellas del Alma 10K. Todos los derechos reservados.
+        </p>
+
+      </div>
+    </footer>
+
+    <!-- BARRA INFERIOR FLOTANTE MÓVIL (ALTA CONVERSIÓN CON PULGAR) -->
+    <aside class="mobile-sticky-action" id="mobileStickyBar">
+      <div class="msa-content">
+        <div class="msa-info" id="msaPriceInfo" role="button" tabindex="0" title="Toca para ver métodos de pago" aria-label="Precio $140.000 COP. Toca para ver métodos de pago">
+          <span class="msa-sub">Inversión 10K (Abonos)</span>
+          <strong class="msa-price">$140.000 COP</strong>
+        </div>
+        <div class="msa-buttons">
+          <a href="#inscripcion" class="btn btn-sm btn-primary">Inscribirme</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ====================================================================
+       VISTA DEL PANEL ADMINISTRADOR (/admin o #admin)
+       ==================================================================== -->
+  <div id="adminView" class="admin-view" style="display: none;">
+    <header class="admin-topbar">
+      <div class="container-narrow admin-bar-content">
+        <div class="admin-brand">
+          <span class="admin-icon">🔐</span>
+          <div>
+            <h2>Panel de Administración</h2>
+            <small>Ecoruta Huellas del Alma 10K</small>
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-exit-admin" id="btnExitAdmin">
+          ← Volver a la Landing
+        </button>
+      </div>
+    </header>
+
+    <main class="container-narrow admin-main">
+      
+      <!-- TARJETAS DE MÉTRICAS RÁPIDAS -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <span class="stat-num" id="statTotalInscritos">0</span>
+          <span class="stat-label">Inscritos Totales</span>
+        </div>
+        <div class="stat-card stat-recaudo">
+          <span class="stat-num" id="statTotalRecaudado">$0</span>
+          <span class="stat-label">Total Recaudado</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statPagadosCompletos">0</span>
+          <span class="stat-label">Pagos $140.000</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statAbonos">0</span>
+          <span class="stat-label">Abonos Parciales</span>
+        </div>
+      </div>
+
+      <!-- BARRA DE BÚSQUEDA Y ACCIONES -->
+      <div class="admin-controls-card">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="adminSearchInput" 
+            class="admin-search-input" 
+            placeholder="Buscar rápido por cédula o nombre..." 
+            autocomplete="off"
+          >
+          <button type="button" class="btn-clear-search" id="btnClearSearch" style="display: none;">✕</button>
+        </div>
+
+        <div class="admin-actions-bar">
+          <div class="filter-pills" id="adminFilterPills">
+            <button type="button" class="filter-btn active" data-filter="all">Todos (<span id="countAll">0</span>)</button>
+            <button type="button" class="filter-btn" data-filter="confirmado">Confirmados</button>
+            <button type="button" class="filter-btn" data-filter="abono">Abonos</button>
+            <button type="button" class="filter-btn" data-filter="comprobante">Con Comprobante</button>
+          </div>
+
+          <div class="admin-tools">
+            <button type="button" class="btn btn-sm btn-export-csv" id="btnExportCSV">
+              📥 Exportar Excel/CSV
+            </button>
+            <button type="button" class="btn btn-sm btn-reload-data" id="btnReloadData" title="Recargar lista">
+              🔄 Actualizar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTA DE INSCRITOS -->
+      <section class="admin-list-section">
+        <div id="adminListContainer" class="admin-cards-container">
+          <!-- Renderizado dinámico desde script.js -->
+        </div>
+
+        <div class="admin-empty-state" id="adminEmptyState" style="display: none;">
+          <span class="empty-icon">📋</span>
+          <h3>No se encontraron personas inscritas</h3>
+          <p>No hay registros que coincidan con la búsqueda o filtro aplicado.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       MODALES Y VENTANAS EMERGENTES
+       ==================================================================== -->
+
+  <!-- 1. MODAL DE CONFIRMACIÓN DE INSCRIPCIÓN EXITOSA -->
+  <div class="modal-backdrop" id="modalExito" style="display: none;">
+    <div class="modal-box modal-success">
+      <div class="modal-success-icon">🎉</div>
+      <h3 class="modal-title">¡Inscripción Registrada!</h3>
+      <p class="modal-subtitle">
+        Tus datos quedaron guardados de forma segura para la <strong>Ecoruta Huellas del Alma 10K</strong>.
+      </p>
+
+      <div class="success-details-card" id="successDetailsCard">
+        <!-- Resumen dinámico -->
+      </div>
+
+      <div class="modal-actions-stacked">
+        <a href="#" class="btn btn-whatsapp btn-touch-hero" id="btnSendWhatsappConfirmation" target="_blank" rel="noopener noreferrer">
+          <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 2C6.5 2 2.012 6.488 2.012 12.019c0 1.764.462 3.486 1.339 5.006L2 22l5.122-1.343a9.98 9.98 0 0 0 4.909 1.282h.004c5.529 0 10.017-4.488 10.017-10.02 0-2.677-1.042-5.195-2.934-7.086A9.95 9.95 0 0 0 12.031 2zm0 18.286h-.003a8.27 8.27 0 0 1-4.218-1.154l-.303-.18-3.136.822.837-3.056-.197-.314a8.267 8.267 0 0 1-1.266-4.385c0-4.57 3.719-8.288 8.29-8.288 2.214 0 4.296.863 5.861 2.43 1.566 1.567 2.428 3.65 2.428 5.864 0 4.57-3.718 8.29-8.291 8.29z"/>
+          </svg>
+          <span>Enviar Comprobante al WhatsApp</span>
+        </a>
+
+        <button type="button" class="btn btn-secondary-modal" id="btnCloseSuccessModal">
+          Entendido, cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MODAL DE VISUALIZACIÓN DE COMPROBANTE (ADMIN) -->
+  <div class="modal-backdrop" id="modalReceiptViewer" style="display: none;">
+    <div class="modal-box modal-receipt">
+      <div class="modal-receipt-header">
+        <h3 id="receiptViewerTitle">Comprobante de Pago</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseReceiptViewer">✕</button>
+      </div>
+      <div class="modal-receipt-body">
+        <img id="receiptViewerImg" src="" alt="Comprobante de pago" class="receipt-full-img">
+      </div>
+      <div class="modal-receipt-footer">
+        <span id="receiptViewerDetails" class="receipt-caption"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL DE INSTALACIÓN PWA (INSTRUCCIONES IPHONE / ANDROID) -->
+  <div class="modal-backdrop" id="modalInstallPWA" style="display: none;">
+    <div class="modal-box modal-install">
+      <div class="modal-install-icon">📲</div>
+      <h3 class="modal-title">Instalar en tu Celular</h3>
+      <p class="modal-subtitle">
+        Ten la app de la <strong>Ecoruta 10K</strong> en tu pantalla de inicio, rápida y accesible sin abrir el navegador.
+      </p>
+
+      <div class="install-instructions" id="installInstructionsIos" style="display: none;">
+        <div class="install-step">
+          <span class="step-num">1</span>
+          <span>Toca el botón <strong>Compartir</strong> <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> en la barra inferior de Safari.</span>
+        </div>
+        <div class="install-step">
+          <span class="step-num">2</span>
+          <span>Desliza y selecciona <strong>"Agregar a pantalla de inicio"</strong> ➕.</span>
+        </div>
+        <div class="install-step">
+          <span class="step-num">3</span>
+          <span>Toca <strong>"Agregar"</strong> en la esquina superior derecha ¡y listo!</span>
+        </div>
+      </div>
+
+      <div class="install-android-prompt" id="installInstructionsAndroid">
+        <p>Presiona el botón para instalar la aplicación directamente en tu dispositivo:</p>
+        <button type="button" class="btn btn-primary btn-touch-hero" id="btnConfirmInstallNative">
+          Instalar Ahora
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-secondary-modal" id="btnCloseInstallModal">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="script.js"></script>
+</body>
+</html>

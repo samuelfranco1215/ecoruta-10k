@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#194830" />
+      <stop offset="60%" stop-color="#0E2F1E" />
+      <stop offset="100%" stop-color="#0B2518" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A00" />
+      <stop offset="100%" stop-color="#E85D04" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDD00" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="110" fill="url(#bgGrad)" />
+
+  <!-- Outer Eco Rim -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-dasharray="10 8" />
+
+  <!-- Mountain Silhouettes -->
+  <path d="M70 370 L195 210 L285 320 L375 180 L445 370 Z" fill="rgba(255, 255, 255, 0.08)" />
+  <path d="M120 370 L230 250 L310 350 L390 230 L435 370 Z" fill="rgba(255, 255, 255, 0.14)" />
+
+  <!-- Sun / Sunrise in Palmira Cordillera -->
+  <circle cx="256" cy="180" r="54" fill="url(#orangeGrad)" />
+  <circle cx="256" cy="180" r="62" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.6" />
+
+  <!-- Footprint / Huella icon (Huellas del Alma) -->
+  <!-- Heel -->
+  <ellipse cx="256" cy="350" rx="36" ry="46" fill="#FAF7F2" />
+  <!-- Sole ball -->
+  <ellipse cx="256" cy="285" rx="52" ry="40" fill="#FAF7F2" />
+  <!-- Toes -->
+  <circle cx="215" cy="225" r="14" fill="#FAF7F2" />
+  <circle cx="238" cy="215" r="16" fill="#FAF7F2" />
+  <circle cx="265" cy="216" r="15" fill="#FAF7F2" />
+  <circle cx="290" cy="224" r="13" fill="#FAF7F2" />
+  <circle cx="310" cy="238" r="10" fill="#FAF7F2" />
+
+  <!-- Leaf accent (Eco) -->
+  <path d="M256 315 C240 330 230 350 256 365 C270 345 272 325 256 315 Z" fill="url(#orangeGrad)" />
+
+  <!-- 10K Badge Pill -->
+  <g transform="translate(186, 400)">
+    <rect width="140" height="46" rx="23" fill="url(#orangeGrad)" />
+    <text x="70" y="31" fill="#FFFFFF" font-family="'Outfit', 'Segoe UI', Arial, sans-serif" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="1">10K</text>
+  </g>
+</svg>
