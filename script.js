@@ -311,6 +311,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Selector de opción "Pagar por transferencia" (Estilo Imperio Barber)
+  const optTransferCard = document.getElementById('optTransferCard');
+  const transferPanel = document.getElementById('transferPanel');
+
+  if (optTransferCard && transferPanel) {
+    optTransferCard.addEventListener('click', () => {
+      const radio = optTransferCard.querySelector('input[type="radio"]');
+      if (radio) radio.checked = true;
+      optTransferCard.classList.add('selected');
+      if (transferPanel.style.display === 'none') {
+        transferPanel.style.display = 'block';
+      }
+    });
+
+    optTransferCard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        optTransferCard.click();
+      }
+    });
+  }
+
   // 2. Botones de copiado directo (.copy-trigger)
   document.querySelectorAll('.copy-trigger').forEach(btn => {
     btn.addEventListener('click', (e) => {

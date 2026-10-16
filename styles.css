@@ -1261,8 +1261,136 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   10. SECCIÓN 5: PAGO (MÉTODOS POR TRANSFERENCIA)
+   10. SECCIÓN 5: PAGO (ESTILO IMPERIO BARBER: OPCIÓN + DESPLEGABLE)
    -------------------------------------------------------------------------- */
+.payment-options-container {
+  margin-bottom: 22px;
+}
+
+.payment-option-card {
+  display: block;
+  background-color: #FFFFFF;
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  box-shadow: var(--shadow-card);
+}
+
+.payment-option-card:hover {
+  border-color: var(--color-green-nature);
+  transform: translateY(-2px);
+}
+
+.payment-option-card.selected {
+  border-color: var(--color-green-nature);
+  background: linear-gradient(135deg, #FFFFFF 0%, #F4FAF6 100%);
+  box-shadow: 0 6px 20px rgba(39, 103, 73, 0.14);
+}
+
+.poc-radio-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.poc-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.poc-radio-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+}
+
+.payment-option-card.selected .poc-radio-circle {
+  border-color: var(--color-green-nature);
+  background-color: var(--color-green-nature);
+}
+
+.poc-radio-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.payment-option-card.selected .poc-radio-dot {
+  transform: scale(1);
+}
+
+.poc-info {
+  flex: 1;
+}
+
+.poc-headline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.poc-icon {
+  font-size: 1.35rem;
+}
+
+.poc-name {
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--color-green-dark);
+}
+
+.poc-badge {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-green-nature);
+  background-color: var(--color-green-light);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.poc-sub {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* Panel desplegable de transferencia */
+.transfer-unfold-panel {
+  display: block;
+  animation: unfoldTransfer 0.35s ease forwards;
+}
+
+@keyframes unfoldTransfer {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .payment-cards-list {
   display: flex;
   flex-direction: column;
@@ -1273,7 +1401,7 @@ button {
 .payment-method-card {
   background-color: #FFFFFF;
   border-radius: var(--radius-md);
-  padding: 20px 18px;
+  padding: 22px 20px;
   border: 2px solid var(--border-subtle);
   box-shadow: var(--shadow-card);
   transition: var(--transition);
@@ -1301,37 +1429,24 @@ button {
   margin-top: 5px;
 }
 
-/* Grupo de botones de acción en tarjetas de pago */
-.pm-actions-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-@media (max-width: 420px) {
-  .pm-actions-group {
-    grid-template-columns: 1fr;
-  }
-}
-
 .btn-copy-action {
   width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   background-color: var(--bg-alt);
   color: var(--color-green-dark);
   font-family: var(--font-heading);
-  font-size: 0.92rem;
-  font-weight: 700;
-  padding: 12px 14px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  padding: 14px 18px;
   border-radius: var(--radius-sm);
   border: 1.5px solid var(--border-strong);
   transition: var(--transition);
-  min-height: 46px;
+  min-height: 52px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .btn-copy-action:hover {
@@ -1344,120 +1459,187 @@ button {
   transform: scale(0.98);
 }
 
-.btn-open-app-action {
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: var(--font-heading);
-  font-size: 0.92rem;
-  font-weight: 800;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  border: none;
-  transition: var(--transition);
-  min-height: 46px;
-  cursor: pointer;
-  text-decoration: none;
+/* Bloque de Accesos Directos (Imperio Barber) */
+.direct-app-launch-block {
+  background-color: #FFFFFF;
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
 }
 
-.btn-open-app-action:active {
+.dal-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.dal-badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-orange-energy);
+  background-color: var(--color-orange-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+}
+
+.dal-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-green-dark);
+  margin-bottom: 4px;
+}
+
+.dal-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.direct-apps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (max-width: 520px) {
+  .direct-apps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-direct-app {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 64px;
+  text-align: left;
+  border: 1.5px solid transparent;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-direct-app:hover {
+  transform: translateY(-2px);
+}
+
+.btn-direct-app:active {
   transform: scale(0.98);
 }
 
-/* Botón específico Nequi */
-.btn-nequi-action {
-  background: linear-gradient(135deg, #200020 0%, #3C003C 100%);
-  color: #FF007A;
-  border: 1.5px solid rgba(255, 0, 122, 0.4);
+.bda-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
 }
 
-.btn-nequi-action:hover {
+.bda-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bda-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.bda-sub {
+  font-size: 0.76rem;
+  opacity: 0.85;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.btn-direct-app .icon-launch {
+  flex-shrink: 0;
+  opacity: 0.85;
+  width: 18px;
+  height: 18px;
+}
+
+/* Estilos de marca botones directos */
+.btn-direct-nequi {
+  background: #200020;
+  color: #FFFFFF;
+  border-color: rgba(255, 0, 122, 0.4);
+}
+
+.btn-direct-nequi .bda-name {
+  color: #FF007A;
+}
+
+.btn-direct-nequi:hover {
   background: #FF007A;
   color: #FFFFFF;
   border-color: #FF007A;
-  box-shadow: 0 4px 14px rgba(255, 0, 122, 0.3);
+  box-shadow: 0 6px 18px rgba(255, 0, 122, 0.35);
 }
 
-/* Botón específico Bancolombia */
-.btn-bancolombia-action {
-  background-color: var(--brand-bancolombia);
+.btn-direct-nequi:hover .bda-name {
+  color: #FFFFFF;
+}
+
+.btn-direct-daviplata {
+  background: #C8102E;
+  color: #FFFFFF;
+  border-color: #9E0B22;
+}
+
+.btn-direct-daviplata .bda-name {
+  color: #FFFFFF;
+}
+
+.btn-direct-daviplata:hover {
+  background: #E01838;
+  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.35);
+}
+
+.btn-direct-bancolombia {
+  background: #FDDA24;
   color: #000000;
-  border: 1.5px solid #E5C310;
+  border-color: #E0C116;
 }
 
-.btn-bancolombia-action:hover {
-  background-color: #F0CE14;
-  box-shadow: 0 4px 14px rgba(253, 218, 36, 0.4);
+.btn-direct-bancolombia .bda-name {
+  color: #000000;
 }
 
-/* Botón específico Bre-B */
-.btn-breb-action {
+.btn-direct-bancolombia:hover {
+  background: #F2CF14;
+  box-shadow: 0 6px 18px rgba(253, 218, 36, 0.45);
+}
+
+.btn-direct-breb {
   background: linear-gradient(135deg, #0B2545 0%, #134074 100%);
   color: #FFFFFF;
-  border: 1.5px solid #1D4E89;
+  border-color: #1D4E89;
 }
 
-.btn-breb-action:hover {
+.btn-direct-breb .bda-name {
+  color: #FFFFFF;
+}
+
+.btn-direct-breb:hover {
   background: #134074;
-  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.35);
+  box-shadow: 0 6px 18px rgba(11, 37, 69, 0.4);
 }
 
 .icon-launch {
   width: 17px;
   height: 17px;
-}
-
-/* Atajos de billeteras para Llave Bre-B */
-.breb-quick-apps {
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px dashed var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.bqa-title {
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.bqa-chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.bqa-chip {
-  background-color: var(--bg-alt);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-full);
-  padding: 6px 12px;
-  font-family: var(--font-heading);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.bqa-chip:hover {
-  background-color: var(--color-green-light);
-  border-color: var(--color-green-nature);
-  color: var(--color-green-nature);
-  transform: translateY(-1px);
-}
-
-.bqa-chip:active {
-  transform: scale(0.96);
 }
 
 .pm-top {
