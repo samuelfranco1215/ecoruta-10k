@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 // Almacenamiento en memoria para ejecución serverless
 let memoryStore = [];
-const TMP_FILE = path.join('/tmp', 'inscripciones.json');
+const TMP_FILE = path.join(os.tmpdir(), 'inscripciones.json');
 
 function getInscripciones() {
   try {
@@ -55,9 +56,13 @@ module.exports = (req, res) => {
       nombre: String(payload.nombre).trim(),
       cedula: String(payload.cedula).trim(),
       telefono: String(payload.telefono).trim(),
+      tipoSangre: payload.tipoSangre || '',
+      contactoEmergenciaNombre: payload.contactoEmergenciaNombre ? String(payload.contactoEmergenciaNombre).trim() : '',
+      contactoEmergenciaTelefono: payload.contactoEmergenciaTelefono ? String(payload.contactoEmergenciaTelefono).trim() : '',
       tipoCamiseta: payload.tipoCamiseta || 'Caballero',
       tallaCamiseta: payload.tallaCamiseta || 'M',
       valorPagado: Number(payload.valorPagado) || 140000,
+      referenciaPago: payload.referenciaPago ? String(payload.referenciaPago).trim() : '',
       comprobante: payload.comprobante || null,
       fecha: payload.fecha || new Date().toISOString(),
       estado: payload.estado || 'Confirmado'

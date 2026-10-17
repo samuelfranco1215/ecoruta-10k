@@ -169,8 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
     bancolombia: {
       name: 'Mi Bancolombia',
       number: '18547223388',
-      androidIntent: 'intent://#Intent;package=co.com.bancolombia.mibancolombia;scheme=mibancolombia;end',
-      iosScheme: 'mibancolombia://',
+      androidIntent: null,
+      iosScheme: null,
       webFallback: null // No redirigir a web genérica
     },
     breb: {
@@ -190,57 +190,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Asegurar copiado previo del número/llave siempre
     copyText(config.number);
 
-    // 1. Bre-B: SOLO copia la llave, NINGUNA redirección web
+    // 1. Bre-B: SOLO copia la llave 0089610981, NINGUNA redirección web
     if (entityKey === 'breb') {
-      showToast(`✓ ¡Llave Bre-B ${config.number} copiada al portapapeles!`);
+      showToast(`✓ Llave Bre-B ${config.number} copiada al portapapeles`);
       return;
     }
 
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = isAndroid || isIOS;
 
-    // 2. Bancolombia: intenta abrir la app real "Mi Bancolombia".
-    // Si no puede abrirla (o en PC), no redirige a web genérica; confirma dato copiado.
+    // 2. Bancolombia:
+    // Prioriza copiar el número de cuenta: 18547223388
+    // Si intenta abrir app, que sea "Mi Bancolombia" sin mostrar error feo en navegador
     if (entityKey === 'bancolombia') {
-      showToast(`✓ ¡Cuenta Bancolombia ${config.number} copiada! Abriendo Mi Bancolombia...`);
+      showToast(`✓ Número copiado: ${config.number} (Bancolombia Ahorros)`);
 
-      if (isAndroid && config.androidIntent) {
-        window.location.href = config.androidIntent;
-        setTimeout(() => {
-          if (document.hasFocus()) {
-            showToast(`✓ Cuenta Ahorros ${config.number} copiada. Pégala en tu app Bancolombia.`);
-          }
-        }, 1600);
-      } else if (isIOS && config.iosScheme) {
-        window.location.href = config.iosScheme;
-        setTimeout(() => {
-          if (document.hasFocus()) {
-            showToast(`✓ Cuenta Ahorros ${config.number} copiada. Pégala en tu app Bancolombia.`);
-          }
-        }, 1600);
-      } else {
-        showToast(`✓ Cuenta Ahorros Bancolombia: ${config.number} copiada al portapapeles.`);
+      // Solo en celular intentamos invocar la app Mi Bancolombia vía iframe oculto
+      // Esto evita el error "No se encontró el elemento" / "ERR_UNKNOWN_URL_SCHEME" en Chrome/PC
+      if (isMobile) {
+        try {
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = 'mibancolombia://';
+          document.body.appendChild(iframe);
+          setTimeout(() => {
+            try { document.body.removeChild(iframe); } catch(e) {}
+          }, 1500);
+        } catch (e) {
+          // Ignorar silenciosamente, el número ya está copiado
+        }
       }
       return;
     }
 
-    // 3. Nequi: intentar abrir app o fallback oficial
-    showToast(`✓ ¡Nequi ${config.number} copiado! Abriendo app...`);
+    // 3. Nequi: número 3183000831 con icono oficial
+    showToast(`✓ Número Nequi ${config.number} copiado`);
 
-    if (isAndroid && config.androidIntent) {
-      window.location.href = config.androidIntent;
-      setTimeout(() => {
-        if (document.hasFocus() && config.webFallback) {
-          window.open(config.webFallback, '_blank', 'noopener,noreferrer');
-        }
-      }, 1800);
-    } else if (isIOS && config.iosScheme) {
-      window.location.href = config.iosScheme;
-      setTimeout(() => {
-        if (document.hasFocus() && config.webFallback) {
-          window.open(config.webFallback, '_blank', 'noopener,noreferrer');
-        }
-      }, 1800);
+    if (isMobile) {
+      if (isAndroid && config.androidIntent) {
+        window.location.href = config.androidIntent;
+      } else if (isIOS && config.iosScheme) {
+        window.location.href = config.iosScheme;
+      }
     } else if (config.webFallback) {
       window.open(config.webFallback, '_blank', 'noopener,noreferrer');
     }
@@ -347,6 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const formNombre = document.getElementById('formNombre');
   const formCedula = document.getElementById('formCedula');
   const formTelefono = document.getElementById('formTelefono');
+  const formTipoSangre = document.getElementById('formTipoSangre');
+  const formEmergenciaNombre = document.getElementById('formEmergenciaNombre');
+  const formEmergenciaTelefono = document.getElementById('formEmergenciaTelefono');
+  const formReferenciaPago = document.getElementById('formReferenciaPago');
   const formValorCustom = document.getElementById('formValorCustom');
   const adultSizesSelector = document.getElementById('adultSizesSelector');
   const kidsSizeBox = document.getElementById('kidsSizeBox');
@@ -372,6 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (formNombre && data.nombre) formNombre.value = data.nombre;
       if (formCedula && data.cedula) formCedula.value = data.cedula;
       if (formTelefono && data.telefono) formTelefono.value = data.telefono;
+      if (formTipoSangre && data.tipoSangre) formTipoSangre.value = data.tipoSangre;
+      if (formEmergenciaNombre && data.contactoEmergenciaNombre) formEmergenciaNombre.value = data.contactoEmergenciaNombre;
+      if (formEmergenciaTelefono && data.contactoEmergenciaTelefono) formEmergenciaTelefono.value = data.contactoEmergenciaTelefono;
+      if (formReferenciaPago && data.referenciaPago) formReferenciaPago.value = data.referenciaPago;
 
       // Tipo de camiseta
       if (data.tipoCamiseta) {
@@ -432,10 +432,14 @@ document.addEventListener('DOMContentLoaded', () => {
         nombre: formNombre ? formNombre.value : '',
         cedula: formCedula ? formCedula.value : '',
         telefono: formTelefono ? formTelefono.value : '',
+        tipoSangre: formTipoSangre ? formTipoSangre.value : '',
+        contactoEmergenciaNombre: formEmergenciaNombre ? formEmergenciaNombre.value : '',
+        contactoEmergenciaTelefono: formEmergenciaTelefono ? formEmergenciaTelefono.value : '',
         tipoCamiseta,
         tallaCamiseta,
         valorPreset,
         valorCustom,
+        referenciaPago: formReferenciaPago ? formReferenciaPago.value : '',
         comprobanteBase64: currentReceiptBase64,
         comprobanteName: currentReceiptName,
         timestamp: Date.now()
@@ -448,9 +452,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Escuchar inputs para guardado automático inmediato
-  [formNombre, formCedula, formTelefono, formValorCustom].forEach(input => {
+  [formNombre, formCedula, formTelefono, formTipoSangre, formEmergenciaNombre, formEmergenciaTelefono, formReferenciaPago, formValorCustom].forEach(input => {
     if (input) {
       input.addEventListener('input', saveFormDraft);
+      input.addEventListener('change', saveFormDraft);
     }
   });
 
@@ -580,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function validateForm() {
     let isValid = true;
 
-    // Nombre
+    // 1. Nombre completo
     const errNombre = document.getElementById('errNombre');
     if (!formNombre.value.trim()) {
       if (errNombre) {
@@ -592,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
       errNombre.classList.remove('active');
     }
 
-    // Cédula: debe ser numérica y entre 6 y 12 dígitos
+    // 2. Cédula: numérica de 6 a 12 dígitos
     const errCedula = document.getElementById('errCedula');
     const rawCedula = formCedula.value.trim().replace(/\D/g, '');
     if (!rawCedula || rawCedula.length < 6 || rawCedula.length > 12) {
@@ -605,12 +610,12 @@ document.addEventListener('DOMContentLoaded', () => {
       errCedula.classList.remove('active');
     }
 
-    // Teléfono: formato celular Colombia (10 dígitos, iniciando con 3)
+    // 3. Teléfono: celular Colombia (10 dígitos, iniciando con 3)
     const errTelefono = document.getElementById('errTelefono');
     const rawPhone = formTelefono.value.trim().replace(/\D/g, '');
     if (!rawPhone || rawPhone.length !== 10 || !rawPhone.startsWith('3')) {
       if (errTelefono) {
-        errTelefono.textContent = 'Ingresa un número celular válido de 10 dígitos que inicie por 3 (ej: 3183800831).';
+        errTelefono.textContent = 'Ingresa un número celular válido de 10 dígitos que inicie por 3.';
         errTelefono.classList.add('active');
       }
       isValid = false;
@@ -618,7 +623,72 @@ document.addEventListener('DOMContentLoaded', () => {
       errTelefono.classList.remove('active');
     }
 
-    // Checkbox Habeas Data (Ley 1581 de 2012)
+    // 4. Tipo de Sangre (RH)
+    const errTipoSangre = document.getElementById('errTipoSangre');
+    if (!formTipoSangre || !formTipoSangre.value) {
+      if (errTipoSangre) {
+        errTipoSangre.textContent = 'Por favor selecciona tu tipo de sangre (RH) para la póliza médica.';
+        errTipoSangre.classList.add('active');
+      }
+      isValid = false;
+    } else if (errTipoSangre) {
+      errTipoSangre.classList.remove('active');
+    }
+
+    // 5. Contacto de emergencia: Nombre
+    const errEmergenciaNombre = document.getElementById('errEmergenciaNombre');
+    if (!formEmergenciaNombre || !formEmergenciaNombre.value.trim()) {
+      if (errEmergenciaNombre) {
+        errEmergenciaNombre.textContent = 'Indica el nombre de una persona para contactar en caso de emergencia.';
+        errEmergenciaNombre.classList.add('active');
+      }
+      isValid = false;
+    } else if (errEmergenciaNombre) {
+      errEmergenciaNombre.classList.remove('active');
+    }
+
+    // 6. Contacto de emergencia: Teléfono
+    const errEmergenciaTelefono = document.getElementById('errEmergenciaTelefono');
+    const rawEmerPhone = formEmergenciaTelefono ? formEmergenciaTelefono.value.trim().replace(/\D/g, '') : '';
+    if (!rawEmerPhone || rawEmerPhone.length !== 10 || !rawEmerPhone.startsWith('3')) {
+      if (errEmergenciaTelefono) {
+        errEmergenciaTelefono.textContent = 'Ingresa un número de celular válido (10 dígitos que inicie por 3) para emergencias.';
+        errEmergenciaTelefono.classList.add('active');
+      }
+      isValid = false;
+    } else if (errEmergenciaTelefono) {
+      errEmergenciaTelefono.classList.remove('active');
+    }
+
+    // 7. Número de Referencia de la Consignación (Obligatorio para verificación admin)
+    const errReferenciaPago = document.getElementById('errReferenciaPago');
+    if (!formReferenciaPago || !formReferenciaPago.value.trim()) {
+      if (errReferenciaPago) {
+        errReferenciaPago.textContent = 'El número de referencia de la consignación es obligatorio para validar tu pago.';
+        errReferenciaPago.classList.add('active');
+      }
+      isValid = false;
+    } else if (errReferenciaPago) {
+      errReferenciaPago.classList.remove('active');
+    }
+
+    // 8. Comprobante de pago OBLIGATORIO (Sin comprobante no se puede completar)
+    const errComprobante = document.getElementById('errComprobante');
+    if (!currentReceiptBase64) {
+      if (errComprobante) {
+        errComprobante.textContent = 'Es obligatorio adjuntar la foto o captura de tu comprobante de pago para finalizar.';
+        errComprobante.classList.add('active');
+      }
+      if (receiptDropzone) {
+        receiptDropzone.classList.add('dropzone-has-error');
+        setTimeout(() => receiptDropzone.classList.remove('dropzone-has-error'), 3200);
+      }
+      isValid = false;
+    } else if (errComprobante) {
+      errComprobante.classList.remove('active');
+    }
+
+    // 9. Checkbox Habeas Data (Ley 1581 de 2012)
     const checkHabeas = document.getElementById('checkHabeasData');
     const errHabeas = document.getElementById('errHabeasData');
     if (checkHabeas && !checkHabeas.checked) {
@@ -650,7 +720,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (registroForm) {
     registroForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!validateForm()) return;
+      if (!validateForm()) {
+        showToast('⚠️ Por favor completa los campos obligatorios y adjunta tu comprobante.');
+        return;
+      }
 
       const btnSubmit = document.getElementById('btnSubmitForm');
       if (btnSubmit) {
@@ -671,9 +744,13 @@ document.addEventListener('DOMContentLoaded', () => {
         nombre: formNombre.value.trim(),
         cedula: formCedula.value.trim().replace(/\D/g, ''),
         telefono: formTelefono.value.trim().replace(/\D/g, ''),
+        tipoSangre: formTipoSangre ? formTipoSangre.value : '',
+        contactoEmergenciaNombre: formEmergenciaNombre ? formEmergenciaNombre.value.trim() : '',
+        contactoEmergenciaTelefono: formEmergenciaTelefono ? formEmergenciaTelefono.value.trim().replace(/\D/g, '') : '',
         tipoCamiseta,
         tallaCamiseta,
         valorPagado,
+        referenciaPago: formReferenciaPago ? formReferenciaPago.value.trim() : '',
         comprobante: currentReceiptBase64,
         habeasData: true,
         fecha: new Date().toISOString(),
@@ -749,19 +826,31 @@ document.addEventListener('DOMContentLoaded', () => {
     successDetailsCard.innerHTML = `
       <div class="summary-row">
         <span>Participante:</span>
-        <strong>${data.nombre}</strong>
+        <strong>${escapeHtml(data.nombre)}</strong>
       </div>
       <div class="summary-row">
         <span>Cédula:</span>
-        <strong>${data.cedula}</strong>
+        <strong>${escapeHtml(data.cedula)}</strong>
       </div>
       <div class="summary-row">
         <span>Teléfono:</span>
-        <strong>${data.telefono}</strong>
+        <strong>${escapeHtml(data.telefono)}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Tipo de Sangre:</span>
+        <strong>${escapeHtml(data.tipoSangre || 'N/A')}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Contacto Emergencia:</span>
+        <strong>${escapeHtml(data.contactoEmergenciaNombre || 'N/A')} (${escapeHtml(data.contactoEmergenciaTelefono || '')})</strong>
       </div>
       <div class="summary-row">
         <span>Camiseta:</span>
-        <strong>${data.tipoCamiseta} (${data.tallaCamiseta})</strong>
+        <strong>${escapeHtml(data.tipoCamiseta)} (${escapeHtml(data.tallaCamiseta)})</strong>
+      </div>
+      <div class="summary-row">
+        <span>Ref. Consignación:</span>
+        <strong style="color: #059669;">${escapeHtml(data.referenciaPago || 'N/A')}</strong>
       </div>
       <div class="summary-row">
         <span>Inversión registrada:</span>
@@ -769,21 +858,24 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
       <div class="summary-row">
         <span>Comprobante:</span>
-        <strong>${data.comprobante ? '✓ Adjuntado en formulario' : 'Pendiente por WhatsApp'}</strong>
+        <strong>✓ Adjuntado en el formulario</strong>
       </div>
     `;
 
-    // Mensaje preescrito para WhatsApp que incluye la cédula
-    const msg = `Hola, confirmo mi inscripción a Ecoruta Huellas del Alma 10K:%0A%0A` +
+    // Mensaje preescrito para WhatsApp enviado al número oficial 3163005838
+    const msg = `Hola, confirmo mi inscripción a la Ecoruta Huellas del Alma 10K:%0A%0A` +
       `👤 *Nombre:* ${encodeURIComponent(data.nombre)}%0A` +
       `🪪 *Cédula:* ${encodeURIComponent(data.cedula)}%0A` +
       `📱 *Teléfono:* ${encodeURIComponent(data.telefono)}%0A` +
+      `🩸 *Tipo de Sangre:* ${encodeURIComponent(data.tipoSangre || 'N/A')}%0A` +
+      `🆘 *Emergencia:* ${encodeURIComponent(data.contactoEmergenciaNombre || '')} (${encodeURIComponent(data.contactoEmergenciaTelefono || '')})%0A` +
       `👕 *Camiseta:* ${encodeURIComponent(data.tipoCamiseta)} - Talla ${encodeURIComponent(data.tallaCamiseta)}%0A` +
-      `💰 *Valor pagado:* ${encodeURIComponent(formatMoney(data.valorPagado))}%0A%0A` +
-      `Adjunto mi comprobante de transferencia bancaria con mi cédula.`;
+      `💰 *Valor pagado:* ${encodeURIComponent(formatMoney(data.valorPagado))}%0A` +
+      `🔢 *Ref. Consignación:* ${encodeURIComponent(data.referenciaPago || 'N/A')}%0A%0A` +
+      `Adjunto aquí mi comprobante de pago para verificación.`;
 
     if (btnSendWhatsappConfirmation) {
-      btnSendWhatsappConfirmation.href = `https://wa.me/573183800831?text=${msg}`;
+      btnSendWhatsappConfirmation.href = `https://wa.me/573163005838?text=${msg}`;
     }
 
     modalExito.style.display = 'flex';
@@ -989,6 +1081,18 @@ document.addEventListener('DOMContentLoaded', () => {
               <strong>${escapeHtml(item.telefono)}</strong>
             </div>
             <div class="p-detail-item">
+              <span>Ref. Consignación</span>
+              <strong style="color: #059669; font-weight: 700;">${escapeHtml(item.referenciaPago || 'Sin ref.')}</strong>
+            </div>
+            <div class="p-detail-item">
+              <span>Tipo de Sangre</span>
+              <strong>${escapeHtml(item.tipoSangre || 'N/A')}</strong>
+            </div>
+            <div class="p-detail-item">
+              <span>Contacto Emergencia</span>
+              <strong>${escapeHtml(item.contactoEmergenciaNombre || 'N/A')}${item.contactoEmergenciaTelefono ? ` (${escapeHtml(item.contactoEmergenciaTelefono)})` : ''}</strong>
+            </div>
+            <div class="p-detail-item">
               <span>Fecha Registro</span>
               <small>${formattedDate}</small>
             </div>
@@ -1023,7 +1127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function cleanPhone(phone) {
-    if (!phone) return '3183800831';
+    if (!phone) return '3163005838';
     return String(phone).replace(/\D/g, '');
   }
 
@@ -1106,7 +1210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Exportar lista a CSV para Excel
+  // Exportar lista a CSV para Excel con todas las columnas de verificación
   if (btnExportCSV) {
     btnExportCSV.addEventListener('click', () => {
       if (allInscripciones.length === 0) {
@@ -1114,25 +1218,47 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      let csv = '\uFEFF'; // BOM para que Excel abra UTF-8 con tildes y caracteres colombianos correctamente
-      csv += 'ID,Nombre Completo,Cédula,Teléfono,Tipo Camiseta,Talla,Valor Pagado COP,Estado,Fecha de Registro\n';
+      const headers = [
+        'Nombre Completo',
+        'Cédula',
+        'Teléfono',
+        'Talla Camiseta',
+        'Tipo Camiseta',
+        'Valor Pagado COP',
+        'Fecha y Hora de Inscripción',
+        'Número de Referencia de la Consignación',
+        'Contacto de Emergencia',
+        'Teléfono de Emergencia',
+        'Tipo de Sangre',
+        'Estado',
+        'Tiene Comprobante'
+      ];
 
-      allInscripciones.forEach(item => {
-        const row = [
-          `"${item.id || ''}"`,
+      const rows = allInscripciones.map(item => {
+        const fechaHora = item.fecha ? new Date(item.fecha).toLocaleString('es-CO', {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }) : '';
+
+        return [
           `"${(item.nombre || '').replace(/"/g, '""')}"`,
           `"${item.cedula || ''}"`,
           `"${item.telefono || ''}"`,
-          `"${item.tipoCamiseta || ''}"`,
           `"${item.tallaCamiseta || ''}"`,
+          `"${item.tipoCamiseta || ''}"`,
           item.valorPagado || 0,
-          `"${item.estado || ''}"`,
-          `"${item.fecha || ''}"`
+          `"${fechaHora}"`,
+          `"${(item.referenciaPago || '').replace(/"/g, '""')}"`,
+          `"${(item.contactoEmergenciaNombre || '').replace(/"/g, '""')}"`,
+          `"${item.contactoEmergenciaTelefono || ''}"`,
+          `"${item.tipoSangre || ''}"`,
+          `"${item.estado || (item.valorPagado >= 140000 ? 'Confirmado' : 'Abono')}"`,
+          item.comprobante ? 'SI' : 'NO'
         ];
-        csv += row.join(',') + '\n';
       });
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
@@ -1156,7 +1282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     receiptViewerImg.src = item.comprobante;
     if (receiptViewerTitle) receiptViewerTitle.textContent = `Comprobante de ${item.nombre}`;
     if (receiptViewerDetails) {
-      receiptViewerDetails.textContent = `Cédula: ${item.cedula} • Valor: ${formatMoney(item.valorPagado)} • Camiseta: ${item.tipoCamiseta} ${item.tallaCamiseta}`;
+      receiptViewerDetails.textContent = `Cédula: ${item.cedula} • Valor: ${formatMoney(item.valorPagado)} • Ref: ${item.referenciaPago || 'N/A'} • Sangre: ${item.tipoSangre || 'N/A'}`;
     }
     modalReceiptViewer.style.display = 'flex';
   }

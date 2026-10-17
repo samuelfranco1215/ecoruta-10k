@@ -1350,6 +1350,52 @@ button {
   text-decoration: underline;
 }
 
+/* Banner de sección médica y asistencia */
+.form-section-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #E8F5E9;
+  border: 1.5px solid #C8E6C9;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin: 20px 0 16px 0;
+}
+
+.fsb-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.fsb-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.fsb-text strong {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: #1B5E20;
+}
+
+.fsb-text small {
+  font-size: 0.76rem;
+  color: #2E7D32;
+}
+
+/* Badge obligatorio */
+.badge-required-pill {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  border: 1px solid #FCA5A5;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
 /* Envío de formulario */
 .form-submit-wrap {
   margin-top: 24px;

@@ -446,6 +446,70 @@
                 <span class="field-error" id="errTelefono"></span>
               </div>
 
+              <!-- DATOS MÉDICOS Y DE ASISTENCIA -->
+              <div class="form-section-banner">
+                <span class="fsb-icon">🚑</span>
+                <div class="fsb-text">
+                  <strong>Seguridad y Póliza Médica</strong>
+                  <small>Datos requeridos para tu cobertura durante la ruta</small>
+                </div>
+              </div>
+
+              <!-- Tipo de Sangre -->
+              <div class="form-group">
+                <label for="formTipoSangre" class="form-label">
+                  Tipo de Sangre (RH) <span class="req">*</span>
+                </label>
+                <select id="formTipoSangre" name="tipoSangre" class="form-control" required>
+                  <option value="" disabled selected>Selecciona tu tipo de sangre</option>
+                  <option value="O+">O Positivo (O+)</option>
+                  <option value="O-">O Negativo (O-)</option>
+                  <option value="A+">A Positivo (A+)</option>
+                  <option value="A-">A Negativo (A-)</option>
+                  <option value="B+">B Positivo (B+)</option>
+                  <option value="B-">B Negativo (B-)</option>
+                  <option value="AB+">AB Positivo (AB+)</option>
+                  <option value="AB-">AB Negativo (AB-)</option>
+                </select>
+                <span class="field-error" id="errTipoSangre"></span>
+              </div>
+
+              <!-- En caso de emergencia llamar a: Nombre -->
+              <div class="form-group">
+                <label for="formEmergenciaNombre" class="form-label">
+                  En caso de emergencia llamar a (Nombre) <span class="req">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="formEmergenciaNombre" 
+                  name="contactoEmergenciaNombre" 
+                  class="form-control" 
+                  placeholder="Ej: Carlos Gómez (Familiar / Pareja)" 
+                  required 
+                  autocomplete="off"
+                >
+                <span class="field-error" id="errEmergenciaNombre"></span>
+              </div>
+
+              <!-- En caso de emergencia llamar a: Teléfono -->
+              <div class="form-group">
+                <label for="formEmergenciaTelefono" class="form-label">
+                  Teléfono del contacto de emergencia <span class="req">*</span>
+                </label>
+                <input 
+                  type="tel" 
+                  id="formEmergenciaTelefono" 
+                  name="contactoEmergenciaTelefono" 
+                  class="form-control" 
+                  placeholder="Ej: 3157891234" 
+                  required 
+                  inputmode="tel"
+                  pattern="3[0-9]{9}"
+                  maxlength="10"
+                >
+                <span class="field-error" id="errEmergenciaTelefono"></span>
+              </div>
+
               <!-- 4. Categoría y Tipo de Camiseta (Adultos / Niños) -->
               <div class="form-group">
                 <label class="form-label">Categoría y Tipo de Camiseta <span class="req">*</span></label>
@@ -559,10 +623,10 @@
                   <!-- 1. Abrir Nequi Oficial -->
                   <button type="button" class="btn btn-direct-app btn-direct-nequi open-app-trigger" data-entity="nequi" data-copy="3183000831" aria-label="Abrir aplicación Nequi y copiar número">
                     <span class="bda-brand-badge bda-nequi-badge">
-                      <svg viewBox="0 0 40 40" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="40" height="40" rx="10" fill="#200020"/>
-                        <path d="M11 12V28H16V20.2L24 28H29V12H24V19.8L16 12H11Z" fill="#FF007A"/>
-                        <circle cx="28" cy="13.5" r="2.2" fill="#FFFFFF"/>
+                      <svg viewBox="0 0 44 44" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="44" height="44" rx="12" fill="#200020"/>
+                        <path d="M12 13V31H17V21.5L26 31H31V13H26V22.5L17 13H12Z" fill="#FF007A"/>
+                        <circle cx="30" cy="14" r="2.8" fill="#FFFFFF"/>
                       </svg>
                     </span>
                     <div class="bda-content">
@@ -580,23 +644,24 @@
                     </svg>
                   </button>
 
-                  <!-- 2. Abrir Mi Bancolombia Oficial -->
-                  <button type="button" class="btn btn-direct-app btn-direct-bancolombia open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Abrir aplicación Mi Bancolombia y copiar número de cuenta">
+                  <!-- 2. Abrir Mi Bancolombia Oficial (Barras Tricolor) -->
+                  <button type="button" class="btn btn-direct-app btn-direct-bancolombia open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Copiar cuenta Bancolombia y abrir Mi Bancolombia">
                     <span class="bda-brand-badge bda-bancolombia-badge">
-                      <svg viewBox="0 0 40 40" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="40" height="40" rx="10" fill="#111827"/>
-                        <path d="M9 14.5C16 12 24 12 31 14.5" stroke="#FDDA24" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M8 20C16.5 17.5 23.5 22.5 32 20" stroke="#002F6C" stroke-width="3" stroke-linecap="round"/>
-                        <path d="M9 25.5C16 28 24 28 31 25.5" stroke="#E31B23" stroke-width="3" stroke-linecap="round"/>
+                      <svg viewBox="0 0 44 44" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="44" height="44" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+                        <!-- Barras oficiales Bancolombia: Amarillo, Azul y Rojo -->
+                        <path d="M9 14.5C16.5 12 27.5 12 35 14.5" stroke="#FDDA24" stroke-width="3.6" stroke-linecap="round"/>
+                        <path d="M8.5 22C17 19 27 25 35.5 22" stroke="#002F6C" stroke-width="3.6" stroke-linecap="round"/>
+                        <path d="M9 29.5C16.5 32 27.5 32 35 29.5" stroke="#E31B23" stroke-width="3.6" stroke-linecap="round"/>
                       </svg>
                     </span>
                     <div class="bda-content">
                       <div class="bda-header-line">
-                        <strong class="bda-name">Abrir Mi Bancolombia</strong>
+                        <strong class="bda-name">Bancolombia</strong>
                         <span class="bda-tag bda-tag-bancolombia">Ahorros</span>
                       </div>
                       <span class="bda-number">18547223388</span>
-                      <small class="bda-sub">Toca para abrir app y copiar cuenta</small>
+                      <small class="bda-sub">Copia cuenta 18547223388 y abre app</small>
                     </div>
                     <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -608,9 +673,9 @@
                   <!-- 3. Bre-B (Solo Copiar Llave) -->
                   <button type="button" class="btn btn-direct-app btn-direct-breb open-app-trigger" data-entity="breb" data-copy="0089610981" aria-label="Copiar llave Bre-B 0089610981">
                     <span class="bda-brand-badge bda-breb-badge">
-                      <svg viewBox="0 0 40 40" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="40" height="40" rx="10" fill="#0A2518"/>
-                        <path d="M14 11H21.5C24.2 11 26.5 12.6 26.5 15C26.5 16.6 25.3 17.8 23.8 18.5C25.8 19.1 27.2 20.6 27.2 22.8C27.2 25.6 24.8 27.5 21.8 27.5H14V11ZM18 14.5V17.5H21C22 17.5 22.8 16.9 22.8 16C22.8 15.1 22 14.5 21 14.5H18ZM18 20.8V24H21.4C22.5 24 23.3 23.3 23.3 22.4C23.3 21.5 22.5 20.8 21.4 20.8H18Z" fill="#00E676"/>
+                      <svg viewBox="0 0 44 44" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="44" height="44" rx="12" fill="#0A2518"/>
+                        <path d="M15 12H23C26 12 28.5 13.8 28.5 16.5C28.5 18.2 27.2 19.5 25.5 20.2C27.8 20.8 29.5 22.5 29.5 25C29.5 28 26.8 30 23.5 30H15V12ZM19.5 16V19.2H23C24.2 19.2 25 18.5 25 17.6C25 16.7 24.2 16 23 16H19.5ZM19.5 22.8V26.2H23.5C24.8 26.2 25.8 25.4 25.8 24.5C25.8 23.5 24.8 22.8 23.5 22.8H19.5Z" fill="#00E676"/>
                       </svg>
                     </span>
                     <div class="bda-content">
@@ -629,21 +694,39 @@
                 </div>
               </div>
 
-              <!-- 3. Subir Comprobante de Pago -->
+              <!-- 3. Número de Referencia de la Consignación (Obligatorio) -->
               <div class="form-group">
-                <label class="form-label">
-                  Comprobante de Pago (Transferencia)
-                  <span class="badge-optional">Recomendado</span>
+                <label for="formReferenciaPago" class="form-label">
+                  Número de Referencia de la Consignación <span class="req">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="formReferenciaPago" 
+                  name="referenciaPago" 
+                  class="form-control" 
+                  placeholder="Ej: M1234567, # de Aprobación o Movimiento" 
+                  required 
+                  autocomplete="off"
+                >
+                <span class="form-hint">Escribe el número de referencia o código de aprobación que aparece en tu comprobante de pago.</span>
+                <span class="field-error" id="errReferenciaPago"></span>
+              </div>
+
+              <!-- 4. Subir Comprobante de Pago (Obligatorio) -->
+              <div class="form-group">
+                <label class="form-label" for="formComprobante">
+                  Comprobante de Pago (Transferencia) <span class="req">*</span>
+                  <span class="badge-required-pill">Obligatorio</span>
                 </label>
                 <p class="form-hint">Sube la foto o captura de tu transferencia Nequi, Bancolombia o Bre-B:</p>
                 
                 <div class="receipt-dropzone" id="receiptDropzone">
-                  <input type="file" id="formComprobante" accept="image/*,.pdf" class="file-input-hidden">
+                  <input type="file" id="formComprobante" accept="image/*,.pdf" class="file-input-hidden" required>
                   
                   <div class="dropzone-empty" id="dropzoneEmpty">
                     <span class="dropzone-icon">📷</span>
-                    <strong>Toca aquí para subir la foto del comprobante</strong>
-                    <small>Captura de pantalla, JPG o PNG</small>
+                    <strong>Toca aquí para subir la foto del comprobante *</strong>
+                    <small>Captura de pantalla, JPG o PNG (Obligatorio)</small>
                   </div>
 
                   <div class="dropzone-preview" id="dropzonePreview" style="display: none;">
@@ -656,6 +739,7 @@
                     </div>
                   </div>
                 </div>
+                <span class="field-error" id="errComprobante"></span>
               </div>
 
               <!-- 4. Checkbox Tratamiento de Datos (Ley 1581 de 2012) - NO premarcado -->
@@ -691,76 +775,10 @@
         </div>
       </section>
 
-      <!-- ====================================================================
-           6. INFORMACIÓN DEL EVENTO (FECHA, LUGAR, CHIVA, RECOMENDACIONES)
-           ==================================================================== -->
-      <section class="section-clean" id="info">
-        <div class="container-narrow">
-          
-          <div class="section-heading text-center">
-            <span class="sub-badge">Guía Rápida</span>
-            <h2 class="title-clean">Información del Evento</h2>
-          </div>
-
-          <div class="info-simple-grid">
-            
-            <div class="info-simple-card">
-              <div class="isc-icon">📅</div>
-              <h4>Fecha</h4>
-              <p><strong>Domingo, 22 de noviembre de 2026</strong></p>
-            </div>
-
-            <div class="info-simple-card">
-              <div class="isc-icon">📍</div>
-              <h4>Lugar</h4>
-              <p><strong>Solara Ecohotel</strong><br>Vía Tenerife, Palmira (Valle del Cauca)</p>
-            </div>
-
-            <div class="info-simple-card highlight">
-              <div class="isc-icon">🚌</div>
-              <h4>Transporte en Chiva</h4>
-              <p><strong>Desde Palmira:</strong> Salida y regreso en chiva tradicional. Se coordina punto exacto por WhatsApp.</p>
-            </div>
-
-          </div>
-
-          <!-- RECOMENDACIONES BÁSICAS -->
-          <div class="recommendations-box">
-            <div class="rec-title-header">
-              <span class="rec-icon">👟</span>
-              <h3>Recomendaciones Básicas</h3>
-            </div>
-            <ul class="clean-checklist">
-              <li>
-                <span class="check-dot">✓</span>
-                <span><strong>Ropa cómoda y deportiva:</strong> prendas transpirables y licra de secado rápido.</span>
-              </li>
-              <li>
-                <span class="check-dot">✓</span>
-                <span><strong>Calzado con buen agarre:</strong> tenis de trail o botas con tracción para senderos.</span>
-              </li>
-              <li>
-                <span class="check-dot">✓</span>
-                <span><strong>Hidratación personal:</strong> termo o botilito para complementar los puntos de líquido.</span>
-              </li>
-              <li>
-                <span class="check-dot">✓</span>
-                <span><strong>Protección solar:</strong> bloqueador, gorra o sombrero y repelente para insectos.</span>
-              </li>
-              <li>
-                <span class="check-dot">✓</span>
-                <span><strong>Piscina y descanso:</strong> traje de baño, toalla y una muda seca de cambio.</span>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
     </main>
 
     <!-- ====================================================================
-         7. FOOTER (NOMBRE, WHATSAPP, BOTÓN FINAL)
+         FOOTER (NOMBRE, WHATSAPP, BOTÓN FINAL)
          ==================================================================== -->
     <footer class="footer-clean">
       <div class="container-narrow footer-inner">
@@ -771,9 +789,9 @@
         </div>
 
         <div class="footer-contact-box">
-          <span class="f-label">WhatsApp de contacto:</span>
-          <a href="https://wa.me/573183800831?text=Hola%2C%20quiero%20inscribirme%20a%20Ecoruta%20Huellas%20del%20Alma%2010K" target="_blank" rel="noopener noreferrer" class="f-phone">
-            318 380 0831
+          <span class="f-label">WhatsApp de confirmación y comprobantes:</span>
+          <a href="https://wa.me/573163005838?text=Hola%2C%20adjunto%20mi%20comprobante%20de%20pago%20para%20la%20Ecoruta%20Huellas%20del%20Alma%2010K" target="_blank" rel="noopener noreferrer" class="f-phone">
+            316 300 5838
           </a>
         </div>
 

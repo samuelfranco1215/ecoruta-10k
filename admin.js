@@ -185,6 +185,18 @@
               <strong>${escapeHtml(item.telefono)}</strong>
             </div>
             <div class="p-detail-item">
+              <span>Ref. Consignación</span>
+              <strong style="color: #059669; font-weight: 700;">${escapeHtml(item.referenciaPago || 'Sin ref.')}</strong>
+            </div>
+            <div class="p-detail-item">
+              <span>Tipo de Sangre</span>
+              <strong>${escapeHtml(item.tipoSangre || 'N/A')}</strong>
+            </div>
+            <div class="p-detail-item">
+              <span>Contacto Emergencia</span>
+              <strong>${escapeHtml(item.contactoEmergenciaNombre || 'N/A')}${item.contactoEmergenciaTelefono ? ` (${escapeHtml(item.contactoEmergenciaTelefono)})` : ''}</strong>
+            </div>
+            <div class="p-detail-item">
               <span>Fecha Registro</span>
               <small>${formattedDate}</small>
             </div>
@@ -273,7 +285,7 @@
       receiptViewerTitle.textContent = `Comprobante de: ${participant.nombre}`;
     }
     if (receiptViewerDetails) {
-      receiptViewerDetails.textContent = `Cédula: ${participant.cedula} • Valor: ${formatMoney(participant.valorPagado)}`;
+      receiptViewerDetails.textContent = `Cédula: ${participant.cedula} • Valor: ${formatMoney(participant.valorPagado)} • Ref: ${participant.referenciaPago || 'N/A'} • Sangre: ${participant.tipoSangre || 'N/A'}`;
     }
     modalReceiptViewer.style.display = 'flex';
   }
@@ -339,7 +351,7 @@
     });
   }
 
-  // Exportar Excel / CSV
+  // Exportar Excel / CSV con todas las columnas de verificación
   if (btnExportCSV) {
     btnExportCSV.addEventListener('click', () => {
       if (allInscripciones.length === 0) {
@@ -347,19 +359,44 @@
         return;
       }
 
-      const headers = ['ID', 'Fecha', 'Nombre Completo', 'Cedula', 'Telefono', 'Tipo Camiseta', 'Talla', 'Valor Pagado', 'Estado', 'Tiene Comprobante'];
-      const rows = allInscripciones.map(item => [
-        `"${item.id || ''}"`,
-        `"${item.fecha || ''}"`,
-        `"${(item.nombre || '').replace(/"/g, '""')}"`,
-        `"${item.cedula || ''}"`,
-        `"${item.telefono || ''}"`,
-        `"${item.tipoCamiseta || ''}"`,
-        `"${item.tallaCamiseta || ''}"`,
-        item.valorPagado || 0,
-        `"${item.estado || (item.valorPagado >= 140000 ? 'Confirmado' : 'Abono')}"`,
-        item.comprobante ? 'SI' : 'NO'
-      ]);
+      const headers = [
+        'Nombre Completo',
+        'Cédula',
+        'Teléfono',
+        'Talla Camiseta',
+        'Tipo Camiseta',
+        'Valor Pagado COP',
+        'Fecha y Hora de Inscripción',
+        'Número de Referencia de la Consignación',
+        'Contacto de Emergencia',
+        'Teléfono de Emergencia',
+        'Tipo de Sangre',
+        'Estado',
+        'Tiene Comprobante'
+      ];
+
+      const rows = allInscripciones.map(item => {
+        const fechaHora = item.fecha ? new Date(item.fecha).toLocaleString('es-CO', {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }) : '';
+
+        return [
+          `"${(item.nombre || '').replace(/"/g, '""')}"`,
+          `"${item.cedula || ''}"`,
+          `"${item.telefono || ''}"`,
+          `"${item.tallaCamiseta || ''}"`,
+          `"${item.tipoCamiseta || ''}"`,
+          item.valorPagado || 0,
+          `"${fechaHora}"`,
+          `"${(item.referenciaPago || '').replace(/"/g, '""')}"`,
+          `"${(item.contactoEmergenciaNombre || '').replace(/"/g, '""')}"`,
+          `"${item.contactoEmergenciaTelefono || ''}"`,
+          `"${item.tipoSangre || ''}"`,
+          `"${item.estado || (item.valorPagado >= 140000 ? 'Confirmado' : 'Abono')}"`,
+          item.comprobante ? 'SI' : 'NO'
+        ];
+      });
 
       const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\r\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -370,7 +407,7 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showToast('✓ Archivo CSV descargado con éxito.');
+      showToast('✓ Archivo Excel/CSV descargado con éxito.');
     });
   }
 
