@@ -3,14 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Ecoruta Huellas del Alma 10K | Solara Ecohotel - Palmira</title>
+  <title>Ecoruta Huellas del Alma 10K | Solara Ecohotel</title>
   
-  <!-- SEO & Metadatos -->
-  <meta name="description" content="Ecoruta Huellas del Alma 10K. Domingo 22 de noviembre de 2026 en Solara Ecohotel, vía Tenerife, Palmira. Senderismo, kit oficial, chiva, piscina y almuerzo gourmet.">
+  <!-- SEO & Metadatos Oficiales -->
+  <meta name="description" content="Domingo 22 de noviembre de 2026. $140.000 COP con kit oficial, camiseta técnica, medalla conmemorativa, transporte en chiva, piscina y almuerzo en Solara Ecohotel (Palmira).">
   <meta name="theme-color" content="#194830">
-  <meta property="og:title" content="Ecoruta Huellas del Alma 10K">
-  <meta property="og:description" content="Inscripciones abiertas. $140.000 COP con kit completo, transporte en chiva, piscina y almuerzo en Solara Ecohotel. Se permiten abonos.">
-  <meta property="og:image" content="assets/images/branding/banner-evento.jpg">
+
+  <!-- Open Graph / WhatsApp / Instagram / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ecoruta Huellas del Alma 10K">
+  <meta property="og:url" content="https://ecoruta-10k.vercel.app/">
+  <meta property="og:title" content="Ecoruta Huellas del Alma 10K | Solara Ecohotel">
+  <meta property="og:description" content="Domingo 22 de noviembre de 2026. $140.000 COP con kit oficial, camiseta técnica, medalla conmemorativa, transporte en chiva, piscina y almuerzo en Solara Ecohotel (Palmira).">
+  <meta property="og:image" content="https://ecoruta-10k.vercel.app/assets/images/branding/banner-evento.jpg">
+  <meta property="og:image:secure_url" content="https://ecoruta-10k.vercel.app/assets/images/branding/banner-evento.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="675">
+  <meta property="og:image:alt" content="Ecoruta Huellas del Alma 10K en Solara Ecohotel">
+  <meta property="og:locale" content="es_CO">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://ecoruta-10k.vercel.app/">
+  <meta name="twitter:title" content="Ecoruta Huellas del Alma 10K | Solara Ecohotel">
+  <meta name="twitter:description" content="Domingo 22 de noviembre de 2026. $140.000 COP con kit oficial, camiseta técnica, medalla conmemorativa, transporte en chiva, piscina y almuerzo en Solara Ecohotel (Palmira).">
+  <meta name="twitter:image" content="https://ecoruta-10k.vercel.app/assets/images/branding/banner-evento.jpg">
 
   <!-- PWA Manifest & App Icons -->
   <link rel="manifest" href="manifest.json">
@@ -386,28 +404,31 @@
                 <span class="field-error" id="errNombre"></span>
               </div>
 
-              <!-- 2. Número de Cédula -->
+              <!-- 2. Número de Cédula (Validación 6 a 12 dígitos) -->
               <div class="form-group">
                 <label for="formCedula" class="form-label">
                   Número de Cédula o Documento <span class="req">*</span>
                 </label>
                 <input 
-                  type="tel" 
+                  type="text" 
                   id="formCedula" 
                   name="cedula" 
                   class="form-control" 
                   placeholder="Ej: 1118234567" 
                   required 
                   inputmode="numeric"
+                  pattern="[0-9]{6,12}"
+                  maxlength="12"
+                  autocomplete="off"
                 >
-                <span class="form-hint">Tu cédula identifica tu kit y tu comprobante de pago.</span>
+                <span class="form-hint">Cédula válida (6 a 12 dígitos) para identificar tu kit y póliza de seguro.</span>
                 <span class="field-error" id="errCedula"></span>
               </div>
 
-              <!-- 3. Teléfono de contacto (WhatsApp) -->
+              <!-- 3. Teléfono de contacto (WhatsApp - 10 dígitos) -->
               <div class="form-group">
                 <label for="formTelefono" class="form-label">
-                  Número de Teléfono / WhatsApp <span class="req">*</span>
+                  Número de Celular / WhatsApp <span class="req">*</span>
                 </label>
                 <input 
                   type="tel" 
@@ -418,26 +439,28 @@
                   required 
                   autocomplete="tel"
                   inputmode="tel"
+                  pattern="3[0-9]{9}"
+                  maxlength="10"
                 >
-                <span class="form-hint">Aquí te confirmaremos los detalles de salida de la chiva.</span>
+                <span class="form-hint">Celular de 10 dígitos (inicia por 3). Te confirmaremos la salida de la chiva.</span>
                 <span class="field-error" id="errTelefono"></span>
               </div>
 
-              <!-- 4. Tipo de Camiseta (Dama, Caballero, Niño) -->
+              <!-- 4. Categoría y Tipo de Camiseta (Adultos / Niños) -->
               <div class="form-group">
-                <label class="form-label">Tipo de Camiseta <span class="req">*</span></label>
+                <label class="form-label">Categoría y Tipo de Camiseta <span class="req">*</span></label>
                 <div class="chips-group" id="tipoCamisetaGroup">
                   <label class="chip-option">
                     <input type="radio" name="tipoCamiseta" value="Dama" checked>
-                    <span class="chip-label">👩 Dama</span>
+                    <span class="chip-label">👩 Adulto Dama</span>
                   </label>
                   <label class="chip-option">
                     <input type="radio" name="tipoCamiseta" value="Caballero">
-                    <span class="chip-label">👨 Caballero</span>
+                    <span class="chip-label">👨 Adulto Caballero</span>
                   </label>
                   <label class="chip-option">
                     <input type="radio" name="tipoCamiseta" value="Niño">
-                    <span class="chip-label">🧒 Niño</span>
+                    <span class="chip-label">🧒 Niño (XS)</span>
                   </label>
                 </div>
               </div>
@@ -524,7 +547,7 @@
                 </div>
               </div>
 
-              <!-- 2. Accesos Directos (Nequi, Daviplata, Bancolombia, Bre-B) -->
+              <!-- 2. Accesos Directos (Nequi, Bancolombia, Bre-B) -->
               <div class="form-group form-group-accesos" id="pago">
                 <label class="form-label">
                   Accesos Directos
@@ -533,56 +556,72 @@
                 <p class="form-hint">Toca tu entidad para copiar los datos de pago e intentar abrir tu app al instante:</p>
 
                 <div class="direct-apps-grid in-form-grid" id="accesosDirectosGrid">
-                  <!-- 1. Abrir Nequi -->
-                  <button type="button" class="btn btn-direct-app btn-direct-nequi open-app-trigger" data-entity="nequi" data-copy="3183000831" aria-label="Abrir aplicación Nequi">
-                    <span class="bda-icon">🟣</span>
+                  <!-- 1. Abrir Nequi Oficial -->
+                  <button type="button" class="btn btn-direct-app btn-direct-nequi open-app-trigger" data-entity="nequi" data-copy="3183000831" aria-label="Abrir aplicación Nequi y copiar número">
+                    <span class="bda-brand-badge bda-nequi-badge">
+                      <svg viewBox="0 0 40 40" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="10" fill="#200020"/>
+                        <path d="M11 12V28H16V20.2L24 28H29V12H24V19.8L16 12H11Z" fill="#FF007A"/>
+                        <circle cx="28" cy="13.5" r="2.2" fill="#FFFFFF"/>
+                      </svg>
+                    </span>
                     <div class="bda-content">
-                      <strong class="bda-name">Abrir Nequi</strong>
-                      <small class="bda-sub">Copia 3183000831 y abre app</small>
+                      <div class="bda-header-line">
+                        <strong class="bda-name">Abrir Nequi</strong>
+                        <span class="bda-tag bda-tag-nequi">App Móvil</span>
+                      </div>
+                      <span class="bda-number">318 300 0831</span>
+                      <small class="bda-sub">Toca para abrir app y copiar número</small>
                     </div>
-                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
                       <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
                   </button>
 
-                  <!-- 2. Abrir Daviplata -->
-                  <button type="button" class="btn btn-direct-app btn-direct-daviplata open-app-trigger" data-entity="daviplata" data-copy="0089610981" aria-label="Abrir aplicación Daviplata">
-                    <span class="bda-icon">🔴</span>
+                  <!-- 2. Abrir Mi Bancolombia Oficial -->
+                  <button type="button" class="btn btn-direct-app btn-direct-bancolombia open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Abrir aplicación Mi Bancolombia y copiar número de cuenta">
+                    <span class="bda-brand-badge bda-bancolombia-badge">
+                      <svg viewBox="0 0 40 40" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="10" fill="#111827"/>
+                        <path d="M9 14.5C16 12 24 12 31 14.5" stroke="#FDDA24" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M8 20C16.5 17.5 23.5 22.5 32 20" stroke="#002F6C" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M9 25.5C16 28 24 28 31 25.5" stroke="#E31B23" stroke-width="3" stroke-linecap="round"/>
+                      </svg>
+                    </span>
                     <div class="bda-content">
-                      <strong class="bda-name">Abrir Daviplata</strong>
-                      <small class="bda-sub">Copia Llave 0089610981 y abre app</small>
+                      <div class="bda-header-line">
+                        <strong class="bda-name">Abrir Mi Bancolombia</strong>
+                        <span class="bda-tag bda-tag-bancolombia">Ahorros</span>
+                      </div>
+                      <span class="bda-number">18547223388</span>
+                      <small class="bda-sub">Toca para abrir app y copiar cuenta</small>
                     </div>
-                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       <polyline points="15 3 21 3 21 9"></polyline>
                       <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
                   </button>
 
-                  <!-- 3. Abrir Mi Bancolombia -->
-                  <button type="button" class="btn btn-direct-app btn-direct-bancolombia open-app-trigger" data-entity="bancolombia" data-copy="18547223388" aria-label="Abrir aplicación Mi Bancolombia">
-                    <span class="bda-icon">🟡</span>
-                    <div class="bda-content">
-                      <strong class="bda-name">Abrir Mi Bancolombia</strong>
-                      <small class="bda-sub">Copia Ahorros 18547223388 y abre app</small>
-                    </div>
-                    <svg class="icon-launch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </button>
-
-                  <!-- 4. Copiar llave Bre-B -->
+                  <!-- 3. Bre-B (Solo Copiar Llave) -->
                   <button type="button" class="btn btn-direct-app btn-direct-breb open-app-trigger" data-entity="breb" data-copy="0089610981" aria-label="Copiar llave Bre-B 0089610981">
-                    <span class="bda-icon">🔑</span>
+                    <span class="bda-brand-badge bda-breb-badge">
+                      <svg viewBox="0 0 40 40" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="10" fill="#0A2518"/>
+                        <path d="M14 11H21.5C24.2 11 26.5 12.6 26.5 15C26.5 16.6 25.3 17.8 23.8 18.5C25.8 19.1 27.2 20.6 27.2 22.8C27.2 25.6 24.8 27.5 21.8 27.5H14V11ZM18 14.5V17.5H21C22 17.5 22.8 16.9 22.8 16C22.8 15.1 22 14.5 21 14.5H18ZM18 20.8V24H21.4C22.5 24 23.3 23.3 23.3 22.4C23.3 21.5 22.5 20.8 21.4 20.8H18Z" fill="#00E676"/>
+                      </svg>
+                    </span>
                     <div class="bda-content">
-                      <strong class="bda-name">Copiar llave Bre-B</strong>
-                      <small class="bda-sub">0089610981 • Toca para copiar</small>
+                      <div class="bda-header-line">
+                        <strong class="bda-name">Copiar llave Bre-B</strong>
+                        <span class="bda-tag bda-tag-breb">Solo Copiar</span>
+                      </div>
+                      <span class="bda-number">0089610981</span>
+                      <small class="bda-sub">Copia la llave sin salir de la página</small>
                     </div>
-                    <svg class="icon-launch icon-copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="icon-launch icon-copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
@@ -617,6 +656,18 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <!-- 4. Checkbox Tratamiento de Datos (Ley 1581 de 2012) - NO premarcado -->
+              <div class="form-group form-group-habeas">
+                <label class="habeas-checkbox-wrapper" for="checkHabeasData">
+                  <input type="checkbox" id="checkHabeasData" name="habeasData" class="custom-checkbox" required>
+                  <span class="habeas-checkbox-box" aria-hidden="true"></span>
+                  <span class="habeas-text">
+                    Acepto la política de tratamiento de datos personales conforme a la <strong>Ley 1581 de 2012</strong>, con la finalidad exclusiva de gestionar mi inscripción a la Ecoruta Huellas del Alma 10K, seguro médico/asistencia y coordinación logística del evento.
+                  </span>
+                </label>
+                <span class="field-error" id="errHabeasData"></span>
               </div>
 
               <!-- BOTÓN DE ENVIAR / CONFIRMAR -->
@@ -747,11 +798,16 @@
     <aside class="mobile-sticky-action" id="mobileStickyBar">
       <div class="msa-content">
         <div class="msa-info" id="msaPriceInfo" role="button" tabindex="0" title="Toca para ver métodos de pago" aria-label="Precio $140.000 COP. Toca para ver métodos de pago">
-          <span class="msa-sub">Inversión 10K (Abonos)</span>
-          <strong class="msa-price">$140.000 COP</strong>
+          <span class="msa-sub">⚡ Cupos Limitados • Abonos</span>
+          <strong class="msa-price">$140.000 <small>COP</small></strong>
         </div>
         <div class="msa-buttons">
-          <a href="#inscripcion" class="btn btn-sm btn-primary">Inscribirme</a>
+          <a href="#inscripcion" class="btn btn-sm btn-primary btn-sticky-cta">
+            <span>Reservar mi cupo</span>
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
         </div>
       </div>
     </aside>

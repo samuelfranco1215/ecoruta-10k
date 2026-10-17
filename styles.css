@@ -1415,53 +1415,61 @@ button {
 .direct-apps-grid,
 .in-form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-top: 14px;
-}
-
-@media (max-width: 560px) {
-  .direct-apps-grid,
-  .in-form-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .btn-direct-app {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
+  gap: 14px;
+  padding: 16px 18px;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 64px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 72px;
   text-align: left;
   border: 1.5px solid transparent;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-direct-app:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .btn-direct-app:active,
 .btn-direct-app.bda-clicked {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
-.bda-icon {
-  font-size: 1.6rem;
+.bda-brand-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .bda-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 2px;
+}
+
+.bda-header-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .bda-name {
@@ -1471,85 +1479,172 @@ button {
   line-height: 1.2;
 }
 
+.bda-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.bda-tag-nequi {
+  background: rgba(255, 0, 122, 0.2);
+  color: #FF007A;
+  border: 1px solid rgba(255, 0, 122, 0.4);
+}
+
+.bda-tag-bancolombia {
+  background: rgba(253, 218, 36, 0.25);
+  color: #111827;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.bda-tag-breb {
+  background: rgba(0, 230, 118, 0.2);
+  color: #00E676;
+  border: 1px solid rgba(0, 230, 118, 0.4);
+}
+
+.bda-number {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
 .bda-sub {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   opacity: 0.85;
   font-weight: 600;
-  margin-top: 2px;
 }
 
 .btn-direct-app .icon-launch {
   flex-shrink: 0;
   opacity: 0.85;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
 }
 
-/* Colores de marca botones directos */
+.btn-direct-app:hover .icon-launch {
+  transform: translate(2px, -2px);
+}
+
+/* Colores de marca Oficiales */
 .btn-direct-nequi {
   background: #200020;
   color: #FFFFFF;
-  border-color: rgba(255, 0, 122, 0.45);
+  border-color: rgba(255, 0, 122, 0.4);
 }
 
 .btn-direct-nequi .bda-name {
+  color: #FFFFFF;
+}
+
+.btn-direct-nequi .bda-number {
   color: #FF007A;
 }
 
 .btn-direct-nequi:hover {
-  background: #FF007A;
-  color: #FFFFFF;
+  background: #2D002D;
   border-color: #FF007A;
-  box-shadow: 0 6px 18px rgba(255, 0, 122, 0.35);
-}
-
-.btn-direct-nequi:hover .bda-name {
-  color: #FFFFFF;
-}
-
-.btn-direct-daviplata {
-  background: #C8102E;
-  color: #FFFFFF;
-  border-color: #9E0B22;
-}
-
-.btn-direct-daviplata .bda-name {
-  color: #FFFFFF;
-}
-
-.btn-direct-daviplata:hover {
-  background: #E01838;
-  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.35);
+  box-shadow: 0 8px 22px rgba(255, 0, 122, 0.35);
 }
 
 .btn-direct-bancolombia {
-  background: #FDDA24;
-  color: #000000;
-  border-color: #E0C116;
+  background: #FFFFFF;
+  color: #111827;
+  border: 2px solid #FDDA24;
 }
 
 .btn-direct-bancolombia .bda-name {
-  color: #000000;
+  color: #111827;
+}
+
+.btn-direct-bancolombia .bda-number {
+  color: #002F6C;
 }
 
 .btn-direct-bancolombia:hover {
-  background: #F2CF14;
-  box-shadow: 0 6px 18px rgba(253, 218, 36, 0.45);
+  background: #FFFDF0;
+  border-color: #E2B900;
+  box-shadow: 0 8px 22px rgba(253, 218, 36, 0.35);
 }
 
 .btn-direct-breb {
-  background: linear-gradient(135deg, #0B2545 0%, #134074 100%);
+  background: #071926;
   color: #FFFFFF;
-  border-color: #1D4E89;
+  border-color: rgba(0, 230, 118, 0.4);
 }
 
 .btn-direct-breb .bda-name {
   color: #FFFFFF;
 }
 
+.btn-direct-breb .bda-number {
+  color: #00E676;
+}
+
 .btn-direct-breb:hover {
-  background: #134074;
-  box-shadow: 0 6px 18px rgba(11, 37, 69, 0.4);
+  background: #0B2438;
+  border-color: #00E676;
+  box-shadow: 0 8px 22px rgba(0, 230, 118, 0.3);
+}
+
+/* Checkbox Habeas Data (Ley 1581) */
+.form-group-habeas {
+  margin-top: 18px;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  background-color: #F8FAF9;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease;
+}
+
+.form-group-habeas:hover {
+  border-color: var(--color-green-nature);
+}
+
+.habeas-checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox {
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  accent-color: var(--color-green-nature);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.habeas-text {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.habeas-text strong {
+  color: var(--color-green-dark);
+}
+
+/* Botón CTA Sticky Bar */
+.btn-sticky-cta {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 14px rgba(39, 103, 73, 0.4);
 }
 
 /* Toast flotante de notificación de copiado */

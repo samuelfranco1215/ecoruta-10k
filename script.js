@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.removeChild(tempInput);
   }
 
-  // Configuración de entidades de pago (Nequi, Bancolombia, Bre-B, Daviplata)
+  // Configuración de entidades de pago (Nequi, Bancolombia, Bre-B)
   const ENTITY_CONFIGS = {
     nequi: {
       name: 'Nequi',
@@ -179,13 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
       androidIntent: null,
       iosScheme: null,
       webFallback: null // No redirigir a web; solo copia
-    },
-    daviplata: {
-      name: 'Daviplata',
-      number: '0089610981',
-      androidIntent: 'intent://#Intent;package=com.davivienda.daviplataapp;end',
-      iosScheme: 'daviplata://',
-      webFallback: 'https://www.daviplata.com/'
     }
   };
 
@@ -231,8 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 3. Nequi y Daviplata: intentar abrir app o fallback oficial
-    showToast(`✓ ¡Dato ${config.number} copiado! Abriendo ${config.name}...`);
+    // 3. Nequi: intentar abrir app o fallback oficial
+    showToast(`✓ ¡Nequi ${config.number} copiado! Abriendo app...`);
 
     if (isAndroid && config.androidIntent) {
       window.location.href = config.androidIntent;
@@ -599,11 +592,12 @@ document.addEventListener('DOMContentLoaded', () => {
       errNombre.classList.remove('active');
     }
 
-    // Cédula
+    // Cédula: debe ser numérica y entre 6 y 12 dígitos
     const errCedula = document.getElementById('errCedula');
-    if (!formCedula.value.trim()) {
+    const rawCedula = formCedula.value.trim().replace(/\D/g, '');
+    if (!rawCedula || rawCedula.length < 6 || rawCedula.length > 12) {
       if (errCedula) {
-        errCedula.textContent = 'El número de cédula es obligatorio para identificar tu kit y pago.';
+        errCedula.textContent = 'Ingresa un número de cédula válido (entre 6 y 12 dígitos numéricos).';
         errCedula.classList.add('active');
       }
       isValid = false;
@@ -611,16 +605,30 @@ document.addEventListener('DOMContentLoaded', () => {
       errCedula.classList.remove('active');
     }
 
-    // Teléfono
+    // Teléfono: formato celular Colombia (10 dígitos, iniciando con 3)
     const errTelefono = document.getElementById('errTelefono');
-    if (!formTelefono.value.trim() || formTelefono.value.trim().length < 7) {
+    const rawPhone = formTelefono.value.trim().replace(/\D/g, '');
+    if (!rawPhone || rawPhone.length !== 10 || !rawPhone.startsWith('3')) {
       if (errTelefono) {
-        errTelefono.textContent = 'Escribe un número de celular válido para coordinar la chiva.';
+        errTelefono.textContent = 'Ingresa un número celular válido de 10 dígitos que inicie por 3 (ej: 3183800831).';
         errTelefono.classList.add('active');
       }
       isValid = false;
     } else if (errTelefono) {
       errTelefono.classList.remove('active');
+    }
+
+    // Checkbox Habeas Data (Ley 1581 de 2012)
+    const checkHabeas = document.getElementById('checkHabeasData');
+    const errHabeas = document.getElementById('errHabeasData');
+    if (checkHabeas && !checkHabeas.checked) {
+      if (errHabeas) {
+        errHabeas.textContent = 'Debes aceptar la política de tratamiento de datos (Ley 1581) para continuar.';
+        errHabeas.classList.add('active');
+      }
+      isValid = false;
+    } else if (errHabeas) {
+      errHabeas.classList.remove('active');
     }
 
     return isValid;
@@ -661,12 +669,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const valorPagado = getEffectivePaymentAmount();
       const payload = {
         nombre: formNombre.value.trim(),
-        cedula: formCedula.value.trim(),
-        telefono: formTelefono.value.trim(),
+        cedula: formCedula.value.trim().replace(/\D/g, ''),
+        telefono: formTelefono.value.trim().replace(/\D/g, ''),
         tipoCamiseta,
         tallaCamiseta,
         valorPagado,
         comprobante: currentReceiptBase64,
+        habeasData: true,
         fecha: new Date().toISOString(),
         estado: valorPagado >= 140000 ? 'Confirmado' : 'Abono'
       };
