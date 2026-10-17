@@ -184,7 +184,7 @@ const server = http.createServer((req, res) => {
   
   // Soporte directo para /admin
   if (reqUrl === '/admin' || reqUrl === '/admin/') {
-    reqUrl = '/index.html';
+    reqUrl = '/admin.html';
   } else if (reqUrl === '/') {
     reqUrl = '/index.html';
   }

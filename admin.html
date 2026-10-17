@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Panel de Administración | Ecoruta Huellas del Alma 10K</title>
+  <meta name="description" content="Panel privado de administración de participantes de la Ecoruta Huellas del Alma 10K.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1B4332">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+</head>
+<body class="admin-page-body">
+
+  <div id="adminView" class="admin-view" style="display: block;">
+    <header class="admin-topbar">
+      <div class="container-narrow admin-bar-content">
+        <div class="admin-brand">
+          <span class="admin-icon">🔐</span>
+          <div>
+            <h2>Panel de Administración</h2>
+            <small>Ecoruta Huellas del Alma 10K</small>
+          </div>
+        </div>
+        <a href="/" class="btn btn-sm btn-exit-admin" id="btnExitAdmin">
+          ← Volver a la Landing
+        </a>
+      </div>
+    </header>
+
+    <main class="container-narrow admin-main">
+      
+      <!-- TARJETAS DE MÉTRICAS RÁPIDAS -->
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <span class="stat-num" id="statTotalInscritos">0</span>
+          <span class="stat-label">Inscritos Totales</span>
+        </div>
+        <div class="stat-card stat-recaudo">
+          <span class="stat-num" id="statTotalRecaudado">$0</span>
+          <span class="stat-label">Total Recaudado</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statPagadosCompletos">0</span>
+          <span class="stat-label">Pagos $140.000</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="statAbonos">0</span>
+          <span class="stat-label">Abonos Parciales</span>
+        </div>
+      </div>
+
+      <!-- BARRA DE BÚSQUEDA Y ACCIONES -->
+      <div class="admin-controls-card">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="search" 
+            id="adminSearchInput" 
+            class="admin-search-input" 
+            placeholder="Buscar rápido por cédula o nombre..." 
+            autocomplete="off"
+            aria-label="Buscar por número de cédula o nombre"
+          >
+          <button type="button" class="btn-clear-search" id="btnClearSearch" style="display: none;" aria-label="Limpiar búsqueda">✕</button>
+        </div>
+
+        <div class="admin-actions-bar">
+          <div class="filter-pills" id="adminFilterPills">
+            <button type="button" class="filter-btn active" data-filter="all">Todos (<span id="countAll">0</span>)</button>
+            <button type="button" class="filter-btn" data-filter="confirmado">Confirmados</button>
+            <button type="button" class="filter-btn" data-filter="abono">Abonos</button>
+            <button type="button" class="filter-btn" data-filter="comprobante">Con Comprobante</button>
+          </div>
+
+          <div class="admin-tools">
+            <button type="button" class="btn btn-sm btn-export-csv" id="btnExportCSV">
+              📥 Exportar Excel/CSV
+            </button>
+            <button type="button" class="btn btn-sm btn-reload-data" id="btnReloadData" title="Recargar lista">
+              🔄 Actualizar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTA DE INSCRITOS -->
+      <section class="admin-list-section">
+        <div id="adminListContainer" class="admin-cards-container">
+          <!-- Renderizado dinámico desde admin.js -->
+        </div>
+
+        <div class="admin-empty-state" id="adminEmptyState" style="display: none;">
+          <span class="empty-icon">📋</span>
+          <h3>No se encontraron personas inscritas</h3>
+          <p>No hay registros que coincidan con la búsqueda por cédula o filtro aplicado.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL DE VISUALIZACIÓN DE COMPROBANTE -->
+  <div class="modal-backdrop" id="modalReceiptViewer" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="receiptViewerTitle">
+    <div class="modal-box modal-receipt">
+      <div class="modal-receipt-header">
+        <h3 id="receiptViewerTitle">Comprobante de Pago</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseReceiptViewer" aria-label="Cerrar modal">✕</button>
+      </div>
+      <div class="modal-receipt-body">
+        <img id="receiptViewerImg" src="" alt="Comprobante de pago" class="receipt-full-img">
+      </div>
+      <div class="modal-receipt-footer">
+        <span id="receiptViewerDetails" class="receipt-caption"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICACIÓN DE ACCIÓN TOAST FLOTANTE -->
+  <div class="toast-feedback" id="toastFeedback" role="alert" aria-live="polite">
+    ✓ Acción realizada con éxito
+  </div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

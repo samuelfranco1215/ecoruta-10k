@@ -822,7 +822,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     const pathname = window.location.pathname;
 
-    if (hash === '#admin' || pathname.endsWith('/admin') || pathname.endsWith('/admin/')) {
+    if (hash === '#admin') {
+      window.location.href = '/admin';
+      return;
+    }
+
+    if (pathname.endsWith('/admin') || pathname.endsWith('/admin/')) {
       showAdminView();
     } else {
       showLandingView();
