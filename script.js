@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.removeChild(tempInput);
   }
 
-  // Configuración de entidades de pago (Nequi, Bancolombia, Bre-B)
+  // Configuración de entidades de pago (Nequi, Bancolombia, Bre-B, Daviplata)
   const ENTITY_CONFIGS = {
     nequi: {
       name: 'Nequi',
@@ -167,18 +167,18 @@ document.addEventListener('DOMContentLoaded', () => {
       webFallback: 'https://recarga.nequi.com.co/'
     },
     bancolombia: {
-      name: 'Bancolombia',
+      name: 'Mi Bancolombia',
       number: '18547223388',
-      androidIntent: 'intent://#Intent;package=com.todo1.mobile;end',
-      iosScheme: 'bancolombiapersonas://',
-      webFallback: 'https://sucursalvirtual.bancolombia.com/'
+      androidIntent: 'intent://#Intent;package=co.com.bancolombia.mibancolombia;scheme=mibancolombia;end',
+      iosScheme: 'mibancolombia://',
+      webFallback: null // No redirigir a web genérica
     },
     breb: {
       name: 'Bre-B',
       number: '0089610981',
       androidIntent: null,
       iosScheme: null,
-      webFallback: 'https://www.banrep.gov.co/es/bre-b'
+      webFallback: null // No redirigir a web; solo copia
     },
     daviplata: {
       name: 'Daviplata',
@@ -189,31 +189,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Apertura de app bancaria con fallback web
+  // Apertura de app bancaria o copiado de datos
   function openBankingApp(entityKey) {
     const config = ENTITY_CONFIGS[entityKey];
     if (!config) return;
 
-    // Asegurar copiado previo del número/llave
+    // Asegurar copiado previo del número/llave siempre
     copyText(config.number);
+
+    // 1. Bre-B: SOLO copia la llave, NINGUNA redirección web
+    if (entityKey === 'breb') {
+      showToast(`✓ ¡Llave Bre-B ${config.number} copiada al portapapeles!`);
+      return;
+    }
 
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    if (entityKey === 'breb') {
-      showToast(`✓ ¡Llave Bre-B ${config.number} copiada! Abre tu app bancaria para transferir.`);
-      if (isAndroid || isIOS) {
+    // 2. Bancolombia: intenta abrir la app real "Mi Bancolombia".
+    // Si no puede abrirla (o en PC), no redirige a web genérica; confirma dato copiado.
+    if (entityKey === 'bancolombia') {
+      showToast(`✓ ¡Cuenta Bancolombia ${config.number} copiada! Abriendo Mi Bancolombia...`);
+
+      if (isAndroid && config.androidIntent) {
+        window.location.href = config.androidIntent;
         setTimeout(() => {
-          if (config.webFallback) {
-            window.open(config.webFallback, '_blank', 'noopener,noreferrer');
+          if (document.hasFocus()) {
+            showToast(`✓ Cuenta Ahorros ${config.number} copiada. Pégala en tu app Bancolombia.`);
           }
-        }, 600);
-      } else if (config.webFallback) {
-        window.open(config.webFallback, '_blank', 'noopener,noreferrer');
+        }, 1600);
+      } else if (isIOS && config.iosScheme) {
+        window.location.href = config.iosScheme;
+        setTimeout(() => {
+          if (document.hasFocus()) {
+            showToast(`✓ Cuenta Ahorros ${config.number} copiada. Pégala en tu app Bancolombia.`);
+          }
+        }, 1600);
+      } else {
+        showToast(`✓ Cuenta Ahorros Bancolombia: ${config.number} copiada al portapapeles.`);
       }
       return;
     }
 
+    // 3. Nequi y Daviplata: intentar abrir app o fallback oficial
     showToast(`✓ ¡Dato ${config.number} copiado! Abriendo ${config.name}...`);
 
     if (isAndroid && config.androidIntent) {
@@ -1236,6 +1254,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1 });
 
     observer.observe(formSec);
+  }
+
+  // Autoplay para el video de la camiseta oficial en dispositivos móviles
+  const jerseyVideo = document.getElementById('jerseyVideoPlayer');
+  if (jerseyVideo) {
+    jerseyVideo.muted = true;
+    const playAttempt = () => {
+      jerseyVideo.play().catch(() => {});
+    };
+    playAttempt();
+    document.addEventListener('touchstart', playAttempt, { once: true, passive: true });
+    document.addEventListener('click', playAttempt, { once: true, passive: true });
   }
 
 });
