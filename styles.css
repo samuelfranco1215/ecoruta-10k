@@ -1064,6 +1064,10 @@ button {
   gap: 8px;
 }
 
+.chips-group.route-chips {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .chip-option {
   position: relative;
   cursor: pointer;

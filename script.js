@@ -373,6 +373,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (formEmergenciaTelefono && data.contactoEmergenciaTelefono) formEmergenciaTelefono.value = data.contactoEmergenciaTelefono;
       if (formReferenciaPago && data.referenciaPago) formReferenciaPago.value = data.referenciaPago;
 
+      // Ruta
+      if (data.ruta) {
+        const radRuta = document.querySelector(`input[name="ruta"][value="${data.ruta}"]`);
+        if (radRuta) radRuta.checked = true;
+      }
+
       // Tipo de camiseta
       if (data.tipoCamiseta) {
         const radTipo = document.querySelector(`input[name="tipoCamiseta"][value="${data.tipoCamiseta}"]`);
@@ -417,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Guardar borrador en tiempo real
   function saveFormDraft() {
     try {
+      const ruta = document.querySelector('input[name="ruta"]:checked')?.value || '10K';
       const tipoCamiseta = document.querySelector('input[name="tipoCamiseta"]:checked')?.value || 'Dama';
       let tallaCamiseta = 'M';
       if (tipoCamiseta === 'Niño') {
@@ -435,6 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tipoSangre: formTipoSangre ? formTipoSangre.value : '',
         contactoEmergenciaNombre: formEmergenciaNombre ? formEmergenciaNombre.value : '',
         contactoEmergenciaTelefono: formEmergenciaTelefono ? formEmergenciaTelefono.value : '',
+        ruta,
         tipoCamiseta,
         tallaCamiseta,
         valorPreset,
@@ -460,7 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Guardar al cambiar radio buttons
-  document.querySelectorAll('input[name="tipoCamiseta"], input[name="tallaCamiseta"], input[name="valorAbonoPreset"]').forEach(radio => {
+  document.querySelectorAll('input[name="ruta"], input[name="tipoCamiseta"], input[name="tallaCamiseta"], input[name="valorAbonoPreset"]').forEach(radio => {
     radio.addEventListener('change', saveFormDraft);
   });
 
@@ -731,6 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSubmit.innerHTML = '<span>Guardando inscripción...</span>';
       }
 
+      const ruta = document.querySelector('input[name="ruta"]:checked')?.value || '10K';
       const tipoCamiseta = document.querySelector('input[name="tipoCamiseta"]:checked')?.value || 'Dama';
       let tallaCamiseta = 'M';
       if (tipoCamiseta === 'Niño') {
@@ -747,6 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tipoSangre: formTipoSangre ? formTipoSangre.value : '',
         contactoEmergenciaNombre: formEmergenciaNombre ? formEmergenciaNombre.value.trim() : '',
         contactoEmergenciaTelefono: formEmergenciaTelefono ? formEmergenciaTelefono.value.trim().replace(/\D/g, '') : '',
+        ruta,
         tipoCamiseta,
         tallaCamiseta,
         valorPagado,
@@ -845,6 +855,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <strong>${escapeHtml(data.contactoEmergenciaNombre || 'N/A')} (${escapeHtml(data.contactoEmergenciaTelefono || '')})</strong>
       </div>
       <div class="summary-row">
+        <span>Ruta elegida:</span>
+        <strong style="color: #194830; font-weight: 800;">${escapeHtml(data.ruta || '10K')}</strong>
+      </div>
+      <div class="summary-row">
         <span>Camiseta:</span>
         <strong>${escapeHtml(data.tipoCamiseta)} (${escapeHtml(data.tallaCamiseta)})</strong>
       </div>
@@ -867,6 +881,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `👤 *Nombre:* ${encodeURIComponent(data.nombre)}%0A` +
       `🪪 *Cédula:* ${encodeURIComponent(data.cedula)}%0A` +
       `📱 *Teléfono:* ${encodeURIComponent(data.telefono)}%0A` +
+      `🏃 *Ruta elegida:* ${encodeURIComponent(data.ruta || '10K')}%0A` +
       `🩸 *Tipo de Sangre:* ${encodeURIComponent(data.tipoSangre || 'N/A')}%0A` +
       `🆘 *Emergencia:* ${encodeURIComponent(data.contactoEmergenciaNombre || '')} (${encodeURIComponent(data.contactoEmergenciaTelefono || '')})%0A` +
       `👕 *Camiseta:* ${encodeURIComponent(data.tipoCamiseta)} - Talla ${encodeURIComponent(data.tallaCamiseta)}%0A` +
@@ -1069,6 +1084,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div class="participant-details-grid">
             <div class="p-detail-item">
+              <span>Ruta</span>
+              <strong style="color: #194830; font-weight: 800;">${escapeHtml(item.ruta || '10K')}</strong>
+            </div>
+            <div class="p-detail-item">
               <span>Camiseta</span>
               <strong>${escapeHtml(item.tipoCamiseta)} (${escapeHtml(item.tallaCamiseta)})</strong>
             </div>
@@ -1222,6 +1241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Nombre Completo',
         'Cédula',
         'Teléfono',
+        'Ruta',
         'Talla Camiseta',
         'Tipo Camiseta',
         'Valor Pagado COP',
@@ -1244,6 +1264,7 @@ document.addEventListener('DOMContentLoaded', () => {
           `"${(item.nombre || '').replace(/"/g, '""')}"`,
           `"${item.cedula || ''}"`,
           `"${item.telefono || ''}"`,
+          `"${item.ruta || '10K'}"`,
           `"${item.tallaCamiseta || ''}"`,
           `"${item.tipoCamiseta || ''}"`,
           item.valorPagado || 0,

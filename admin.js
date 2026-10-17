@@ -173,6 +173,10 @@
 
           <div class="participant-details-grid">
             <div class="p-detail-item">
+              <span>Ruta</span>
+              <strong style="color: #194830; font-weight: 800;">${escapeHtml(item.ruta || '10K')}</strong>
+            </div>
+            <div class="p-detail-item">
               <span>Camiseta</span>
               <strong>${escapeHtml(item.tipoCamiseta || 'N/A')} (${escapeHtml(item.tallaCamiseta || 'N/A')})</strong>
             </div>
@@ -363,6 +367,7 @@
         'Nombre Completo',
         'Cédula',
         'Teléfono',
+        'Ruta',
         'Talla Camiseta',
         'Tipo Camiseta',
         'Valor Pagado COP',
@@ -385,6 +390,7 @@
           `"${(item.nombre || '').replace(/"/g, '""')}"`,
           `"${item.cedula || ''}"`,
           `"${item.telefono || ''}"`,
+          `"${item.ruta || '10K'}"`,
           `"${item.tallaCamiseta || ''}"`,
           `"${item.tipoCamiseta || ''}"`,
           item.valorPagado || 0,

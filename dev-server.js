@@ -106,6 +106,7 @@ const server = http.createServer((req, res) => {
           tipoSangre: payload.tipoSangre || '',
           contactoEmergenciaNombre: payload.contactoEmergenciaNombre ? String(payload.contactoEmergenciaNombre).trim() : '',
           contactoEmergenciaTelefono: payload.contactoEmergenciaTelefono ? String(payload.contactoEmergenciaTelefono).trim() : '',
+          ruta: payload.ruta || '10K',
           tipoCamiseta: payload.tipoCamiseta || 'Caballero',
           tallaCamiseta: payload.tallaCamiseta || 'M',
           valorPagado: Number(payload.valorPagado) || 140000,
