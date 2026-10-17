@@ -169,9 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
     bancolombia: {
       name: 'Mi Bancolombia',
       number: '18547223388',
-      androidIntent: null,
-      iosScheme: null,
-      webFallback: null // No redirigir a web genérica
+      androidIntent: 'intent://#Intent;package=co.com.bancolombia.personas.superapp;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dco.com.bancolombia.personas.superapp;end;',
+      iosScheme: 'bancolombia://',
+      webFallback: 'https://sucursalpersonas.transaccionesbancolombia.com/'
     },
     breb: {
       name: 'Bre-B',
@@ -200,26 +200,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isMobile = isAndroid || isIOS;
 
-    // 2. Bancolombia:
-    // Prioriza copiar el número de cuenta: 18547223388
-    // Si intenta abrir app, que sea "Mi Bancolombia" sin mostrar error feo en navegador
+    // 2. Bancolombia: copia cuenta y abre la app oficial Mi Bancolombia directamente
     if (entityKey === 'bancolombia') {
-      showToast(`✓ Número copiado: ${config.number} (Bancolombia Ahorros)`);
+      showToast(`✓ Cuenta ${config.number} copiada • Abriendo Mi Bancolombia...`);
 
-      // Solo en celular intentamos invocar la app Mi Bancolombia vía iframe oculto
-      // Esto evita el error "No se encontró el elemento" / "ERR_UNKNOWN_URL_SCHEME" en Chrome/PC
       if (isMobile) {
-        try {
-          const iframe = document.createElement('iframe');
-          iframe.style.display = 'none';
-          iframe.src = 'mibancolombia://';
-          document.body.appendChild(iframe);
+        if (isAndroid && config.androidIntent) {
+          window.location.href = config.androidIntent;
+        } else if (isIOS) {
+          window.location.href = config.iosScheme || 'bancolombia://';
           setTimeout(() => {
-            try { document.body.removeChild(iframe); } catch(e) {}
-          }, 1500);
-        } catch (e) {
-          // Ignorar silenciosamente, el número ya está copiado
+            if (document.hasFocus()) {
+              window.location.href = 'mibancolombia://';
+            }
+          }, 800);
         }
+      } else if (config.webFallback) {
+        window.open(config.webFallback, '_blank', 'noopener,noreferrer');
       }
       return;
     }
