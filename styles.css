@@ -769,6 +769,18 @@ button {
   }
 }
 
+/* Showcase de Medalla Oficial Centrada */
+.medal-showcase-wrap {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.medal-slot {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5FBF7 100%);
+  border: 1.5px solid rgba(39, 103, 73, 0.2);
+  box-shadow: 0 10px 30px rgba(10, 37, 24, 0.08);
+}
+
 /* --------------------------------------------------------------------------
    8. SECCIÓN 3: PRECIO (CON ACLARACIÓN DE ABONOS)
    -------------------------------------------------------------------------- */
