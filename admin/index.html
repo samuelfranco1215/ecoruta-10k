@@ -27,9 +27,14 @@
             <small>Ecoruta Huellas del Alma 10K</small>
           </div>
         </div>
-        <a href="/" class="btn btn-sm btn-exit-admin" id="btnExitAdmin">
-          ← Volver a la Landing
-        </a>
+        <div class="admin-header-actions">
+          <span id="cloudStatusBadge" class="cloud-badge offline" title="Estado de sincronización en la nube">
+            ● Local
+          </span>
+          <a href="/" class="btn btn-sm btn-exit-admin" id="btnExitAdmin">
+            ← Volver a la Landing
+          </a>
+        </div>
       </div>
     </header>
 
@@ -63,7 +68,7 @@
             type="search" 
             id="adminSearchInput" 
             class="admin-search-input" 
-            placeholder="Buscar rápido por cédula o nombre..." 
+            placeholder="Buscar rápido por cédula, nombre o celular..." 
             autocomplete="off"
             aria-label="Buscar por número de cédula o nombre"
           >
@@ -79,6 +84,12 @@
           </div>
 
           <div class="admin-tools">
+            <button type="button" class="btn btn-sm btn-primary-admin" id="btnOpenAddModal">
+              ➕ Registrar Participante
+            </button>
+            <button type="button" class="btn btn-sm btn-cloud-sync" id="btnOpenCloudModal" title="Conectar Google Sheets o Base de Datos">
+              ☁️ Conexión Nube
+            </button>
             <button type="button" class="btn btn-sm btn-export-csv" id="btnExportCSV">
               📥 Exportar Excel/CSV
             </button>
@@ -99,13 +110,162 @@
           <span class="empty-icon">📋</span>
           <h3>No se encontraron personas inscritas</h3>
           <p>No hay registros que coincidan con la búsqueda por cédula o filtro aplicado.</p>
+          <button type="button" class="btn btn-sm btn-primary-admin" id="btnEmptyAddTrigger" style="margin-top: 14px;">
+            ➕ Registrar el Primer Participante
+          </button>
         </div>
       </section>
 
     </main>
   </div>
 
-  <!-- MODAL DE VISUALIZACIÓN DE COMPROBANTE -->
+  <!-- 1. MODAL: REGISTRAR PARTICIPANTE MANUALMENTE -->
+  <div class="modal-backdrop" id="modalAddParticipant" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="addParticipantTitle">
+    <div class="modal-box modal-participant-form">
+      <div class="modal-header-clean">
+        <h3 id="addParticipantTitle">➕ Registrar Participante</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseAddModal" aria-label="Cerrar modal">✕</button>
+      </div>
+      <p class="modal-hint">Ingresa aquí a las personas que pagaron o te enviaron comprobante por WhatsApp:</p>
+
+      <form id="adminManualForm" class="admin-form-grid">
+        <div class="form-group-admin">
+          <label for="manualNombre">Nombre y Apellidos *</label>
+          <input type="text" id="manualNombre" class="form-control-admin" placeholder="Ej: Carlos Gómez" required>
+        </div>
+
+        <div class="form-row-admin">
+          <div class="form-group-admin">
+            <label for="manualCedula">Cédula / Documento *</label>
+            <input type="text" id="manualCedula" class="form-control-admin" placeholder="Ej: 1114830468" required>
+          </div>
+          <div class="form-group-admin">
+            <label for="manualTelefono">Celular / WhatsApp *</label>
+            <input type="tel" id="manualTelefono" class="form-control-admin" placeholder="Ej: 3163005838" required>
+          </div>
+        </div>
+
+        <div class="form-row-admin">
+          <div class="form-group-admin">
+            <label for="manualRuta">Ruta elegida</label>
+            <select id="manualRuta" class="form-control-admin">
+              <option value="10K">10K (Solara Ecohotel)</option>
+              <option value="6K">6K (Recreativa)</option>
+            </select>
+          </div>
+          <div class="form-group-admin">
+            <label for="manualTipoSangre">Tipo de Sangre (RH)</label>
+            <select id="manualTipoSangre" class="form-control-admin">
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="N/A">N/A</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-admin">
+          <div class="form-group-admin">
+            <label for="manualCamiseta">Tipo de Camiseta</label>
+            <select id="manualCamiseta" class="form-control-admin">
+              <option value="Caballero" selected>Caballero</option>
+              <option value="Dama">Dama</option>
+              <option value="Niño">Niño</option>
+            </select>
+          </div>
+          <div class="form-group-admin">
+            <label for="manualTalla">Talla</label>
+            <select id="manualTalla" class="form-control-admin">
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M" selected>M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-admin">
+          <div class="form-group-admin">
+            <label for="manualValor">Valor Pagado (COP) *</label>
+            <input type="number" id="manualValor" class="form-control-admin" value="140000" min="10000" step="5000" required>
+          </div>
+          <div class="form-group-admin">
+            <label for="manualReferencia">Ref. Consignación</label>
+            <input type="text" id="manualReferencia" class="form-control-admin" placeholder="Ej: M12345 o Aprobación">
+          </div>
+        </div>
+
+        <div class="form-row-admin">
+          <div class="form-group-admin">
+            <label for="manualEmergenciaNombre">Contacto Emergencia</label>
+            <input type="text" id="manualEmergenciaNombre" class="form-control-admin" placeholder="Nombre familiar">
+          </div>
+          <div class="form-group-admin">
+            <label for="manualEmergenciaTel">Teléfono Emergencia</label>
+            <input type="tel" id="manualEmergenciaTel" class="form-control-admin" placeholder="Celular familiar">
+          </div>
+        </div>
+
+        <div class="modal-form-actions">
+          <button type="submit" class="btn btn-primary-admin" id="btnSaveManualParticipant">
+            ✓ Guardar Participante
+          </button>
+          <button type="button" class="btn btn-secondary-modal" id="btnCancelAddModal">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. MODAL: CONEXIÓN NUBE GOOGLE SHEETS -->
+  <div class="modal-backdrop" id="modalCloudConfig" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="cloudConfigTitle">
+    <div class="modal-box modal-cloud">
+      <div class="modal-header-clean">
+        <h3 id="cloudConfigTitle">☁️ Conectar Google Sheets en Vivo</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseCloudModal" aria-label="Cerrar modal">✕</button>
+      </div>
+      <p class="modal-hint">
+        Sincroniza todas las inscripciones directamente con una hoja de cálculo en tu Google Drive para tenerlas en tiempo real en tu celular sin riesgo de pérdidas.
+      </p>
+
+      <div class="cloud-steps-box">
+        <div class="cloud-step">
+          <strong>Paso 1:</strong> Crea una hoja en <a href="https://sheets.new" target="_blank" rel="noopener">Google Sheets</a> llamada <em>"Ecoruta 10K Inscripciones"</em>.
+        </div>
+        <div class="cloud-step">
+          <strong>Paso 2:</strong> Ve a <strong>Extensiones &gt; Apps Script</strong>, borra todo y pega este código:
+          <button type="button" class="btn-copy-code" id="btnCopyAppsScript">📋 Copiar Código Apps Script</button>
+        </div>
+        <div class="cloud-step">
+          <strong>Paso 3:</strong> En Apps Script dale a <strong>Implementar &gt; Nueva implementación &gt; Aplicación Web</strong> (Acceso: <em>Cualquier usuario</em>) y copia el enlace generado.
+        </div>
+      </div>
+
+      <div class="form-group-admin" style="margin-top: 14px;">
+        <label for="cloudSheetUrl">URL de la Aplicación Web de Google Sheets:</label>
+        <input type="url" id="cloudSheetUrl" class="form-control-admin" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+
+      <div class="modal-form-actions">
+        <button type="button" class="btn btn-primary-admin" id="btnSaveCloudConfig">
+          💾 Guardar y Conectar
+        </button>
+        <button type="button" class="btn btn-secondary-modal" id="btnDisconnectCloud" style="color: #DC2626;">
+          Desconectar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL DE VISUALIZACIÓN DE COMPROBANTE -->
   <div class="modal-backdrop" id="modalReceiptViewer" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="receiptViewerTitle">
     <div class="modal-box modal-receipt">
       <div class="modal-receipt-header">

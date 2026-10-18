@@ -1,6 +1,6 @@
 /**
  * Panel de Administración - Ecoruta Huellas del Alma 10K
- * Gestión y consulta de personas inscritas
+ * Gestión y consulta de personas inscritas con persistencia local y sincronización Google Sheets
  */
 
 (function () {
@@ -14,17 +14,113 @@
   const btnReloadData = document.getElementById('btnReloadData');
   const filterPills = document.getElementById('adminFilterPills');
   const toastFeedback = document.getElementById('toastFeedback');
+  const cloudStatusBadge = document.getElementById('cloudStatusBadge');
 
-  // Modal Comprobante
+  // Modales
   const modalReceiptViewer = document.getElementById('modalReceiptViewer');
   const receiptViewerImg = document.getElementById('receiptViewerImg');
   const receiptViewerTitle = document.getElementById('receiptViewerTitle');
   const receiptViewerDetails = document.getElementById('receiptViewerDetails');
   const btnCloseReceiptViewer = document.getElementById('btnCloseReceiptViewer');
 
+  const modalAddParticipant = document.getElementById('modalAddParticipant');
+  const btnOpenAddModal = document.getElementById('btnOpenAddModal');
+  const btnEmptyAddTrigger = document.getElementById('btnEmptyAddTrigger');
+  const btnCloseAddModal = document.getElementById('btnCloseAddModal');
+  const btnCancelAddModal = document.getElementById('btnCancelAddModal');
+  const adminManualForm = document.getElementById('adminManualForm');
+
+  const modalCloudConfig = document.getElementById('modalCloudConfig');
+  const btnOpenCloudModal = document.getElementById('btnOpenCloudModal');
+  const btnCloseCloudModal = document.getElementById('btnCloseCloudModal');
+  const btnSaveCloudConfig = document.getElementById('btnSaveCloudConfig');
+  const btnDisconnectCloud = document.getElementById('btnDisconnectCloud');
+  const btnCopyAppsScript = document.getElementById('btnCopyAppsScript');
+  const cloudSheetUrlInput = document.getElementById('cloudSheetUrl');
+
   let allInscripciones = [];
   let currentFilter = 'all';
   let toastTimer = null;
+
+  const STORAGE_KEY_OFFLINE = 'ecoruta_inscripciones_offline_v1';
+  const STORAGE_KEY_SHEET_URL = 'ecoruta_google_sheet_url';
+
+  // Código estándar de Google Apps Script para copiar y pegar
+  const APPS_SCRIPT_CODE = `// ======================================================
+// Código Google Apps Script para Ecoruta Huellas del Alma 10K
+// 1. Abre tu Google Sheets > Extensiones > Apps Script
+// 2. Pega este código y guarda
+// 3. Implementar > Nueva implementación > Aplicación web
+//    Acceso: "Cualquier usuario" > Copia la URL generada
+// ======================================================
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow([
+        "ID", "Fecha", "Nombre", "Cédula", "Teléfono", "Ruta",
+        "Tipo Sangre", "Emergencia Nombre", "Emergencia Tel",
+        "Camiseta", "Talla", "Valor Pagado", "Ref Consignación", "Estado", "Comprobante"
+      ]);
+      sheet.getRange(1, 1, 1, 15).setFontWeight("bold").setBackground("#194830").setFontColor("#FFFFFF");
+    }
+    sheet.appendRow([
+      data.id || ("INS-" + new Date().getTime()),
+      data.fecha || new Date().toLocaleString("es-CO"),
+      data.nombre || "",
+      data.cedula || "",
+      data.telefono || "",
+      data.ruta || "10K",
+      data.tipoSangre || "",
+      data.contactoEmergenciaNombre || "",
+      data.contactoEmergenciaTelefono || "",
+      data.tipoCamiseta || "",
+      data.tallaCamiseta || "",
+      data.valorPagado || 140000,
+      data.referenciaPago || "",
+      data.estado || "Confirmado",
+      data.comprobante ? "Adjunto" : ""
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", error: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return ContentService.createTextOutput(JSON.stringify([])).setMimeType(ContentService.MimeType.JSON);
+  }
+  var headers = rows[0];
+  var results = [];
+  for (var i = 1; i < rows.length; i++) {
+    var row = rows[i];
+    var obj = {};
+    for (var j = 0; j < headers.length; j++) {
+      var key = headers[j];
+      if (key === "Nombre") obj.nombre = row[j];
+      else if (key === "Cédula") obj.cedula = String(row[j]);
+      else if (key === "Teléfono") obj.telefono = String(row[j]);
+      else if (key === "Ruta") obj.ruta = row[j];
+      else if (key === "Tipo Sangre") obj.tipoSangre = row[j];
+      else if (key === "Emergencia Nombre") obj.contactoEmergenciaNombre = row[j];
+      else if (key === "Emergencia Tel") obj.contactoEmergenciaTelefono = String(row[j]);
+      else if (key === "Camiseta") obj.tipoCamiseta = row[j];
+      else if (key === "Talla") obj.tallaCamiseta = row[j];
+      else if (key === "Valor Pagado") obj.valorPagado = Number(row[j]) || 0;
+      else if (key === "Ref Consignación") obj.referenciaPago = String(row[j]);
+      else if (key === "Estado") obj.estado = row[j];
+      else if (key === "ID") obj.id = String(row[j]);
+      else if (key === "Fecha") obj.fecha = row[j];
+      else obj[key] = row[j];
+    }
+    results.push(obj);
+  }
+  return ContentService.createTextOutput(JSON.stringify(results)).setMimeType(ContentService.MimeType.JSON);
+}`;
 
   function showToast(message) {
     if (!toastFeedback) return;
@@ -33,7 +129,7 @@
     if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toastFeedback.classList.remove('active');
-    }, 2800);
+    }, 3200);
   }
 
   function formatMoney(num) {
@@ -56,11 +152,33 @@
       .replace(/'/g, '&#039;');
   }
 
-  // Cargar datos de la API y sincronizar con respaldo local
+  function updateCloudBadge() {
+    if (!cloudStatusBadge) return;
+    const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
+    if (sheetUrl) {
+      cloudStatusBadge.className = 'cloud-badge online';
+      cloudStatusBadge.textContent = '☁️ Nube Activa';
+      cloudStatusBadge.title = 'Conectado a Google Sheets en tiempo real';
+    } else {
+      cloudStatusBadge.className = 'cloud-badge offline';
+      cloudStatusBadge.textContent = '● Modo Local';
+      cloudStatusBadge.title = 'Los datos se guardan en este navegador y servidor local. Conecta Google Sheets para respaldo permanente.';
+    }
+  }
+
+  // Cargar datos de la API, Google Sheets y sincronizar con respaldo local
   async function loadAdminData() {
+    updateCloudBadge();
+    const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
+
     let serverList = [];
+    let googleSheetList = [];
+
+    // 1. Intentar cargar desde API del servidor
     try {
-      const res = await fetch('/api/inscripciones');
+      const headers = { 'Content-Type': 'application/json' };
+      if (sheetUrl) headers['X-Sheet-Url'] = sheetUrl;
+      const res = await fetch('/api/inscripciones', { headers });
       if (res.ok) {
         serverList = await res.json();
       }
@@ -68,20 +186,45 @@
       console.warn('Conexión con /api/inscripciones offline:', e);
     }
 
-    const localList = JSON.parse(localStorage.getItem('ecoruta_inscripciones_offline_v1') || '[]');
+    // 2. Intentar cargar directamente desde Google Sheets si está configurado
+    if (sheetUrl) {
+      try {
+        const sheetRes = await fetch(sheetUrl);
+        if (sheetRes.ok) {
+          const sheetData = await sheetRes.json();
+          if (Array.isArray(sheetData)) {
+            googleSheetList = sheetData;
+          }
+        }
+      } catch (e) {
+        console.warn('Consulta directa a Google Sheets falló (CORS o enlace offline):', e);
+      }
+    }
 
-    // Combinar sin duplicados
+    // 3. Respaldo local del navegador
+    const localList = JSON.parse(localStorage.getItem(STORAGE_KEY_OFFLINE) || '[]');
+
+    // Combinar todas las fuentes sin duplicados por ID o Cédula
     const map = new Map();
-    [...serverList, ...localList].forEach(item => {
+    [...googleSheetList, ...serverList, ...localList].forEach(item => {
       if (item && (item.id || item.cedula)) {
-        const key = item.id || item.cedula;
+        const key = item.cedula || item.id;
         if (!map.has(key)) {
           map.set(key, item);
+        } else {
+          // Si ya existe pero el nuevo tiene comprobante, priorizar el más completo
+          const existing = map.get(key);
+          if (!existing.comprobante && item.comprobante) {
+            map.set(key, { ...existing, ...item });
+          }
         }
       }
     });
 
     allInscripciones = Array.from(map.values());
+    // Guardar lista consolidada en localStorage
+    localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
+
     renderAdminMetrics();
     renderAdminList();
   }
@@ -116,13 +259,12 @@
     if (statAbonos) statAbonos.textContent = abonos;
   }
 
-  // Renderizar lista de inscritos con filtros
+  // Renderizar lista de inscritos con filtros y búsqueda
   function renderAdminList() {
     if (!adminListContainer) return;
     const query = (adminSearchInput ? adminSearchInput.value : '').toLowerCase().trim();
 
     let filtered = allInscripciones.filter(item => {
-      // 1. Búsqueda por cédula, nombre o teléfono
       const matchQuery = !query || 
         (item.cedula && item.cedula.toLowerCase().includes(query)) ||
         (item.nombre && item.nombre.toLowerCase().includes(query)) ||
@@ -130,7 +272,6 @@
 
       if (!matchQuery) return false;
 
-      // 2. Filtro por estado
       if (currentFilter === 'confirmado') {
         return (Number(item.valorPagado) >= 140000) || (item.estado === 'Confirmado');
       }
@@ -253,30 +394,23 @@
       btn.addEventListener('click', async (e) => {
         const id = e.currentTarget.getAttribute('data-id');
         const participant = allInscripciones.find(p => p.id === id);
-        const nombre = participant ? participant.nombre : 'este registro';
+        const nombre = participant ? participant.nombre : 'este participante';
 
-        if (!confirm(`¿Estás seguro de eliminar a ${nombre} (Cédula: ${participant ? participant.cedula : ''})?`)) {
+        if (!confirm(`¿Estás seguro de eliminar a "${nombre}" de la lista?`)) {
           return;
         }
 
         try {
           await fetch(`/api/inscripciones?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
         } catch (err) {
-          console.warn('Error en DELETE servidor:', err);
+          console.warn('Error eliminando en servidor:', err);
         }
 
-        // Eliminar del almacenamiento local
         allInscripciones = allInscripciones.filter(p => p.id !== id);
-        try {
-          const LOCAL_STORAGE_DB = 'ecoruta_inscripciones_offline_v1';
-          const localExisting = JSON.parse(localStorage.getItem(LOCAL_STORAGE_DB) || '[]');
-          const updated = localExisting.filter(p => p.id !== id);
-          localStorage.setItem(LOCAL_STORAGE_DB, JSON.stringify(updated));
-        } catch (e) {}
-
-        showToast('✓ Registro eliminado correctamente.');
+        localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
         renderAdminMetrics();
         renderAdminList();
+        showToast(`✓ Participante "${nombre}" eliminado.`);
       });
     });
   }
@@ -285,11 +419,9 @@
   function openReceiptViewer(participant) {
     if (!modalReceiptViewer || !receiptViewerImg) return;
     receiptViewerImg.src = participant.comprobante;
-    if (receiptViewerTitle) {
-      receiptViewerTitle.textContent = `Comprobante de: ${participant.nombre}`;
-    }
+    if (receiptViewerTitle) receiptViewerTitle.textContent = `Comprobante: ${participant.nombre}`;
     if (receiptViewerDetails) {
-      receiptViewerDetails.textContent = `Cédula: ${participant.cedula} • Valor: ${formatMoney(participant.valorPagado)} • Ref: ${participant.referenciaPago || 'N/A'} • Sangre: ${participant.tipoSangre || 'N/A'}`;
+      receiptViewerDetails.textContent = `Cédula: ${participant.cedula} • Valor: ${formatMoney(participant.valorPagado)} • Ref: ${participant.referenciaPago || 'N/A'}`;
     }
     modalReceiptViewer.style.display = 'flex';
   }
@@ -311,25 +443,205 @@
     });
   }
 
-  // Búsqueda en vivo por Cédula o Nombre
+  // =========================================================================
+  // GESTIÓN DE REGISTRO MANUAL DE PARTICIPANTES (➕)
+  // =========================================================================
+  function openAddModal() {
+    if (modalAddParticipant) {
+      modalAddParticipant.style.display = 'flex';
+      const firstInput = document.getElementById('manualNombre');
+      if (firstInput) firstInput.focus();
+    }
+  }
+
+  function closeAddModal() {
+    if (modalAddParticipant) {
+      modalAddParticipant.style.display = 'none';
+      if (adminManualForm) adminManualForm.reset();
+    }
+  }
+
+  if (btnOpenAddModal) btnOpenAddModal.addEventListener('click', openAddModal);
+  if (btnEmptyAddTrigger) btnEmptyAddTrigger.addEventListener('click', openAddModal);
+  if (btnCloseAddModal) btnCloseAddModal.addEventListener('click', closeAddModal);
+  if (btnCancelAddModal) btnCancelAddModal.addEventListener('click', closeAddModal);
+
+  if (modalAddParticipant) {
+    modalAddParticipant.addEventListener('click', (e) => {
+      if (e.target === modalAddParticipant) closeAddModal();
+    });
+  }
+
+  if (adminManualForm) {
+    adminManualForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('manualNombre').value.trim();
+      const cedula = document.getElementById('manualCedula').value.trim().replace(/\D/g, '');
+      const telefono = document.getElementById('manualTelefono').value.trim().replace(/\D/g, '');
+      const ruta = document.getElementById('manualRuta').value;
+      const tipoSangre = document.getElementById('manualTipoSangre').value;
+      const tipoCamiseta = document.getElementById('manualCamiseta').value;
+      const tallaCamiseta = document.getElementById('manualTalla').value;
+      const valorPagado = Number(document.getElementById('manualValor').value) || 140000;
+      const referenciaPago = document.getElementById('manualReferencia').value.trim();
+      const emergenciaNombre = document.getElementById('manualEmergenciaNombre').value.trim();
+      const emergenciaTel = document.getElementById('manualEmergenciaTel').value.trim().replace(/\D/g, '');
+
+      if (!nombre || !cedula || !telefono) {
+        alert('Por favor ingresa nombre, cédula y celular.');
+        return;
+      }
+
+      const nuevoParticipante = {
+        id: 'INS-MANUAL-' + Date.now(),
+        nombre,
+        cedula,
+        telefono,
+        ruta,
+        tipoSangre,
+        contactoEmergenciaNombre: emergenciaNombre,
+        contactoEmergenciaTelefono: emergenciaTel,
+        tipoCamiseta,
+        tallaCamiseta,
+        valorPagado,
+        referenciaPago: referenciaPago || 'Reg. Manual',
+        comprobante: null,
+        fecha: new Date().toISOString(),
+        estado: valorPagado >= 140000 ? 'Confirmado' : 'Abono'
+      };
+
+      // 1. Guardar en memoria local
+      allInscripciones.unshift(nuevoParticipante);
+      localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
+
+      // 2. Guardar en API serverless
+      try {
+        fetch('/api/inscripciones', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nuevoParticipante)
+        }).catch(err => console.warn('Error guardando en API:', err));
+      } catch (err) {}
+
+      // 3. Guardar en Google Sheets si está conectado
+      const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
+      if (sheetUrl) {
+        try {
+          fetch(sheetUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(nuevoParticipante)
+          }).catch(err => console.warn('Error enviando a Google Sheets:', err));
+        } catch (err) {}
+      }
+
+      renderAdminMetrics();
+      renderAdminList();
+      closeAddModal();
+      showToast(`✓ Participante "${nombre}" registrado con éxito.`);
+    });
+  }
+
+  // =========================================================================
+  // GESTIÓN DE CONEXIÓN CON GOOGLE SHEETS EN LA NUBE (☁️)
+  // =========================================================================
+  function openCloudModal() {
+    if (modalCloudConfig) {
+      modalCloudConfig.style.display = 'flex';
+      if (cloudSheetUrlInput) {
+        cloudSheetUrlInput.value = localStorage.getItem(STORAGE_KEY_SHEET_URL) || '';
+      }
+    }
+  }
+
+  function closeCloudModal() {
+    if (modalCloudConfig) modalCloudConfig.style.display = 'none';
+  }
+
+  if (btnOpenCloudModal) btnOpenCloudModal.addEventListener('click', openCloudModal);
+  if (btnCloseCloudModal) btnCloseCloudModal.addEventListener('click', closeCloudModal);
+
+  if (modalCloudConfig) {
+    modalCloudConfig.addEventListener('click', (e) => {
+      if (e.target === modalCloudConfig) closeCloudModal();
+    });
+  }
+
+  if (btnCopyAppsScript) {
+    btnCopyAppsScript.addEventListener('click', () => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(APPS_SCRIPT_CODE).then(() => {
+          showToast('✓ Código de Google Apps Script copiado al portapapeles');
+        });
+      } else {
+        const t = document.createElement('textarea');
+        t.value = APPS_SCRIPT_CODE;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand('copy');
+        document.body.removeChild(t);
+        showToast('✓ Código copiado');
+      }
+    });
+  }
+
+  if (btnSaveCloudConfig) {
+    btnSaveCloudConfig.addEventListener('click', () => {
+      const url = cloudSheetUrlInput ? cloudSheetUrlInput.value.trim() : '';
+      if (!url) {
+        alert('Por favor pega el enlace de tu Web App de Google Apps Script.');
+        return;
+      }
+      if (!url.startsWith('https://script.google.com/')) {
+        if (!confirm('El enlace no parece ser una URL de script.google.com. ¿Deseas guardarlo de todas formas?')) {
+          return;
+        }
+      }
+      localStorage.setItem(STORAGE_KEY_SHEET_URL, url);
+      updateCloudBadge();
+      closeCloudModal();
+      showToast('☁️ Conexión con Google Sheets guardada.');
+      loadAdminData();
+    });
+  }
+
+  if (btnDisconnectCloud) {
+    btnDisconnectCloud.addEventListener('click', () => {
+      if (confirm('¿Deseas desconectar Google Sheets? La aplicación volverá a guardar en modo local.')) {
+        localStorage.removeItem(STORAGE_KEY_SHEET_URL);
+        updateCloudBadge();
+        if (cloudSheetUrlInput) cloudSheetUrlInput.value = '';
+        closeCloudModal();
+        showToast('Desconectado de Google Sheets.');
+      }
+    });
+  }
+
+  // =========================================================================
+  // BÚSQUEDA Y FILTROS
+  // =========================================================================
   if (adminSearchInput) {
     adminSearchInput.addEventListener('input', () => {
-      const hasVal = adminSearchInput.value.trim().length > 0;
-      if (btnClearSearch) btnClearSearch.style.display = hasVal ? 'block' : 'none';
+      if (btnClearSearch) {
+        btnClearSearch.style.display = adminSearchInput.value ? 'block' : 'none';
+      }
       renderAdminList();
     });
   }
 
   if (btnClearSearch) {
     btnClearSearch.addEventListener('click', () => {
-      adminSearchInput.value = '';
+      if (adminSearchInput) {
+        adminSearchInput.value = '';
+        adminSearchInput.focus();
+      }
       btnClearSearch.style.display = 'none';
-      adminSearchInput.focus();
       renderAdminList();
     });
   }
 
-  // Filtros rápidos
   if (filterPills) {
     filterPills.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -341,41 +653,43 @@
     });
   }
 
-  // Botón Recargar
   if (btnReloadData) {
-    btnReloadData.addEventListener('click', async () => {
+    btnReloadData.addEventListener('click', () => {
       btnReloadData.disabled = true;
-      btnReloadData.textContent = '🔄 Cargando...';
-      await loadAdminData();
+      btnReloadData.textContent = 'Actualizando...';
+      loadAdminData();
       setTimeout(() => {
         btnReloadData.disabled = false;
         btnReloadData.textContent = '🔄 Actualizar';
         showToast('✓ Lista de inscritos actualizada.');
-      }, 400);
+      }, 500);
     });
   }
 
-  // Exportar Excel / CSV con todas las columnas de verificación
+  // =========================================================================
+  // EXPORTAR A EXCEL / CSV
+  // =========================================================================
   if (btnExportCSV) {
     btnExportCSV.addEventListener('click', () => {
       if (allInscripciones.length === 0) {
-        alert('No hay inscripciones para exportar.');
+        alert('No hay participantes registrados para exportar.');
         return;
       }
 
       const headers = [
+        'ID Inscripción',
+        'Fecha y Hora',
         'Nombre Completo',
         'Cédula',
         'Teléfono',
         'Ruta',
-        'Talla Camiseta',
-        'Tipo Camiseta',
-        'Valor Pagado COP',
-        'Fecha y Hora de Inscripción',
-        'Número de Referencia de la Consignación',
-        'Contacto de Emergencia',
-        'Teléfono de Emergencia',
         'Tipo de Sangre',
+        'Contacto Emergencia Nombre',
+        'Contacto Emergencia Teléfono',
+        'Tipo Camiseta',
+        'Talla Camiseta',
+        'Valor Pagado COP',
+        'Ref. Consignación',
         'Estado',
         'Tiene Comprobante'
       ];
@@ -387,18 +701,19 @@
         }) : '';
 
         return [
+          `"${item.id || ''}"`,
+          `"${fechaHora}"`,
           `"${(item.nombre || '').replace(/"/g, '""')}"`,
           `"${item.cedula || ''}"`,
           `"${item.telefono || ''}"`,
           `"${item.ruta || '10K'}"`,
-          `"${item.tallaCamiseta || ''}"`,
-          `"${item.tipoCamiseta || ''}"`,
-          item.valorPagado || 0,
-          `"${fechaHora}"`,
-          `"${(item.referenciaPago || '').replace(/"/g, '""')}"`,
+          `"${item.tipoSangre || ''}"`,
           `"${(item.contactoEmergenciaNombre || '').replace(/"/g, '""')}"`,
           `"${item.contactoEmergenciaTelefono || ''}"`,
-          `"${item.tipoSangre || ''}"`,
+          `"${item.tipoCamiseta || ''}"`,
+          `"${item.tallaCamiseta || ''}"`,
+          item.valorPagado || 0,
+          `"${(item.referenciaPago || '').replace(/"/g, '""')}"`,
           `"${item.estado || (item.valorPagado >= 140000 ? 'Confirmado' : 'Abono')}"`,
           item.comprobante ? 'SI' : 'NO'
         ];
@@ -421,14 +736,13 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeReceiptViewer();
+      closeAddModal();
+      closeCloudModal();
     }
   });
 
   // Inicialización
-  document.addEventListener('DOMContentLoaded', () => {
-    loadAdminData();
-  });
-
+  document.addEventListener('DOMContentLoaded', loadAdminData);
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     loadAdminData();
   }

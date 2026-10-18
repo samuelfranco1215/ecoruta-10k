@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ENTITY_CONFIGS = {
     nequi: {
       name: 'Nequi',
-      number: '3183000831',
+      number: '3183800831',
       androidIntent: 'intent://#Intent;package=com.nequi.MobileApp;scheme=nequi;end',
       iosScheme: 'nequi://',
       webFallback: 'https://recarga.nequi.com.co/'
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 3. Nequi: número 3183000831 con icono oficial
+    // 3. Nequi: número 3183800831 con icono oficial
     showToast(`✓ Número Nequi ${config.number} copiado`);
 
     if (isMobile) {
@@ -555,26 +555,88 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (formComprobante) {
-    formComprobante.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      // Limitar a 10MB
-      if (file.size > 10 * 1024 * 1024) {
-        alert('La imagen seleccionada supera los 10MB. Por favor sube una captura o foto más ligera.');
-        formComprobante.value = '';
+  // Compresión inteligente de comprobantes con HTML5 Canvas (evita errores 413 en Vercel)
+  function compressImageFile(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75) {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = e => resolve({ base64: e.target.result, name: file.name });
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
         return;
       }
 
       const reader = new FileReader();
-      reader.onload = function(event) {
-        currentReceiptBase64 = event.target.result;
-        currentReceiptName = file.name;
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Genera un JPEG optimizado de ~80KB a 150KB
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve({ 
+            base64: compressedDataUrl, 
+            name: file.name.replace(/\.[^/.]+$/, "") + ".jpg" 
+          });
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (formComprobante) {
+    formComprobante.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 15 * 1024 * 1024) {
+        alert('El archivo supera los 15MB. Por favor sube una captura o foto más ligera.');
+        formComprobante.value = '';
+        return;
+      }
+
+      showToast('Optimizando comprobante...');
+
+      try {
+        const result = await compressImageFile(file);
+        currentReceiptBase64 = result.base64;
+        currentReceiptName = result.name;
         showReceiptPreview(currentReceiptBase64, currentReceiptName);
         saveFormDraft();
-      };
-      reader.readAsDataURL(file);
+        showToast('✓ Comprobante listo');
+      } catch (err) {
+        console.error('Error optimizando comprobante:', err);
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          currentReceiptBase64 = event.target.result;
+          currentReceiptName = file.name;
+          showReceiptPreview(currentReceiptBase64, currentReceiptName);
+          saveFormDraft();
+        };
+        reader.readAsDataURL(file);
+      }
     });
   }
 
@@ -776,6 +838,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           const resJson = await response.json();
           savedData = resJson.data;
+        }
+
+        // Si hay una URL de Google Sheets conectada, respaldar en vivo
+        const googleSheetUrl = localStorage.getItem('ecoruta_google_sheet_url');
+        if (googleSheetUrl) {
+          try {
+            fetch(googleSheetUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...payload,
+                comprobante: payload.comprobante ? 'Adjunto' : 'Sin comprobante'
+              })
+            }).catch(e => console.warn('Google Sheets sync warn:', e));
+          } catch (e) {
+            console.warn('Google Sheets err:', e);
+          }
         }
 
         // Guardar copia local offline de seguridad

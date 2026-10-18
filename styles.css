@@ -2645,3 +2645,196 @@ button {
   color: var(--text-secondary);
   margin-bottom: 14px;
 }
+
+/* --------------------------------------------------------------------------
+   16. PANEL ADMIN: REGISTRO MANUAL Y NUBE
+   -------------------------------------------------------------------------- */
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cloud-badge {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cloud-badge.offline {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.cloud-badge.online {
+  background-color: #065F46;
+  color: #A7F3D0;
+  border: 1px solid #10B981;
+}
+
+.btn-primary-admin {
+  background-color: #194830;
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  border: none;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.18s ease;
+}
+
+.btn-primary-admin:hover {
+  background-color: #0F2D1E;
+}
+
+.btn-cloud-sync {
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #BFDBFE;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.btn-cloud-sync:hover {
+  background-color: #DBEAFE;
+}
+
+.modal-participant-form,
+.modal-cloud {
+  max-width: 520px;
+  padding: 22px;
+}
+
+.modal-header-clean {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.modal-header-clean h3 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-green-dark);
+}
+
+.modal-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.admin-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group-admin label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-green-dark);
+}
+
+.form-row-admin {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-control-admin {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 0.88rem;
+  font-family: var(--font-body);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background-color: #FFFFFF;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-control-admin:focus {
+  border-color: var(--color-green-primary);
+  box-shadow: 0 0 0 3px rgba(25, 72, 48, 0.1);
+}
+
+.modal-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.modal-form-actions .btn {
+  flex: 1;
+}
+
+.cloud-steps-box {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.cloud-step {
+  line-height: 1.4;
+}
+
+.cloud-step a {
+  color: var(--color-blue-deep);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.btn-copy-code {
+  display: block;
+  margin-top: 6px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-strong);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-green-dark);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-copy-code:hover {
+  background-color: #F3F4F6;
+}
+
+@media (max-width: 640px) {
+  .form-row-admin {
+    grid-template-columns: 1fr;
+  }
+}
+
