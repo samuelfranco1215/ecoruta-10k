@@ -727,19 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
       errEmergenciaTelefono.classList.remove('active');
     }
 
-    // 7. Número de Referencia de la Consignación (Obligatorio para verificación admin)
-    const errReferenciaPago = document.getElementById('errReferenciaPago');
-    if (!formReferenciaPago || !formReferenciaPago.value.trim()) {
-      if (errReferenciaPago) {
-        errReferenciaPago.textContent = 'El número de referencia de la consignación es obligatorio para validar tu pago.';
-        errReferenciaPago.classList.add('active');
-      }
-      isValid = false;
-    } else if (errReferenciaPago) {
-      errReferenciaPago.classList.remove('active');
-    }
-
-    // 8. Comprobante de pago OBLIGATORIO (Sin comprobante no se puede completar)
+    // 7. Comprobante de pago OBLIGATORIO (Sin comprobante no se puede completar)
     const errComprobante = document.getElementById('errComprobante');
     if (!currentReceiptBase64) {
       if (errComprobante) {
@@ -939,10 +927,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>Camiseta:</span>
         <strong>${escapeHtml(data.tipoCamiseta)} (${escapeHtml(data.tallaCamiseta)})</strong>
       </div>
+      ${data.referenciaPago ? `
       <div class="summary-row">
         <span>Ref. Consignación:</span>
-        <strong style="color: #059669;">${escapeHtml(data.referenciaPago || 'N/A')}</strong>
-      </div>
+        <strong style="color: #059669;">${escapeHtml(data.referenciaPago)}</strong>
+      </div>` : ''}
       <div class="summary-row">
         <span>Inversión registrada:</span>
         <strong>${estadoTxt}</strong>
@@ -963,7 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `🆘 *Emergencia:* ${encodeURIComponent(data.contactoEmergenciaNombre || '')} (${encodeURIComponent(data.contactoEmergenciaTelefono || '')})%0A` +
       `👕 *Camiseta:* ${encodeURIComponent(data.tipoCamiseta)} - Talla ${encodeURIComponent(data.tallaCamiseta)}%0A` +
       `💰 *Valor pagado:* ${encodeURIComponent(formatMoney(data.valorPagado))}%0A` +
-      `🔢 *Ref. Consignación:* ${encodeURIComponent(data.referenciaPago || 'N/A')}%0A%0A` +
+      (data.referenciaPago ? `🔢 *Ref. Consignación:* ${encodeURIComponent(data.referenciaPago)}%0A%0A` : `%0A`) +
       `Adjunto aquí mi comprobante de pago para verificación.`;
 
     if (btnSendWhatsappConfirmation) {
