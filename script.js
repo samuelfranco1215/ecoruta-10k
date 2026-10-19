@@ -769,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getEffectivePaymentAmount() {
     const preset = document.querySelector('input[name="valorAbonoPreset"]:checked')?.value || '140000';
-    if (preset === 'otro') {
+    if (preset === 'otro' && formValorCustom) {
       const customVal = Number(formValorCustom.value) || 0;
       return customVal > 0 ? customVal : 140000;
     }

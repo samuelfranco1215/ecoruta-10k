@@ -59,16 +59,6 @@
       </a>
       
       <div class="nav-actions">
-        <!-- BOTÓN PWA EN HEADER -->
-        <button type="button" class="btn-install-header btn-pwa-trigger" id="btnInstallHeader" title="Instalar en tu celular">
-          <svg class="icon-nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span class="pwa-text-label">Instalar app</span>
-        </button>
-
         <a href="#inscripcion" class="btn btn-sm btn-nav-cta">Inscribirme</a>
       </div>
     </div>
@@ -605,27 +595,6 @@
                       <small>Abono Inicial</small>
                     </span>
                   </label>
-                  <label class="amount-chip">
-                    <input type="radio" name="valorAbonoPreset" value="otro">
-                    <span class="amount-label">
-                      <strong>Otro valor</strong>
-                      <small>Personalizado</small>
-                    </span>
-                  </label>
-                </div>
-
-                <!-- Input numérico visible cuando elige "Otro valor" -->
-                <div class="custom-amount-wrapper" id="customAmountWrap" style="display: none;">
-                  <span class="input-prefix">$</span>
-                  <input 
-                    type="number" 
-                    id="formValorCustom" 
-                    class="form-control with-prefix" 
-                    placeholder="Ej: 80000" 
-                    min="10000" 
-                    step="5000"
-                  >
-                  <span class="input-suffix">COP</span>
                 </div>
               </div>
 
@@ -801,9 +770,7 @@
           </a>
         </div>
 
-        <div class="footer-bottom-links">
-          <button type="button" class="btn-footer-link btn-pwa-trigger">📲 Instalar como App</button>
-        </div>
+
 
         <p class="footer-copy">
           &copy; 2026 Ecoruta Huellas del Alma 10K. Todos los derechos reservados.
@@ -969,42 +936,7 @@
     </div>
   </div>
 
-  <!-- 3. MODAL DE INSTALACIÓN PWA (INSTRUCCIONES IPHONE / ANDROID) -->
-  <div class="modal-backdrop" id="modalInstallPWA" style="display: none;">
-    <div class="modal-box modal-install">
-      <div class="modal-install-icon">📲</div>
-      <h3 class="modal-title">Instalar en tu Celular</h3>
-      <p class="modal-subtitle">
-        Ten la app de la <strong>Ecoruta 10K</strong> en tu pantalla de inicio, rápida y accesible sin abrir el navegador.
-      </p>
 
-      <div class="install-instructions" id="installInstructionsIos" style="display: none;">
-        <div class="install-step">
-          <span class="step-num">1</span>
-          <span>Toca el botón <strong>Compartir</strong> <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> en la barra inferior de Safari.</span>
-        </div>
-        <div class="install-step">
-          <span class="step-num">2</span>
-          <span>Desliza y selecciona <strong>"Agregar a pantalla de inicio"</strong> ➕.</span>
-        </div>
-        <div class="install-step">
-          <span class="step-num">3</span>
-          <span>Toca <strong>"Agregar"</strong> en la esquina superior derecha ¡y listo!</span>
-        </div>
-      </div>
-
-      <div class="install-android-prompt" id="installInstructionsAndroid">
-        <p>Presiona el botón para instalar la aplicación directamente en tu dispositivo:</p>
-        <button type="button" class="btn btn-primary btn-touch-hero" id="btnConfirmInstallNative">
-          Instalar Ahora
-        </button>
-      </div>
-
-      <button type="button" class="btn btn-secondary-modal" id="btnCloseInstallModal">
-        Cerrar
-      </button>
-    </div>
-  </div>
 
   <!-- NOTIFICACIÓN DE COPIADO TOAST FLOTANTE -->
   <div class="toast-feedback" id="toastFeedback" role="alert" aria-live="polite">
@@ -1012,6 +944,6 @@
   </div>
 
   <!-- SCRIPTS -->
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
