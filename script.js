@@ -17,11 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const installInstructionsIos = document.getElementById('installInstructionsIos');
   const installInstructionsAndroid = document.getElementById('installInstructionsAndroid');
 
-  // Registrar Service Worker
+  // Registrar Service Worker y forzar verificación de actualización
   if ('serviceWorker' in navigator) {
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    });
+
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then((reg) => {
-        console.log('PWA Service Worker registrado con éxito:', reg.scope);
+        reg.update();
       }).catch((err) => {
         console.log('Fallo al registrar Service Worker:', err);
       });
