@@ -37,6 +37,10 @@
   const btnDisconnectCloud = document.getElementById('btnDisconnectCloud');
   const btnCopyAppsScript = document.getElementById('btnCopyAppsScript');
   const cloudSheetUrlInput = document.getElementById('cloudSheetUrl');
+  const cloudSupabaseUrlInput = document.getElementById('cloudSupabaseUrl');
+  const cloudSupabaseKeyInput = document.getElementById('cloudSupabaseKey');
+  const btnSaveSupabaseConfig = document.getElementById('btnSaveSupabaseConfig');
+  const btnDisconnectSupabase = document.getElementById('btnDisconnectSupabase');
 
   let allInscripciones = [];
   let currentFilter = 'all';
@@ -154,76 +158,63 @@ function doGet() {
 
   function updateCloudBadge() {
     if (!cloudStatusBadge) return;
+    if (window.EcorutaDB && window.EcorutaDB.isConfigured()) {
+      cloudStatusBadge.className = 'cloud-badge online';
+      cloudStatusBadge.textContent = '☁️ Supabase Activo';
+      cloudStatusBadge.title = 'Base de datos en la nube conectada en tiempo real (Multi-dispositivo)';
+      return;
+    }
     const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
     if (sheetUrl) {
       cloudStatusBadge.className = 'cloud-badge online';
-      cloudStatusBadge.textContent = '☁️ Nube Activa';
-      cloudStatusBadge.title = 'Conectado a Google Sheets en tiempo real';
-    } else {
-      cloudStatusBadge.className = 'cloud-badge offline';
-      cloudStatusBadge.textContent = '● Modo Local';
-      cloudStatusBadge.title = 'Los datos se guardan en este navegador y servidor local. Conecta Google Sheets para respaldo permanente.';
+      cloudStatusBadge.textContent = '☁️ Sheets Activo';
+      cloudStatusBadge.title = 'Conectado a Google Sheets';
+      return;
     }
+    cloudStatusBadge.className = 'cloud-badge offline';
+    cloudStatusBadge.textContent = '● Modo Local';
+    cloudStatusBadge.title = 'Los datos se guardan en el servidor local. Conecta Supabase para sincronización multi-dispositivo.';
   }
 
-  // Cargar datos de la API, Google Sheets y sincronizar con respaldo local
+  // Cargar datos de la Base de Datos compartida (Supabase), Servidor y Respaldo Local
   async function loadAdminData() {
     updateCloudBadge();
-    const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
 
-    let serverList = [];
-    let googleSheetList = [];
-
-    // 1. Intentar cargar desde API del servidor
-    try {
-      const headers = { 'Content-Type': 'application/json' };
-      if (sheetUrl) headers['X-Sheet-Url'] = sheetUrl;
-      const res = await fetch('/api/inscripciones', { headers });
-      if (res.ok) {
-        serverList = await res.json();
+    let list = [];
+    if (window.EcorutaDB) {
+      list = await window.EcorutaDB.getInscripciones();
+    } else {
+      try {
+        const res = await fetch('/api/inscripciones');
+        if (res.ok) list = await res.json();
+      } catch (e) {
+        list = JSON.parse(localStorage.getItem(STORAGE_KEY_OFFLINE) || '[]');
       }
-    } catch (e) {
-      console.warn('Conexión con /api/inscripciones offline:', e);
     }
 
-    // 2. Intentar cargar directamente desde Google Sheets si está configurado
+    // Si además hay Google Sheets configurado, intentar traer registros adicionales
+    const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
     if (sheetUrl) {
       try {
         const sheetRes = await fetch(sheetUrl);
         if (sheetRes.ok) {
           const sheetData = await sheetRes.json();
-          if (Array.isArray(sheetData)) {
-            googleSheetList = sheetData;
+          if (Array.isArray(sheetData) && sheetData.length > 0) {
+            const map = new Map();
+            [...list, ...sheetData].forEach(item => {
+              const key = item.id || item.cedula;
+              if (key && !map.has(key)) map.set(key, item);
+            });
+            list = Array.from(map.values());
           }
         }
-      } catch (e) {
-        console.warn('Consulta directa a Google Sheets falló (CORS o enlace offline):', e);
-      }
+      } catch (e) {}
     }
 
-    // 3. Respaldo local del navegador
-    const localList = JSON.parse(localStorage.getItem(STORAGE_KEY_OFFLINE) || '[]');
-
-    // Combinar todas las fuentes sin duplicados por ID o Cédula
-    const map = new Map();
-    [...googleSheetList, ...serverList, ...localList].forEach(item => {
-      if (item && (item.id || item.cedula)) {
-        const key = item.cedula || item.id;
-        if (!map.has(key)) {
-          map.set(key, item);
-        } else {
-          // Si ya existe pero el nuevo tiene comprobante, priorizar el más completo
-          const existing = map.get(key);
-          if (!existing.comprobante && item.comprobante) {
-            map.set(key, { ...existing, ...item });
-          }
-        }
-      }
-    });
-
-    allInscripciones = Array.from(map.values());
-    // Guardar lista consolidada en localStorage
-    localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
+    allInscripciones = list;
+    try {
+      localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
+    } catch (e) {}
 
     renderAdminMetrics();
     renderAdminList();
@@ -400,14 +391,18 @@ function doGet() {
           return;
         }
 
-        try {
-          await fetch(`/api/inscripciones?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
-        } catch (err) {
-          console.warn('Error eliminando en servidor:', err);
+        if (window.EcorutaDB) {
+          await window.EcorutaDB.deleteInscripcion(id);
+        } else {
+          try {
+            await fetch(`/api/inscripciones?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+          } catch (err) {
+            console.warn('Error eliminando en servidor:', err);
+          }
+          localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
         }
 
         allInscripciones = allInscripciones.filter(p => p.id !== id);
-        localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
         renderAdminMetrics();
         renderAdminList();
         showToast(`✓ Participante "${nombre}" eliminado.`);
@@ -511,20 +506,20 @@ function doGet() {
         estado: valorPagado >= 140000 ? 'Confirmado' : 'Abono'
       };
 
-      // 1. Guardar en memoria local
-      allInscripciones.unshift(nuevoParticipante);
-      localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
+      // Guardar de forma persistente con EcorutaDB
+      if (window.EcorutaDB) {
+        await window.EcorutaDB.saveInscripcion(nuevoParticipante);
+      } else {
+        try {
+          fetch('/api/inscripciones', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(nuevoParticipante)
+          }).catch(err => console.warn('Error guardando en API:', err));
+        } catch (err) {}
+      }
 
-      // 2. Guardar en API serverless
-      try {
-        fetch('/api/inscripciones', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(nuevoParticipante)
-        }).catch(err => console.warn('Error guardando en API:', err));
-      } catch (err) {}
-
-      // 3. Guardar en Google Sheets si está conectado
+      // Guardar en Google Sheets si está conectado
       const sheetUrl = localStorage.getItem(STORAGE_KEY_SHEET_URL);
       if (sheetUrl) {
         try {
@@ -536,6 +531,10 @@ function doGet() {
           }).catch(err => console.warn('Error enviando a Google Sheets:', err));
         } catch (err) {}
       }
+
+      allInscripciones = allInscripciones.filter(p => p.id !== nuevoParticipante.id && p.cedula !== nuevoParticipante.cedula);
+      allInscripciones.unshift(nuevoParticipante);
+      localStorage.setItem(STORAGE_KEY_OFFLINE, JSON.stringify(allInscripciones));
 
       renderAdminMetrics();
       renderAdminList();
@@ -553,6 +552,12 @@ function doGet() {
       if (cloudSheetUrlInput) {
         cloudSheetUrlInput.value = localStorage.getItem(STORAGE_KEY_SHEET_URL) || '';
       }
+      if (cloudSupabaseUrlInput && window.EcorutaDB) {
+        cloudSupabaseUrlInput.value = window.EcorutaDB.getUrl() || '';
+      }
+      if (cloudSupabaseKeyInput && window.EcorutaDB) {
+        cloudSupabaseKeyInput.value = window.EcorutaDB.getKey() || '';
+      }
     }
   }
 
@@ -566,6 +571,45 @@ function doGet() {
   if (modalCloudConfig) {
     modalCloudConfig.addEventListener('click', (e) => {
       if (e.target === modalCloudConfig) closeCloudModal();
+    });
+  }
+
+  // Guardar configuración de Supabase
+  if (btnSaveSupabaseConfig) {
+    btnSaveSupabaseConfig.addEventListener('click', async () => {
+      const url = cloudSupabaseUrlInput ? cloudSupabaseUrlInput.value.trim() : '';
+      const key = cloudSupabaseKeyInput ? cloudSupabaseKeyInput.value.trim() : '';
+
+      if (!url || !key) {
+        alert('Por favor ingresa tanto el Project URL como el Anon Key de Supabase.');
+        return;
+      }
+
+      if (window.EcorutaDB) {
+        window.EcorutaDB.saveConfig(url, key);
+      }
+
+      updateCloudBadge();
+      closeCloudModal();
+      showToast('☁️ Base de datos Supabase conectada con éxito.');
+      await loadAdminData();
+    });
+  }
+
+  // Desconectar Supabase
+  if (btnDisconnectSupabase) {
+    btnDisconnectSupabase.addEventListener('click', async () => {
+      if (confirm('¿Deseas desconectar Supabase?')) {
+        if (window.EcorutaDB) {
+          window.EcorutaDB.saveConfig('', '');
+        }
+        if (cloudSupabaseUrlInput) cloudSupabaseUrlInput.value = '';
+        if (cloudSupabaseKeyInput) cloudSupabaseKeyInput.value = '';
+        updateCloudBadge();
+        closeCloudModal();
+        showToast('Supabase desconectado.');
+        await loadAdminData();
+      }
     });
   }
 
@@ -609,7 +653,7 @@ function doGet() {
 
   if (btnDisconnectCloud) {
     btnDisconnectCloud.addEventListener('click', () => {
-      if (confirm('¿Deseas desconectar Google Sheets? La aplicación volverá a guardar en modo local.')) {
+      if (confirm('¿Deseas desconectar Google Sheets?')) {
         localStorage.removeItem(STORAGE_KEY_SHEET_URL);
         updateCloudBadge();
         if (cloudSheetUrlInput) cloudSheetUrlInput.value = '';

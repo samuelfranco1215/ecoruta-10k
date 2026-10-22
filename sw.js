@@ -2,7 +2,7 @@
  * Service Worker para Ecoruta Huellas del Alma 10K PWA
  */
 
-const CACHE_NAME = 'ecoruta-cache-v4';
+const CACHE_NAME = 'ecoruta-cache-v5';
 const ASSETS_TO_CACHE = [
   './manifest.json',
   './assets/icon.svg',

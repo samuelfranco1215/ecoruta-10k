@@ -225,43 +225,62 @@
     </div>
   </div>
 
-  <!-- 2. MODAL: CONEXIÓN NUBE GOOGLE SHEETS -->
+  <!-- 2. MODAL: CONEXIÓN NUBE (SUPABASE & GOOGLE SHEETS) -->
   <div class="modal-backdrop" id="modalCloudConfig" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="cloudConfigTitle">
     <div class="modal-box modal-cloud">
       <div class="modal-header-clean">
-        <h3 id="cloudConfigTitle">☁️ Conectar Google Sheets en Vivo</h3>
+        <h3 id="cloudConfigTitle">☁️ Conexión Nube Compartida</h3>
         <button type="button" class="btn-close-modal" id="btnCloseCloudModal" aria-label="Cerrar modal">✕</button>
       </div>
-      <p class="modal-hint">
-        Sincroniza todas las inscripciones directamente con una hoja de cálculo en tu Google Drive para tenerlas en tiempo real en tu celular sin riesgo de pérdidas.
-      </p>
 
-      <div class="cloud-steps-box">
-        <div class="cloud-step">
-          <strong>Paso 1:</strong> Crea una hoja en <a href="https://sheets.new" target="_blank" rel="noopener">Google Sheets</a> llamada <em>"Ecoruta 10K Inscripciones"</em>.
+      <!-- SECCIÓN SUPABASE -->
+      <div class="cloud-section-box" style="background: rgba(27, 67, 50, 0.05); padding: 14px; border-radius: 8px; border: 1px solid rgba(27, 67, 50, 0.15); margin-bottom: 18px;">
+        <h4 style="margin: 0 0 6px 0; color: #1B4332; display: flex; align-items: center; gap: 6px;">
+          ⚡ Base de Datos Supabase (Recomendado)
+        </h4>
+        <p class="modal-hint" style="margin-bottom: 10px;">
+          Permite que el formulario público y este panel admin lean y guarden exactamente los mismos datos en tiempo real desde cualquier dispositivo.
+        </p>
+
+        <div class="form-group-admin" style="margin-bottom: 10px;">
+          <label for="cloudSupabaseUrl">Project URL (Supabase):</label>
+          <input type="url" id="cloudSupabaseUrl" class="form-control-admin" placeholder="https://xxxxxxxx.supabase.co">
         </div>
-        <div class="cloud-step">
-          <strong>Paso 2:</strong> Ve a <strong>Extensiones &gt; Apps Script</strong>, borra todo y pega este código:
-          <button type="button" class="btn-copy-code" id="btnCopyAppsScript">📋 Copiar Código Apps Script</button>
+
+        <div class="form-group-admin" style="margin-bottom: 12px;">
+          <label for="cloudSupabaseKey">Anon / Public API Key (Supabase):</label>
+          <input type="password" id="cloudSupabaseKey" class="form-control-admin" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
         </div>
-        <div class="cloud-step">
-          <strong>Paso 3:</strong> En Apps Script dale a <strong>Implementar &gt; Nueva implementación &gt; Aplicación Web</strong> (Acceso: <em>Cualquier usuario</em>) y copia el enlace generado.
+
+        <div class="modal-form-actions" style="justify-content: flex-start; gap: 8px;">
+          <button type="button" class="btn btn-primary-admin" id="btnSaveSupabaseConfig">
+            💾 Guardar Supabase
+          </button>
+          <button type="button" class="btn btn-secondary-modal" id="btnDisconnectSupabase" style="color: #DC2626;">
+            Desconectar Supabase
+          </button>
         </div>
       </div>
 
-      <div class="form-group-admin" style="margin-top: 14px;">
-        <label for="cloudSheetUrl">URL de la Aplicación Web de Google Sheets:</label>
-        <input type="url" id="cloudSheetUrl" class="form-control-admin" placeholder="https://script.google.com/macros/s/.../exec">
-      </div>
-
-      <div class="modal-form-actions">
-        <button type="button" class="btn btn-primary-admin" id="btnSaveCloudConfig">
-          💾 Guardar y Conectar
-        </button>
-        <button type="button" class="btn btn-secondary-modal" id="btnDisconnectCloud" style="color: #DC2626;">
-          Desconectar
-        </button>
-      </div>
+      <!-- SECCIÓN GOOGLE SHEETS ALTERNATIVA -->
+      <details style="margin-top: 10px; font-size: 0.9rem;">
+        <summary style="cursor: pointer; color: #4B5563; font-weight: 600;">Opciones adicionales: Google Sheets</summary>
+        <p class="modal-hint" style="margin-top: 8px;">
+          Respaldo opcional en Google Sheets.
+        </p>
+        <div class="form-group-admin" style="margin-top: 8px;">
+          <label for="cloudSheetUrl">URL Web App Google Sheets:</label>
+          <input type="url" id="cloudSheetUrl" class="form-control-admin" placeholder="https://script.google.com/macros/s/.../exec">
+        </div>
+        <div class="modal-form-actions" style="margin-top: 8px;">
+          <button type="button" class="btn btn-sm btn-primary-admin" id="btnSaveCloudConfig">
+            Guardar Sheet URL
+          </button>
+          <button type="button" class="btn btn-sm btn-secondary-modal" id="btnDisconnectCloud" style="color: #DC2626;">
+            Desconectar Sheet
+          </button>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -286,6 +305,9 @@
     ✓ Acción realizada con éxito
   </div>
 
-  <script src="/admin.js"></script>
+  <!-- SUPABASE SDK & CLIENTE BD COMPARTIDA -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/supabase-client.js"></script>
+  <script src="/admin.js?v=2"></script>
 </body>
 </html>

@@ -99,7 +99,7 @@ const server = http.createServer((req, res) => {
         const list = readInscripciones();
 
         const nuevaInscripcion = {
-          id: 'INS-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+          id: payload.id || ('INS-' + Date.now() + '-' + Math.floor(Math.random() * 1000)),
           nombre: String(payload.nombre).trim(),
           cedula: String(payload.cedula).trim(),
           telefono: String(payload.telefono).trim(),
@@ -116,8 +116,13 @@ const server = http.createServer((req, res) => {
           estado: payload.estado || 'Confirmado'
         };
 
-        // Agregar al inicio para ver las más recientes primero
-        list.unshift(nuevaInscripcion);
+        // Reemplazar si ya existe por ID o agregar al inicio
+        const existingIdx = list.findIndex(item => item.id === nuevaInscripcion.id || item.cedula === nuevaInscripcion.cedula);
+        if (existingIdx !== -1) {
+          list[existingIdx] = nuevaInscripcion;
+        } else {
+          list.unshift(nuevaInscripcion);
+        }
         writeInscripciones(list);
 
         res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
@@ -136,8 +141,8 @@ const server = http.createServer((req, res) => {
   }
 
   // PATCH /api/inscripciones/:id - Actualizar estado
-  if (req.method === 'PATCH' && pathname.startsWith('/api/inscripciones/')) {
-    const id = pathname.replace('/api/inscripciones/', '');
+  if (req.method === 'PATCH' && pathname.startsWith('/api/inscripciones')) {
+    const id = pathname.replace('/api/inscripciones/', '').replace('/api/inscripciones', '') || parsedUrl.searchParams.get('id');
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
@@ -165,18 +170,20 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // DELETE /api/inscripciones/:id - Eliminar inscripción
-  if (req.method === 'DELETE' && pathname.startsWith('/api/inscripciones/')) {
-    const id = pathname.replace('/api/inscripciones/', '');
-    let list = readInscripciones();
-    const prevLen = list.length;
-    list = list.filter(item => item.id !== id);
+  // DELETE /api/inscripciones/:id o /api/inscripciones?id=...
+  if (req.method === 'DELETE' && pathname.startsWith('/api/inscripciones')) {
+    const queryId = parsedUrl.searchParams.get('id');
+    const pathId = pathname.replace('/api/inscripciones/', '').replace('/api/inscripciones', '');
+    const id = queryId || pathId;
 
-    if (list.length === prevLen) {
-      res.writeHead(404, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: 'Inscripción no encontrada' }));
+    if (!id) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'ID requerido' }));
       return;
     }
+
+    let list = readInscripciones();
+    list = list.filter(item => item.id !== id);
 
     writeInscripciones(list);
     res.writeHead(200, { 'Content-Type': 'application/json' });

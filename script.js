@@ -823,17 +823,22 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       try {
-        // Enviar a la API del servidor
-        const response = await fetch('./api/inscripciones', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
         let savedData = null;
-        if (response.ok) {
-          const resJson = await response.json();
-          savedData = resJson.data;
+        if (window.EcorutaDB) {
+          const dbResult = await window.EcorutaDB.saveInscripcion(payload);
+          savedData = dbResult.data;
+        } else {
+          // Respaldo directo en API del servidor
+          const response = await fetch('./api/inscripciones', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (response.ok) {
+            const resJson = await response.json();
+            savedData = resJson.data;
+          }
+          saveOfflineRegistration(savedData || { ...payload, id: 'INS-' + Date.now() });
         }
 
         // Si hay una URL de Google Sheets conectada, respaldar en vivo
@@ -854,20 +859,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Guardar copia local offline de seguridad
-        saveOfflineRegistration(savedData || {
-          ...payload,
-          id: 'INS-' + Date.now()
-        });
-
         // Limpiar borrador ya enviado
         localStorage.removeItem(FORM_DRAFT_KEY);
 
         // Mostrar Modal de Éxito
-        showSuccessModal(payload);
+        showSuccessModal(savedData || payload);
 
       } catch (err) {
-        console.warn('Servidor no disponible, guardando localmente:', err);
+        console.warn('Error al guardar inscripción, aplicando respaldo local:', err);
         const fallbackObj = {
           ...payload,
           id: 'INS-LOC-' + Date.now()
@@ -1058,11 +1057,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cargar datos de inscripciones para el Admin
   async function loadAdminData() {
     try {
-      const res = await fetch('./api/inscripciones');
-      if (res.ok) {
-        allInscripciones = await res.json();
+      if (window.EcorutaDB) {
+        allInscripciones = await window.EcorutaDB.getInscripciones();
       } else {
-        throw new Error('API offline');
+        const res = await fetch('./api/inscripciones');
+        if (res.ok) {
+          allInscripciones = await res.json();
+        } else {
+          throw new Error('API offline');
+        }
       }
     } catch (e) {
       console.warn('Leyendo respaldo local offline de inscripciones...');
@@ -1253,12 +1256,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const nombre = item ? item.nombre : 'este participante';
 
         if (confirm(`¿Estás seguro de eliminar la inscripción de ${nombre}?`)) {
-          try {
-            await fetch(`./api/inscripciones/${id}`, { method: 'DELETE' });
-          } catch (e) {}
+          if (window.EcorutaDB) {
+            await window.EcorutaDB.deleteInscripcion(id);
+          } else {
+            try {
+              await fetch(`./api/inscripciones/${id}`, { method: 'DELETE' });
+            } catch (e) {}
+            localStorage.setItem('ecoruta_inscripciones_offline_v1', JSON.stringify(allInscripciones));
+          }
 
           allInscripciones = allInscripciones.filter(p => p.id !== id);
-          localStorage.setItem('ecoruta_inscripciones_offline_v1', JSON.stringify(allInscripciones));
           renderAdminMetrics();
           renderAdminList();
           showToast('✓ Registro eliminado');
