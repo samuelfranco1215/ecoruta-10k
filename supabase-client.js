@@ -8,7 +8,7 @@
 
   // Configuración predeterminada de Supabase (Persistente para todos los dispositivos)
   const DEFAULT_SUPABASE_URL = 'https://dgvbpsdifnvhxmaronhf.supabase.co';
-  const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndmJwc2RpZm52aHhtYXJvbmhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MDg0NCwiZXhwIjoyMTA4MTk2ODQ0fQ.gk3NyhyrK6K3LsDqgWSYY9Emg6llsstvwylmaXfnOA8';
+  const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndmJwc2RpZm52aHhtYXJvbmhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MjA4NDQsImV4cCI6MjEwODE5Njg0NH0.gk3NyhyrK6K3LsDqgWSYY9Emg6llsstvwylmaXfnOA8';
 
   const STORAGE_KEY_URL = 'ecoruta_supabase_url';
   const STORAGE_KEY_KEY = 'ecoruta_supabase_anon_key';

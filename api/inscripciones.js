@@ -86,7 +86,7 @@ function postToGoogleSheet(url, payload) {
 }
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dgvbpsdifnvhxmaronhf.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndmJwc2RpZm52aHhtYXJvbmhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MDg0NCwiZXhwIjoyMTA4MTk2ODQ0fQ.gk3NyhyrK6K3LsDqgWSYY9Emg6llsstvwylmaXfnOA8';
+const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndmJwc2RpZm52aHhtYXJvbmhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MjA4NDQsImV4cCI6MjEwODE5Njg0NH0.gk3NyhyrK6K3LsDqgWSYY9Emg6llsstvwylmaXfnOA8';
 
 function supabaseRequest(subpath, method, body) {
   return new Promise((resolve) => {
